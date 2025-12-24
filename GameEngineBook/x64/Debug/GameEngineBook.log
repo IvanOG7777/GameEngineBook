@@ -1,7 +1,9 @@
 ﻿  Engine.cpp
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(71,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(71,42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(91,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(185,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(186,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(54,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(54,42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(74,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(168,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(169,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  objects.cpp
+  Generating Code...
   GameEngineBook.vcxproj -> C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\x64\Debug\GameEngineBook.exe

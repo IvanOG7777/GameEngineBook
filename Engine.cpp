@@ -2,41 +2,24 @@
 // Created by elder on 12/19/2025.
 //
 
-#include "Particle.h"
 #include <iostream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <math.h>
 #include <cmath>
 #include <vector>
+#include <chrono>
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#include "Particle.h"
 #include "windowFunctions.h"
+#include "objects.h"
 
 #define GLOBAL_TIME 0.01667f
 #define PI 3.14159265358979323846f
 #define SCREENWIDTH 600.0f
 #define SCREENHEIGHT 800.0f
 #define SMALL_GRAVITY -9.8f
-
-
-static std::vector<Vector3> makeCircleFanPixels(Vector3 center, float radius, int res) {
-    std::vector<Vector3> v;
-    v.reserve(res + 2);
-    // center
-    v.push_back(center);
-
-    // rim: res + 1 to close the fan
-    for (int i = 0; i <= res; i++) {
-        float t = static_cast<float>(i) / static_cast<float>(res);
-        float a = t * 2.0f * PI;
-
-        Vector3 p;
-        p.x = center.x + std::cos(a) * radius;
-        p.y = center.y + std::sin(a) * radius;
-        p.z = center.z;
-        v.push_back(p);
-    }
-    return v;
-}
 
 const char* cirlceVertex = R"GLSL(
         #version 330 core
@@ -68,7 +51,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT);
+    GLFWwindow* window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT); // returns an addres in momory for the window
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
 
@@ -78,12 +61,13 @@ int main() {
     }
 
     GLuint program = createProgram(cirlceVertex, circleFragment);
+    std::cout  << "Program: " << program << std::endl;
     if (!program) return 1;
 
     float cx = SCREENWIDTH / 2.0f;
-    float cy = 800;
-    float radius = 50.0f;
-    int res = 8;
+    float cy = SCREENHEIGHT / 2.0f;
+    float radius = 200.0f;
+    int res = 100;
 
     for (int i = 0; i <= res; i++) {
         float t = static_cast<float>(i) / static_cast<float>(res);
@@ -103,8 +87,9 @@ int main() {
     Vector3 position = { cx, cy, 0};
 
 
-    std::vector<Vector3> verts = makeCircleFanPixels(position, radius, res);
+    std::vector<Vector3> verts = makeCircleFan(position, radius, res);
     GLsizei vertexCount = static_cast<GLsizei>(verts.size());
+    std::cout << "Vertex Count: " << vertexCount << std::endl;
     std::cout << std::endl;
 
     std::cout << "The size of verts is: " << verts.size() << std::endl;
@@ -124,9 +109,10 @@ int main() {
     std::cout << "VBO ID: " << vbo << std::endl;
     std::cout << std::endl;
     glBindVertexArray(vao); // Binds VAO so all vertex attribute calls will be sotred in current VAO ID
-    std::cout << "GL_ARRAY_BUFFER before binding: " << GL_ARRAY_BUFFER << std::endl;
+    GLint bound = 0;
+    glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &bound);
+    std::cout << "Bound GL_ARRAY_BUFFER VBO: " << bound << "\n";
     glBindBuffer(GL_ARRAY_BUFFER, vbo); // makes vbo an active buffer, telling OpenGL where the vertex data will be uploaded and which buffer vertex attributes will read from 
-    std::cout << "GL_ARRAY_BUFFER after binding: " << GL_ARRAY_BUFFER << std::endl;
     std::cout << std::endl;
 
     std::cout << "Verts.size(): " << verts.size() << std::endl;
@@ -155,20 +141,43 @@ int main() {
     glBindVertexArray(0); // Stop recording VAO onto the GPU. At this point, the VAO contains all the vertex attribute configuration needed for drawing, so we stop recording additional state into it
 
     // Uniform locations (cache them)
-    GLint uResolutionLoc = glGetUniformLocation(program, "uResolution");
-    GLint uColorLoc = glGetUniformLocation(program, "uColor");
+    GLint uResolutionLoc = glGetUniformLocation(program, "uResolution"); // Looks up the uniform named "uResolution" in the linked shader program.OpenGL returns an integer location within the program
+    GLint uColorLoc = glGetUniformLocation(program, "uColor"); // Looks up the uniform named "uColor" in the linked shader program. OpenGl returns an integer location within the program
+    // These two above will return -1 for failure or some int value for location. They identify where each valiable lives inside pragram
+    // In this case within prgram(id 3) at location 0 is where "uResolutionLoc" lives and at location 1 is where "uColorLoc"
+
+
+    if (uResolutionLoc == -1 || uColorLoc == -1) {
+        std::cerr << "Uniform Resoluction or Color was not found or optimized" << std::endl;
+        return 1;
+    }
+    std::cout << "uResolutionLoc: " << uResolutionLoc << std::endl;
+    std::cout << "uColorLoc: " << uColorLoc << std::endl;
+
+    // glfwWindowShouldClose returns 0 or 1, 0 meaning we are running 1 meaning we stop,
+    // so while !0 (1) keep running
+    auto start = std::chrono::high_resolution_clock::now();
 
     while (!glfwWindowShouldClose(window)) {
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> deltaTime = currentTime - start;
+        start = currentTime;
+        double dt = deltaTime.count(); // seconds
+
+        std::cout << "Delta Time (s): " << dt << std::endl;
         int w = SCREENWIDTH;
         int h = SCREENHEIGHT;
-        glfwGetFramebufferSize(window, &w, &h);
+        glfwGetFramebufferSize(window, &w, &h); //brief Retrieves the size of the frame of the window.
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT); // clears background to black with GL_COLOR_BUFFER_BIT
 
-        position.y -= 1;
-        verts = makeCircleFanPixels(position, 50.0f, res);
+        if (position.y == 280) {
+            break;
+        }
+        verts = makeCircleFan(position, radius, res);
 
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo); // rebind per frame the vbo
+        // resend data and size in bytes to GPU
         glBufferSubData(
             GL_ARRAY_BUFFER,
             0,
@@ -177,49 +186,27 @@ int main() {
         );
 
 
-        glUseProgram(program);
-        glUniform2f(uResolutionLoc, (float)w, (float)h);
-        glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); // white circle
+        glUseProgram(program); // Makes this shader program the active program for subsequent draw calls
+        glUniform2f(uResolutionLoc, (float)w, (float)h); // Uploads the framebuffer width and height to the uResolution uniform (vec2) in the active shader program
+        glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); // Uploads the color (white) to the uColor uniform (vec3) in the active shader program
 
-        glBindVertexArray(vao);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount);
-        glBindVertexArray(0);
+        glBindVertexArray(vao); // use pre recorded vertex layout for GPU to use
+        glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount); // tell GPU how to interpret the verticies, where to start and to how many vertices to use
+        
+        glBindVertexArray(0); // unbinds the vao per frame leaves no active vao safety / cleanliness step,
 
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        glfwSwapBuffers(window); // swaps the back buffer(black) to the front buffer (window)
+        glfwPollEvents(); // processes OS/window events like keyboard,mouse input
+
     }
 
-    //glDeleteBuffers(1, &vbo);
-    //glDeleteVertexArrays(1, &vao);
-    //glDeleteProgram(program);
 
-    //glfwDestroyWindow(window);
-    //glfwTerminate();
+    glDeleteBuffers(1, &vbo);
+    glDeleteVertexArrays(1, &vao);
+    glDeleteProgram(program);
 
-    //Particle particle1;
-    //particle1.setPosition(0.0f, 10.0f, 0.0f);
-    //particle1.setVelocity(0.0f, 0.0f, 0.0f);
-    //particle1.setAcceleration(0, 0, 0);
-    //particle1.setMass(5.0f);
-    //particle1.setDamping(1.0f); // damping of 1.0 means object keeps all of its velocity, we do 0 < damping < 1 if we want to reduce velocity a bit
+    glfwDestroyWindow(window);
+    glfwTerminate();
 
-    //float floor = 0.0f;
-    //float wallRight = 1.0f;
-
-    //int step = 0;
-    //while (particle1.getPosition().y > floor) {
-    //    std::cout << "Current step: " << ++step << std::endl;
-    //    float force = SMALL_GRAVITY / particle1.getInverseMass();
-
-    //    particle1.addForce(0, force, 0);
-    //    
-    //    particle1.update(0.1);
-    // 
-    //    if (particle1.getPosition().y <= 0) {
-    //        std::cout << "Particle has hit the floor" << std::endl;
-    //        particle1.setPosition(0, 0, 0);
-    //        break;
-    //    }
-    //}
     return 0;
 }

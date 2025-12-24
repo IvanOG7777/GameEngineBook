@@ -145,11 +145,13 @@
   <ItemGroup>
     <ClCompile Include="..\MotionSim\glad.c" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="objects.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="windowFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h" />
+    <ClInclude Include="objects.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="windowFunctions.h" />
   </ItemGroup>
