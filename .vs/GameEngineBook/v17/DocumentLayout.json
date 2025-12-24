@@ -1,26 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\",
+  "WorkspaceRootPath": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Engine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|solutionrelative:Engine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\windowFunctions.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\windowFunctions.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|solutionrelative:windowFunctions.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\windowFunctions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\Particle.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|solutionrelative:Particle.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\windowFunctions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|solutionrelative:windowFunctions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Particle.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\Particle.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|solutionrelative:Particle.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Particle.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|solutionrelative:Particle.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\Engine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|solutionrelative:Engine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,17 +30,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Engine.cpp",
-              "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Engine.cpp",
+              "DocumentMoniker": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\Engine.cpp",
               "RelativeDocumentMoniker": "Engine.cpp",
-              "ToolTip": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Engine.cpp",
+              "ToolTip": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\Engine.cpp",
               "RelativeToolTip": "Engine.cpp",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAAAHsAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-12-19T22:16:59.446Z",
               "IsPinned": true,
@@ -50,22 +50,23 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "Particle.cpp",
-              "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Particle.cpp",
+              "DocumentMoniker": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\Particle.cpp",
               "RelativeDocumentMoniker": "Particle.cpp",
-              "ToolTip": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Particle.cpp",
+              "ToolTip": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\Particle.cpp",
               "RelativeToolTip": "Particle.cpp",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-12-19T22:16:46.833Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "windowFunctions.h",
-              "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\windowFunctions.h",
+              "DocumentMoniker": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\windowFunctions.h",
               "RelativeDocumentMoniker": "windowFunctions.h",
-              "ToolTip": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\windowFunctions.h",
+              "ToolTip": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\windowFunctions.h",
               "RelativeToolTip": "windowFunctions.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
@@ -79,25 +80,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Particle.h",
-              "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Particle.h",
+              "DocumentMoniker": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\Particle.h",
               "RelativeDocumentMoniker": "Particle.h",
-              "ToolTip": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Particle.h",
+              "ToolTip": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\Particle.h",
               "RelativeToolTip": "Particle.h",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAAC8AAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-22T05:25:50.319Z"
+              "WhenOpened": "2025-12-22T05:25:50.319Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "windowFunctions.cpp",
-              "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\windowFunctions.cpp",
+              "DocumentMoniker": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\windowFunctions.cpp",
               "RelativeDocumentMoniker": "windowFunctions.cpp",
-              "ToolTip": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\windowFunctions.cpp",
+              "ToolTip": "C:\\Users\\sexyz\\Desktop\\C\u002BProjects\\GameEngineBook\\windowFunctions.cpp",
               "RelativeToolTip": "windowFunctions.cpp",
-              "ViewState": "AgIAAAwAAAAAAAAAAAASwCkAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-12-20T19:19:09.952Z",
               "EditorCaption": ""
