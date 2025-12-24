@@ -1,0 +1,51 @@
+//
+// Created by elder on 12/17/2025.
+//
+
+#pragma once
+#include "core.h"
+
+class Particle {
+public:
+
+    void setPosition(const Vector3& vector);
+    void setPosition(float x, float y, float z);
+    Vector3 getPosition() const;
+
+    void setVelocity(const Vector3& vector);
+    void setVelocity(float x, float y, float z);
+    Vector3 getVelocity() const;
+
+    void setKineticEnergy();
+    float getKineticEnergy() const;
+
+    void setMass(float passedMass);
+    float getInverseMass() const;
+    float getMass() const;
+
+    void setDamping(float passedDamping);
+    float getDamping();
+
+    void setAcceleration(const Vector3& passedAcceleration);
+    void setAcceleration(float x, float y, float z);
+    Vector3 getAcceleration() const;
+
+    void addForce(const Vector3& forceVector);
+    void addForce(float x, float y, float z);
+    void clearAccumulator();
+
+    void update(float time);
+
+protected:
+    Vector3 position;
+    Vector3 velocity;
+    Vector3 acceleration;
+    Vector3 forceAccumulator;
+
+    float damping;
+    float inverseMass;
+    float kinetic;
+    float mass;
+
+    void integrate(float duration);
+};

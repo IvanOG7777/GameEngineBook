@@ -1,0 +1,7 @@
+﻿  Engine.cpp
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(71,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(71,42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(90,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(148,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(149,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  GameEngineBook.vcxproj -> C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\x64\Debug\GameEngineBook.exe

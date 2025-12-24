@@ -1,0 +1,76 @@
+#include "windowFunctions.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+GLFWwindow* startGLFWwindow(int height, int width) {
+	if (!glfwInit()) {
+		std::cerr << "Couldn't initialize GLFW window" << std::endl;
+		return nullptr;
+	}
+
+	GLFWwindow* window = glfwCreateWindow(width, height, "Game Engine", NULL, NULL);
+
+	return window;
+}
+
+void frameBufferSizeCallBack(GLFWwindow* window, int width, int height) {
+	glViewport(0, 0, width, height);
+}
+
+static std::string loadTextFile(const char* path) {
+	std::ifstream file(path);
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file: " << path << "\n";
+		return {};
+	}
+	std::stringstream ss;
+	ss << file.rdbuf();
+	return ss.str();
+}
+
+// function to compile a vertex or fragment shader
+// parameters are a GLunum type, type of shader we are passing
+// and a string representing the shader
+GLuint compileShader(GLenum type, const char* src) {
+	GLuint shader = glCreateShader(type);
+	glShaderSource(shader, 1, &src, nullptr);
+	glCompileShader(shader);
+
+	int ok = 0;
+
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
+	if (!ok) {
+		char log[2048];
+		glGetShaderInfoLog(shader, sizeof(log), nullptr, log);
+		std::cerr << "Shader compile failed " << log << "\n";
+		glDeleteShader(shader);
+		return 0;
+	}
+	return shader;
+}
+
+GLuint createProgram(const char* vertexShader, const char* fragmentShader) {
+	GLuint vs = compileShader(GL_VERTEX_SHADER, vertexShader);
+	GLuint fs = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
+	if (!vs || !fs) return 0;
+
+	GLuint prog = glCreateProgram();
+	glAttachShader(prog, vs);
+	glAttachShader(prog, fs);
+	glLinkProgram(prog);
+
+	glDeleteShader(vs);
+	glDeleteShader(fs);
+
+	int ok = 0;
+	glGetProgramiv(prog, GL_LINK_STATUS, &ok);
+	if (!ok) {
+		char log[2048];
+		glGetProgramInfoLog(prog, sizeof(log), nullptr, log);
+		std::cerr << "Program link error:\n" << log << "\n";
+		glDeleteProgram(prog);
+		return 0;
+	}
+	return prog;
+}
