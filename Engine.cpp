@@ -81,7 +81,7 @@ int main() {
     if (!program) return 1;
 
     float cx = SCREENWIDTH / 2.0f;
-    float cy = SCREENHEIGHT / 2.0f;
+    float cy = 800;
     float radius = 50.0f;
     int res = 8;
 
@@ -114,31 +114,45 @@ int main() {
     }
 
 
-    GLuint vao = 0, vbo = 0;
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &vbo);
+    GLuint vao = 0, vbo = 0; // declare two openGL object handles(ID's), initalize to 0 to mean no object yet
+    glGenVertexArrays(1, &vao); // generates 1 VAO and stores its ID into vao
+    glGenBuffers(1, &vbo); // generates 1 VBO and stores its ID into vbo
 
-    glBindVertexArray(vao);
-    
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    std::cout << std::endl;
+
+    std::cout << "VAO ID: " << vao << std::endl;
+    std::cout << "VBO ID: " << vbo << std::endl;
+    std::cout << std::endl;
+    glBindVertexArray(vao); // Binds VAO so all vertex attribute calls will be sotred in current VAO ID
+    std::cout << "GL_ARRAY_BUFFER before binding: " << GL_ARRAY_BUFFER << std::endl;
+    glBindBuffer(GL_ARRAY_BUFFER, vbo); // makes vbo an active buffer, telling OpenGL where the vertex data will be uploaded and which buffer vertex attributes will read from 
+    std::cout << "GL_ARRAY_BUFFER after binding: " << GL_ARRAY_BUFFER << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "Verts.size(): " << verts.size() << std::endl;
+    std::cout << "Size of Vector3: " << sizeof(Vector3) << std::endl;
+    std::cout << "Size of float: " << sizeof(float) << std::endl;
+    std::cout << "Verts.data(): " << verts.data() << std::endl;
     glBufferData(
-        GL_ARRAY_BUFFER,
-        verts.size() * sizeof(Vector3),
-        verts.data(),
-        GL_DYNAMIC_DRAW
+        GL_ARRAY_BUFFER, // openGL uses current bound VBO from GL_ARRAY_BUFFER above
+        verts.size() * sizeof(Vector3), // uploads verts.size() * sizeof(Vector3) amount of bytes to allocate on the GPU
+        verts.data(), // Copies data from CPU vertex array to GPU memory
+        GL_DYNAMIC_DRAW // A usage hint, saying that data may chnage sometimes
     );
-    // aPos = 2 floats
-    glVertexAttribPointer(
-        0,                  // layout(location = 0)
-        3,                  // x, y, z
-        GL_FLOAT,
-        GL_FALSE,
-        sizeof(Vector3),
-        (void*)0
-    );
-    glEnableVertexAttribArray(0);
 
-    glBindVertexArray(0);
+
+    glVertexAttribPointer(
+        0, // location of attribute, should match the vertex shader
+        3, // number of components per verticie, 3 floats
+        GL_FLOAT, // type of the component, we are using float so GL_FLOAT
+        GL_FALSE, // should values be normalized? This case NO
+        sizeof(Vector3), // Stride, the distance between each verticie in bytes
+        (void*)0 // byte offset into current bound VBO, essentially saying start at begin of buffer
+    );
+
+    glEnableVertexAttribArray(0); // activates vertex attributes since before this call vertex attributes have been defined but not enabled
+
+    glBindVertexArray(0); // Stop recording VAO onto the GPU. At this point, the VAO contains all the vertex attribute configuration needed for drawing, so we stop recording additional state into it
 
     // Uniform locations (cache them)
     GLint uResolutionLoc = glGetUniformLocation(program, "uResolution");
