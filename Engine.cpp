@@ -67,7 +67,7 @@ int main() {
     float cx = SCREENWIDTH / 2.0f;
     float cy = SCREENHEIGHT / 2.0f;
     float radius = 200.0f;
-    int res = 100;
+    int res = 15;
 
     for (int i = 0; i <= res; i++) {
         float t = static_cast<float>(i) / static_cast<float>(res);
@@ -89,15 +89,6 @@ int main() {
 
     std::vector<Vector3> verts = makeCircleFan(position, radius, res);
     GLsizei vertexCount = static_cast<GLsizei>(verts.size());
-    std::cout << "Vertex Count: " << vertexCount << std::endl;
-    std::cout << std::endl;
-
-    std::cout << "The size of verts is: " << verts.size() << std::endl;
-
-    for (auto vert : verts) {
-        std::cout << vert.x << " " << vert.y << " " << vert.z << std::endl;
-    }
-
 
     GLuint vao = 0, vbo = 0; // declare two openGL object handles(ID's), initalize to 0 to mean no object yet
     glGenVertexArrays(1, &vao); // generates 1 VAO and stores its ID into vao
@@ -111,7 +102,6 @@ int main() {
     glBindVertexArray(vao); // Binds VAO so all vertex attribute calls will be sotred in current VAO ID
     GLint bound = 0;
     glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &bound);
-    std::cout << "Bound GL_ARRAY_BUFFER VBO: " << bound << "\n";
     glBindBuffer(GL_ARRAY_BUFFER, vbo); // makes vbo an active buffer, telling OpenGL where the vertex data will be uploaded and which buffer vertex attributes will read from 
     std::cout << std::endl;
 
@@ -156,6 +146,12 @@ int main() {
 
     // glfwWindowShouldClose returns 0 or 1, 0 meaning we are running 1 meaning we stop,
     // so while !0 (1) keep running
+    Particle particle;
+    particle.setMass(5);
+    particle.setVelocity(0, 0, 0);
+    particle.setAcceleration(0, -9.8, 0);
+    particle.setDamping(.99);
+    particle.setPosition(cx, cy, 0);
     auto start = std::chrono::high_resolution_clock::now();
 
     while (!glfwWindowShouldClose(window)) {
@@ -170,6 +166,13 @@ int main() {
         glfwGetFramebufferSize(window, &w, &h); //brief Retrieves the size of the frame of the window.
 
         glClear(GL_COLOR_BUFFER_BIT); // clears background to black with GL_COLOR_BUFFER_BIT
+
+        particle.update(dt);
+
+        if (particle.getPosition().y <= 280) {
+            std::cout << "Particle has it  280" << std::endl;
+            break;
+        }
 
         if (position.y == 280) {
             break;
