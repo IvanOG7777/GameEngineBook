@@ -1,17 +1,8 @@
 ﻿  Engine.cpp
 C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(54,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(54,42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(74,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(152,33): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(153,25): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(164,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(165,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(170,25): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-glfw3.lib(input.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(input.obj)' or at ''; linking object as if no debug info
-glfw3.lib(monitor.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(monitor.obj)' or at ''; linking object as if no debug info
-glfw3.lib(window.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(window.obj)' or at ''; linking object as if no debug info
-glfw3.lib(null_monitor.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(null_monitor.obj)' or at ''; linking object as if no debug info
-glfw3.lib(null_window.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(null_window.obj)' or at ''; linking object as if no debug info
-glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_joystick.obj)' or at ''; linking object as if no debug info
-glfw3.lib(win32_window.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_window.obj)' or at ''; linking object as if no debug info
+C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(91,25): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(167,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(168,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\Engine.cpp(178,25): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   GameEngineBook.vcxproj -> C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\x64\Debug\GameEngineBook.exe

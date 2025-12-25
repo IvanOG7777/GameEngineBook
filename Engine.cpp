@@ -17,8 +17,8 @@
 
 #define GLOBAL_TIME 0.01667f
 #define PI 3.14159265358979323846f
-#define SCREENWIDTH 600.0f
-#define SCREENHEIGHT 800.0f
+#define SCREENWIDTH 1080.0f
+#define SCREENHEIGHT 1920.0f
 #define SMALL_GRAVITY -9.8f
 
 const char* cirlceVertex = R"GLSL(
@@ -67,28 +67,38 @@ int main() {
     float cx = SCREENWIDTH / 2.0f;
     float cy = SCREENHEIGHT / 2.0f;
     float radius = 200.0f;
-    int res = 15;
+    int res = 50;
 
-    for (int i = 0; i <= res; i++) {
-        float t = static_cast<float>(i) / static_cast<float>(res);
-        float a = t * 2.0 * PI;
-        std::cout << "T: " << t << std::endl;
-        std::cout << "A: " << a << std::endl;
-        std::cout << "cos(a): " << std::cos(a) << std::endl;
-        std::cout << "sin(a):" << std::sin(a) << std::endl;
+    //for (int i = 0; i <= res; i++) {
+    //    float t = static_cast<float>(i) / static_cast<float>(res);
+    //    float a = t * 2.0 * PI;
+    //    std::cout << "T: " << t << std::endl;
+    //    std::cout << "A: " << a << std::endl;
+    //    std::cout << "cos(a): " << std::cos(a) << std::endl;
+    //    std::cout << "sin(a):" << std::sin(a) << std::endl;
 
-        float x = cx + std::cos(a) * radius;
-        float y = cy + std::sin(a) * radius;
+    //    float x = cx + std::cos(a) * radius;
+    //    float y = cy + std::sin(a) * radius;
 
-        std::cout << "(x,y): " << "(" << x << "," << y << ")" << std::endl;
-        std::cout << std::endl;
-    }
+    //    std::cout << "(x,y): " << "(" << x << "," << y << ")" << std::endl;
+    //    std::cout << std::endl;
+    //}
 
-    Vector3 position = { cx, cy, 0};
+    Particle particle;
+    particle.setMass(5);
+    particle.setVelocity(0, 0, 0);
+    particle.setAcceleration(0, 0, 0);
+    particle.setDamping(.99);
+    particle.setPosition(cx, cy, 0);
 
+    std::vector<Vector3> particleVerticies = makeCircleFan(particle.getPosition(), radius, res);
+    GLsizei particleVertexCount = static_cast<GLsizei>(particleVerticies.size());
 
-    std::vector<Vector3> verts = makeCircleFan(position, radius, res);
-    GLsizei vertexCount = static_cast<GLsizei>(verts.size());
+    std::cout << "Verts.size(): " << particleVerticies.size() << std::endl;
+    std::cout << "Size of Vector3: " << sizeof(Vector3) << std::endl;
+    std::cout << "Size of float: " << sizeof(float) << std::endl;
+    std::cout << "Verts.data(): " << particleVerticies.data() << std::endl;
+
 
     GLuint vao = 0, vbo = 0; // declare two openGL object handles(ID's), initalize to 0 to mean no object yet
     glGenVertexArrays(1, &vao); // generates 1 VAO and stores its ID into vao
@@ -105,14 +115,10 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo); // makes vbo an active buffer, telling OpenGL where the vertex data will be uploaded and which buffer vertex attributes will read from 
     std::cout << std::endl;
 
-    std::cout << "Verts.size(): " << verts.size() << std::endl;
-    std::cout << "Size of Vector3: " << sizeof(Vector3) << std::endl;
-    std::cout << "Size of float: " << sizeof(float) << std::endl;
-    std::cout << "Verts.data(): " << verts.data() << std::endl;
     glBufferData(
         GL_ARRAY_BUFFER, // openGL uses current bound VBO from GL_ARRAY_BUFFER above
-        verts.size() * sizeof(Vector3), // uploads verts.size() * sizeof(Vector3) amount of bytes to allocate on the GPU
-        verts.data(), // Copies data from CPU vertex array to GPU memory
+        particleVerticies.size() * sizeof(Vector3), // uploads verts.size() * sizeof(Vector3) amount of bytes to allocate on the GPU
+        particleVerticies.data(), // Copies data from CPU vertex array to GPU memory
         GL_DYNAMIC_DRAW // A usage hint, saying that data may chnage sometimes
     );
 
@@ -143,17 +149,14 @@ int main() {
     }
     std::cout << "uResolutionLoc: " << uResolutionLoc << std::endl;
     std::cout << "uColorLoc: " << uColorLoc << std::endl;
+    float force = SMALL_GRAVITY / particle.getInverseMass();
+
+    std::cout << "force: " << force << std::endl; 
 
     // glfwWindowShouldClose returns 0 or 1, 0 meaning we are running 1 meaning we stop,
     // so while !0 (1) keep running
-    Particle particle;
-    particle.setMass(5);
-    particle.setVelocity(0, 0, 0);
-    particle.setAcceleration(0, -9.8, 0);
-    particle.setDamping(.99);
-    particle.setPosition(cx, cy, 0);
     auto start = std::chrono::high_resolution_clock::now();
-
+    int frameCount = 0;
     while (!glfwWindowShouldClose(window)) {
         auto currentTime = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> deltaTime = currentTime - start;
@@ -166,26 +169,34 @@ int main() {
         glfwGetFramebufferSize(window, &w, &h); //brief Retrieves the size of the frame of the window.
 
         glClear(GL_COLOR_BUFFER_BIT); // clears background to black with GL_COLOR_BUFFER_BIT
+        
+        
+
+
+        particle.addForce(100, force, 0);
 
         particle.update(dt);
+        frameCount++;
 
-        if (particle.getPosition().y <= 280) {
-            std::cout << "Particle has it  280" << std::endl;
+        if (particle.getPosition().y < radius || particle.getPosition().y > SCREENHEIGHT - radius) {
+            std::cout << "Particle has hit one of the top/bottom walls" << std::endl;
             break;
         }
 
-        if (position.y == 280) {
+        if (particle.getPosition().x < radius || particle.getPosition().x > SCREENWIDTH - radius) {
+            std::cout << "We have hit one of the side walls" << std::endl;
             break;
         }
-        verts = makeCircleFan(position, radius, res);
+
+        particleVerticies = makeCircleFan(particle.getPosition(), radius, res);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo); // rebind per frame the vbo
         // resend data and size in bytes to GPU
         glBufferSubData(
             GL_ARRAY_BUFFER,
             0,
-            verts.size() * sizeof(Vector3),
-            verts.data()
+            particleVerticies.size() * sizeof(Vector3),
+            particleVerticies.data()
         );
 
 
@@ -194,7 +205,7 @@ int main() {
         glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); // Uploads the color (white) to the uColor uniform (vec3) in the active shader program
 
         glBindVertexArray(vao); // use pre recorded vertex layout for GPU to use
-        glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount); // tell GPU how to interpret the verticies, where to start and to how many vertices to use
+        glDrawArrays(GL_TRIANGLE_FAN, 0, particleVertexCount); // tell GPU how to interpret the verticies, where to start and to how many vertices to use
         
         glBindVertexArray(0); // unbinds the vao per frame leaves no active vao safety / cleanliness step,
 
@@ -202,6 +213,8 @@ int main() {
         glfwPollEvents(); // processes OS/window events like keyboard,mouse input
 
     }
+
+    std::cout << "FRAMECOUNT: " << frameCount << std::endl;
 
 
     glDeleteBuffers(1, &vbo);
