@@ -169,24 +169,13 @@ int main() {
         glfwGetFramebufferSize(window, &w, &h); //brief Retrieves the size of the frame of the window.
 
         glClear(GL_COLOR_BUFFER_BIT); // clears background to black with GL_COLOR_BUFFER_BIT
-        
-        
+       
 
+        keepCircleInFrame(particle, radius, w, h);
 
-        particle.addForce(100, force, 0);
+        particle.addForce(1000, force, 0);
 
         particle.update(dt);
-        frameCount++;
-
-        if (particle.getPosition().y < radius || particle.getPosition().y > SCREENHEIGHT - radius) {
-            std::cout << "Particle has hit one of the top/bottom walls" << std::endl;
-            break;
-        }
-
-        if (particle.getPosition().x < radius || particle.getPosition().x > SCREENWIDTH - radius) {
-            std::cout << "We have hit one of the side walls" << std::endl;
-            break;
-        }
 
         particleVerticies = makeCircleFan(particle.getPosition(), radius, res);
 
@@ -211,6 +200,7 @@ int main() {
 
         glfwSwapBuffers(window); // swaps the back buffer(black) to the front buffer (window)
         glfwPollEvents(); // processes OS/window events like keyboard,mouse input
+        frameCount++;
 
     }
 

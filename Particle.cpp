@@ -13,24 +13,24 @@ void Particle::integrate(float duration) {
     
     // Add the small g to current acceleration in particle
     Vector3 resultingAcceleration = acceleration + forceAccumulator * inverseMass; // This is equation g = F/m
-    std::cout << "Force Accumulator:" << forceAccumulator.x << ", " << forceAccumulator.y << ", " << forceAccumulator.z << std::endl;
-    std::cout << "Resulting Acceleration: " << resultingAcceleration.x << ", " << resultingAcceleration.y << ", " << resultingAcceleration.z << std::endl;
+    std::cout << "Force Accumulator:" << forceAccumulator.x << ", " << forceAccumulator.y << ", " << forceAccumulator.z << "\n";
+    std::cout << "Resulting Acceleration: " << resultingAcceleration.x << ", " << resultingAcceleration.y << ", " << resultingAcceleration.z << "\n";
 
-    std::cout << "Velocity before acceleration change: " << velocity.x << ", " << velocity.y << ", " << velocity.z << std::endl;
+    std::cout << "Velocity before acceleration change: " << velocity.x << ", " << velocity.y << ", " << velocity.z << "\n";
     velocity.addScaledVector(resultingAcceleration, duration); // scale acceleration by change in time then add to velocity vector
-    std::cout << "Velocity after acceleration change: " << velocity.x << ", " << velocity.y << ", " << velocity.z << std::endl;
+    std::cout << "Velocity after acceleration change: " << velocity.x << ", " << velocity.y << ", " << velocity.z << "\n";
     std::cout << std::endl;
 
-    std::cout << "Position before velocity change: " << position.x << ", " << position.y << ", " << position.z << std::endl;
+    std::cout << "Position before velocity change: " << position.x << ", " << position.y << ", " << position.z << "\n";
     position.addScaledVector(velocity, duration); // scale velocity by change in time then add to position vector
-    std::cout << "Position after velocity change: " << position.x << ", " << position.y << ", " << position.z << std::endl;
+    std::cout << "Position after velocity change: " << position.x << ", " << position.y << ", " << position.z << "\n";
     std::cout << std::endl;
 
-    std::cout << "Velocity before before change: " << velocity.x << ", " << velocity.y << ", " << velocity.z << std::endl;
+    std::cout << "Velocity before before change: " << velocity.x << ", " << velocity.y << ", " << velocity.z << "\n";
     velocity *= powf(damping, duration); // dampen vellocity a bit if damp is less than 1 but grater than 0
-    std::cout << "Velocity after damping change: " << velocity.x << ", " << velocity.y << ", " << velocity.z << std::endl;
+    std::cout << "Velocity after damping change: " << velocity.x << ", " << velocity.y << ", " << velocity.z << "\n";
 
-    std::cout << std::endl;
+    std::cout << "\n";
     clearAccumulator();
 }
 
