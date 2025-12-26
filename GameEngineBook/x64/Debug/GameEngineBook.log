@@ -1,10 +1,4 @@
-﻿  Engine.cpp
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(50,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(50,42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(71,25): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(148,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(149,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(159,25): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+﻿  Particle.cpp
   objects.cpp
   Generating Code...
   GameEngineBook.vcxproj -> C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\x64\Debug\GameEngineBook.exe
