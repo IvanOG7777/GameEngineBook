@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="..\gameLib\Particle.cpp" />
     <ClCompile Include="ballistic.cpp" />
+    <ClCompile Include="ballistics.cpp" />
     <ClCompile Include="BallisticsTest.cpp" />
   </ItemGroup>
   <ItemGroup>

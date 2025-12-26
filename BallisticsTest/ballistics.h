@@ -12,7 +12,7 @@ public:
 		LASER
 	};
 
-	struct AmmoType {
+	struct AmmoRound {
 		Particle particle;
 		ShotType type = UNUSED;
 		uint32_t startTime = 0;
@@ -22,7 +22,9 @@ public:
 
 	public:
 		Ballistic();
-		void setShotType(ShotType type);
+		AmmoRound ammoRound;
+
+		void setShotType(ShotType &type);
 		ShotType getShotType() const;
 
 		void fire(uint32_t timeNowMs);
