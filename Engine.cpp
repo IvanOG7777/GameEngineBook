@@ -14,12 +14,8 @@
 #include "Particle.h"
 #include "windowFunctions.h"
 #include "objects.h"
+#include "globalConstants.h"
 
-#define GLOBAL_TIME 0.01667f
-#define PI 3.14159265358979323846f
-#define SCREENWIDTH 1080.0f
-#define SCREENHEIGHT 1920.0f
-#define SMALL_GRAVITY -9.8f
 
 const char* cirlceVertex = R"GLSL(
         #version 330 core
@@ -66,23 +62,7 @@ int main() {
 
     float cx = SCREENWIDTH / 2.0f;
     float cy = SCREENHEIGHT / 2.0f;
-    float radius = 200.0f;
-    int res = 50;
-
-    //for (int i = 0; i <= res; i++) {
-    //    float t = static_cast<float>(i) / static_cast<float>(res);
-    //    float a = t * 2.0 * PI;
-    //    std::cout << "T: " << t << std::endl;
-    //    std::cout << "A: " << a << std::endl;
-    //    std::cout << "cos(a): " << std::cos(a) << std::endl;
-    //    std::cout << "sin(a):" << std::sin(a) << std::endl;
-
-    //    float x = cx + std::cos(a) * radius;
-    //    float y = cy + std::sin(a) * radius;
-
-    //    std::cout << "(x,y): " << "(" << x << "," << y << ")" << std::endl;
-    //    std::cout << std::endl;
-    //}
+    int res = 100;
 
     Particle particle;
     particle.setMass(5);
@@ -90,8 +70,9 @@ int main() {
     particle.setAcceleration(0, 0, 0);
     particle.setDamping(.99);
     particle.setPosition(cx, cy, 0);
+    particle.setRadius(200.0f);
 
-    std::vector<Vector3> particleVerticies = makeCircleFan(particle.getPosition(), radius, res);
+    std::vector<Vector3> particleVerticies = makeCircleFan(particle.getPosition(), particle.getRadius(), res);
     GLsizei particleVertexCount = static_cast<GLsizei>(particleVerticies.size());
 
     std::cout << "Verts.size(): " << particleVerticies.size() << std::endl;
@@ -171,13 +152,13 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT); // clears background to black with GL_COLOR_BUFFER_BIT
        
 
-        keepCircleInFrame(particle, radius, w, h);
+        keepCircleInFrame(particle, particle.getRadius(), w, h);
 
         particle.addForce(1000, force, 0);
 
         particle.update(dt);
 
-        particleVerticies = makeCircleFan(particle.getPosition(), radius, res);
+        particleVerticies = makeCircleFan(particle.getPosition(), particle.getRadius(), res);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo); // rebind per frame the vbo
         // resend data and size in bytes to GPU

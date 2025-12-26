@@ -1,5 +1,4 @@
 #include "objects.h"
-#define PI 3.14159265358979323846f
 
 std::vector <Vector3> makeCircleFan(Vector3 center, float radius, int res) {
 	std::vector <Vector3> verticies;
@@ -23,15 +22,21 @@ std::vector <Vector3> makeCircleFan(Vector3 center, float radius, int res) {
 	return verticies;
 }
 
-void keepCircleInFrame(Particle& particle, float& radius, int&windowWidth, int &windowHeight) {
-	float minX = radius;
-	float maxX = static_cast<float>(windowWidth) - radius;
-	float minY = radius;
-	float maxY = static_cast<float>(windowHeight) - radius;
+// Parameters
+// Pass in a particle object by reference
+// Pass in the radis of particle
+// Pass in the window height and width
+void keepCircleInFrame(Particle& particle, float radius, int&windowWidth, int &windowHeight) {
+	// Set the min x/y and max x/y values of the particle
+	float minX = radius; // Min x is radius
+	float maxX = static_cast<float>(windowWidth) - radius; // max is is the windowWidth - radius
+	float minY = radius; // Min y is radius
+	float maxY = static_cast<float>(windowHeight) - radius; // max is is the windowHeight - radius
 
 	Vector3 p = particle.getPosition();
 	Vector3 v = particle.getVelocity();
 
+	// Right/Left
 	if (p.x < minX) {
 		p.x = minX;
 		v.x = -v.x;
@@ -51,6 +56,7 @@ void keepCircleInFrame(Particle& particle, float& radius, int&windowWidth, int &
 		v.y = -v.y;
 	}
 
+	// set the new position and velocity to the particle
 	particle.setPosition(p.x, p.y, p.z);
 	particle.setVelocity(v.x, v.y, v.z);
 }

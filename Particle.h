@@ -19,6 +19,9 @@ public:
     void setKineticEnergy();
     float getKineticEnergy() const;
 
+    void setRadius(float passedRadius);
+    float getRadius();
+
     void setMass(float passedMass);
     float getInverseMass() const;
     float getMass() const;
@@ -46,6 +49,7 @@ protected:
     float inverseMass;
     float kinetic;
     float mass;
+    float radius;
 
     void integrate(float duration);
 };

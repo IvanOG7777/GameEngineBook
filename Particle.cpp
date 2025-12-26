@@ -131,6 +131,15 @@ float Particle::getKineticEnergy() const {
 }
 ////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////
+void Particle::setRadius(float passedRadius) {
+    radius = passedRadius;
+}
+float Particle::getRadius() {
+    return radius;
+}
+////////////////////////////////////////////////////////////
+
 void Particle::addForce(const Vector3& forceVector) {
     forceAccumulator += forceVector;
 }
