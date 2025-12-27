@@ -26,24 +26,32 @@ int main() {
 	std::cout << "Position: ";
 	b.ammoRound.particle.printPosition();
 
+	std::cout << std::endl;
 
+	b.setAmmo(Ballistic::ShotType::PISTOL);
 
-
-	while (true) {
-		if (b.ammoRound.particle.getPosition().y <= 0) {
-			std::cout << "Particle has hit the ground" << std::endl;
-			break;
-		}
-		b.ammoRound.particle.update(0.016);
-
-		std::cout << "Acceleration: ";
-		b.ammoRound.particle.printAcceleration();
-
-		std::cout << "Velocity: ";
-		b.ammoRound.particle.printVelocity();
-
-		std::cout << "Postion: ";
-		b.ammoRound.particle.printPosition();
+	for (auto& type : b.ammo) {
+		std::cout << type.type << std::endl;
 	}
+
+
+
+
+	//while (true) {
+	//	if (b.ammoRound.particle.getPosition().y <= 0) {
+	//		std::cout << "Particle has hit the ground" << std::endl;
+	//		break;
+	//	}
+	//	b.ammoRound.particle.update(0.016);
+
+	//	std::cout << "Acceleration: ";
+	//	b.ammoRound.particle.printAcceleration();
+
+	//	std::cout << "Velocity: ";
+	//	b.ammoRound.particle.printVelocity();
+
+	//	std::cout << "Postion: ";
+	//	b.ammoRound.particle.printPosition();
+	//}
 
 }

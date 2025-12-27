@@ -51,7 +51,10 @@ Ballistic::ShotType Ballistic::getShotType() const {
 void Ballistic::setAmmo(ShotType passedshotType) {
 	initalizeParticleForAmmoRound(passedshotType);
 
-	for (auto i = 0; i < MaxAmmo; i++) {
+	ammo.resize(MaxAmmo);
+	std::cout << ammo.size() << std::endl;
+
+	for (auto i = 0; i < ammo.size(); i++) {
 		ammo[i] = ammoRound;
 	}
 }

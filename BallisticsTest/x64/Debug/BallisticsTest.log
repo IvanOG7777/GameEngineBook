@@ -1,4 +1,2 @@
-﻿  BallisticsTest.cpp
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(17,30): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(37,31): warning C4305: 'argument': truncation from 'double' to 'float'
+﻿  ballistic.cpp
   BallisticsTest.vcxproj -> C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\x64\Debug\BallisticsTest.exe

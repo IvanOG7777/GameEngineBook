@@ -24,7 +24,7 @@ public:
 	public:
 		AmmoRound ammoRound;
 		ShotType shotType;
-		AmmoRound ammo[MaxAmmo];
+		std::vector<AmmoRound> ammo;
 
 		void initalizeParticleForAmmoRound(ShotType shotType);
 
