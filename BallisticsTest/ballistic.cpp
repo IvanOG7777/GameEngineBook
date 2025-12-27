@@ -40,21 +40,21 @@ void Ballistic::initalizeParticleForAmmoRound(ShotType currentShotType) {
 	ammoRound.type = currentShotType;
 }
 
-void Ballistic::setShotType(ShotType passedShotType) {
-	shotType = passedShotType;
-}
-
-Ballistic::ShotType Ballistic::getShotType() const {
-	return shotType;
-}
-
-void Ballistic::setAmmo(ShotType passedshotType) {
-	initalizeParticleForAmmoRound(passedshotType);
-
-	ammo.resize(MaxAmmo);
-	std::cout << ammo.size() << std::endl;
-
-	for (auto i = 0; i < ammo.size(); i++) {
-		ammo[i] = ammoRound;
-	}
-}
+//void Ballistic::setShotType(ShotType passedShotType) {
+//	shotType = passedShotType;
+//}
+//
+//Ballistic::ShotType Ballistic::getShotType() const {
+//	return shotType;
+//}
+//
+//void Ballistic::setAmmo(ShotType passedshotType) {
+//	initalizeParticleForAmmoRound(passedshotType);
+//
+//	ammo.resize(MaxAmmo);
+//	std::cout << ammo.size() << std::endl;
+//
+//	for (auto i = 0; i < ammo.size(); i++) {
+//		ammo[i] = ammoRound;
+//	}
+//}

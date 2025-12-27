@@ -23,10 +23,13 @@ public:
 
 	public:
 		AmmoRound ammoRound;
-		ShotType shotType;
-		std::vector<AmmoRound> ammo;
+		ShotType currentShotType;
+		AmmoRound rounds[MaxAmmo];
 
 		void initalizeParticleForAmmoRound(ShotType shotType);
+
+		//IGNORE FOR NOW
+		/*std::vector<AmmoRound> ammo;
 
 		void setAmmo(ShotType passedshotType);
 
@@ -34,5 +37,5 @@ public:
 		ShotType getShotType() const;
 
 		void fire(uint32_t timeNowMs);
-		void update(float dtSeconds, uint32_t timeNowMs);
+		void update(float dtSeconds, uint32_t timeNowMs);*/
 };

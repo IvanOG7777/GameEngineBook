@@ -6,6 +6,20 @@
 #include "core.h"
 
 class Particle {
+protected:
+    Vector3 position;
+    Vector3 velocity;
+    Vector3 acceleration;
+    Vector3 forceAccumulator;
+
+    float damping;
+    float inverseMass;
+    float kinetic;
+    float mass;
+    float radius;
+
+    void integrate(float duration);
+
 public:
 
     void setPosition(const Vector3& vector);
@@ -41,18 +55,4 @@ public:
     void clearAccumulator();
 
     void update(float time);
-
-protected:
-    Vector3 position;
-    Vector3 velocity;
-    Vector3 acceleration;
-    Vector3 forceAccumulator;
-
-    float damping;
-    float inverseMass;
-    float kinetic;
-    float mass;
-    float radius;
-
-    void integrate(float duration);
 };
