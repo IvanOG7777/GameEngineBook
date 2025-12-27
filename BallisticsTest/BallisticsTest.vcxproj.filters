@@ -24,9 +24,6 @@
     <ClCompile Include="ballistic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ballistics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ballistics.h">

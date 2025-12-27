@@ -1,5 +1,5 @@
-#define GLOBAL_TIME 0.01667f
-#define PI 3.14159265358979323846f
-#define SCREENWIDTH 1080.0f
-#define SCREENHEIGHT 1920.0f
-#define SMALL_GRAVITY -9.8f
+constexpr float GLOBAL_TIME = 0.01667f;
+constexpr float PI = 3.14159265358979323846f;
+constexpr float SCREENWIDTH = 1080.0f;
+constexpr float SCREENHEIGHT = 1920.0f;
+constexpr float SMALL_GRAVITY = -9.8f;

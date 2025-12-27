@@ -47,6 +47,10 @@ void Particle::setPosition(float x, float y, float z) {
 Vector3 Particle::getPosition() const {
     return position;
 }
+
+void Particle::printPosition() {
+    std::cout << position.x << ", " << position.y << ", " << position.z << std::endl;
+}
 ////////////////////////////////////////////////////////////
 
 
@@ -62,6 +66,10 @@ void Particle::setVelocity(float x, float y, float z) {
 }
 Vector3 Particle::getVelocity() const {
     return velocity;
+}
+
+void Particle::printVelocity() {
+    std::cout << velocity.x << ", " << velocity.y << ", " << velocity.z << std::endl;
 }
 ////////////////////////////////////////////////////////////
 
@@ -79,6 +87,11 @@ void Particle::setAcceleration(float x, float y, float z) {
 
 Vector3 Particle::getAcceleration() const {
     return acceleration;
+}
+
+
+void Particle::printAcceleration() {
+    std::cout << acceleration.x << ", " << acceleration.y << ", " << acceleration.z << std::endl;
 }
 ////////////////////////////////////////////////////////////
 
