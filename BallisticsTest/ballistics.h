@@ -23,20 +23,14 @@ public:
 
 public:
     Ballistic(); // default Ballistic object constructor
-    AmmoRound ammoRound; // used for now only to define a single round. Not neccescary.
-    ShotType currentShotType;
-    std::vector<AmmoRound> rounds;
+    AmmoRound ammoRound; // used for now only to define a single round. Not neccescary. I will use mainly for testing
+    ShotType currentShotType; // set the current type of shot for when use use fire() it will fire that current shot within rounds
+    std::vector<AmmoRound> rounds; // vector of AmmoRound Structs, can hold multiple types of shots PISTOL,ARTILERY...
 
-    void initializeParticleForAmmoRound(ShotType currentShotType);
+    void initializeParticleForAmmoRound(ShotType currentType); // function used to initalize an AmmoRound struct, function is really only used for testing since its not cycling through all elements of rounds
 
-    //IGNORE FOR NOW
-    /*std::vector<AmmoRound> ammo;
-
-    void setAmmo(ShotType passedShotType);
-
-    void setShotType(ShotType type);
-    ShotType getShotType() const;
-
-    void fire(uint32_t timeNowMs);
-    void update(float dtSeconds, uint32_t timeNowMs);*/
+    // function used to initalize rounds within rounds vector
+    void fire();
+    // function used to updated rounds within rounds vector, acceleration, velocity, postion...
+    void updateRound();
 };

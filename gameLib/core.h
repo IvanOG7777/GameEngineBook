@@ -14,8 +14,8 @@ private:
     float pad;
 
 public:
-    Vector3() : x(0), y(0), z(0) {}
-    Vector3(const float x, const float y, const float z) : x(x), y(y), z(z) {}
+    Vector3() : x(0), y(0), z(0) { pad = 0; }
+    Vector3(const float x, const float y, const float z) : x(x), y(y), z(z) { pad = 0; }
 
     void invert() {
         x = -x;

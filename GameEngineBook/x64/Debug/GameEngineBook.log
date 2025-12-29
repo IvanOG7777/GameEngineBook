@@ -1,7 +1,5 @@
-﻿  glad.c
-  Engine.cpp
+﻿  Engine.cpp
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(1,17): error C2374: 'GLOBAL_TIME': redefinition; multiple initialization
-  Particle.cpp
   (compiling source file 'Engine.cpp')
       C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(1,17):
       see declaration of 'GLOBAL_TIME'
@@ -57,6 +55,6 @@ C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(71,25): wa
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(148,15): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(149,15): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(159,25): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  objects.cpp
+  Particle.cpp
   windowFunctions.cpp
   Generating Code...
