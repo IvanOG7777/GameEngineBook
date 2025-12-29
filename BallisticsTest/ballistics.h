@@ -5,37 +5,38 @@
 
 class Ballistic {
 public:
-	enum ShotType {
-		UNUSED = 0,
-		PISTOL,
-		ARTILLERY,
-		FIREBALL,
-		LASER
-	};
+    enum ShotType {
+        UNUSED = 0,
+        PISTOL,
+        ARTILLERY,
+        FIREBALL,
+        LASER
+    };
 
-	struct AmmoRound {
-		uint32_t startTime = 0;
-		Particle particle;
-		ShotType type = UNUSED;
-	};
+    struct AmmoRound {
+        uint32_t startTime = 0;
+        Particle particle;
+        ShotType type = UNUSED;
+    };
 
-	static constexpr unsigned MaxAmmo = 16;
+    static constexpr unsigned MaxAmmo = 16;
 
-	public:
-		AmmoRound ammoRound;
-		ShotType currentShotType;
-		AmmoRound rounds[MaxAmmo];
+public:
+    Ballistic(); // default Ballistic object constructor
+    AmmoRound ammoRound; // used for now only to define a single round. Not neccescary.
+    ShotType currentShotType;
+    std::vector<AmmoRound> rounds;
 
-		void initalizeParticleForAmmoRound(ShotType shotType);
+    void initializeParticleForAmmoRound(ShotType currentShotType);
 
-		//IGNORE FOR NOW
-		/*std::vector<AmmoRound> ammo;
+    //IGNORE FOR NOW
+    /*std::vector<AmmoRound> ammo;
 
-		void setAmmo(ShotType passedshotType);
+    void setAmmo(ShotType passedShotType);
 
-		void setShotType(ShotType type);
-		ShotType getShotType() const;
+    void setShotType(ShotType type);
+    ShotType getShotType() const;
 
-		void fire(uint32_t timeNowMs);
-		void update(float dtSeconds, uint32_t timeNowMs);*/
+    void fire(uint32_t timeNowMs);
+    void update(float dtSeconds, uint32_t timeNowMs);*/
 };

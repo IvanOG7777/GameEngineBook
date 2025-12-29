@@ -6,11 +6,26 @@
 #include <cassert>
 #include <iostream>
 
+
+// default constructor for when a particle Object is created
+// sets all values to 0
+Particle::Particle() {
+    velocity = Vector3(0, 0, 0);
+    acceleration = Vector3(0, 0, 0);
+    position = Vector3(0, 0, 0);
+    damping = 0.0f;
+    inverseMass = 0.0f;
+    kinetic = 0.0f;
+    mass = 0.0f;
+    radius = 0.0f;
+}
+
+
 void Particle::integrate(float duration) {
     if (inverseMass <= 0.0f) return;
 
     assert(duration > 0.0f);
-    
+
     // Add the small g to current acceleration in particle
     Vector3 resultingAcceleration = acceleration + forceAccumulator * inverseMass; // This is equation g = F/m
     std::cout << "Force Accumulator:" << forceAccumulator.x << ", " << forceAccumulator.y << ", " << forceAccumulator.z << "\n";

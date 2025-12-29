@@ -21,7 +21,7 @@ protected:
     void integrate(float duration);
 
 public:
-
+    Particle();
     void setPosition(const Vector3& vector);
     void setPosition(float x, float y, float z);
     Vector3 getPosition() const;
