@@ -54,5 +54,7 @@ public:
     void addForce(float x, float y, float z);
     void clearAccumulator();
 
+    void clearAllValues();
+
     void update(float time);
 };

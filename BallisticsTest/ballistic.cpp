@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <chrono>
 #include "ballistics.h"
 
 // default ballistic constructor, when a ballistic object is created
@@ -47,7 +49,7 @@ void Ballistic::initializeParticleForAmmoRound(ShotType currentType) { // pass i
         break;
     }
 
-    ammoRound.particle.setPosition(0.0f, 1.5f, 0.0f);
+    ammoRound.particle.setPosition(0.0f, 10.5f, 0.0f);
     ammoRound.type = currentType;
 }
 
@@ -90,7 +92,7 @@ void Ballistic::fire() {
     case FIREBALL:
         rounds[roundIndex].particle.setMass(1.0f);
         rounds[roundIndex].particle.setVelocity(0.0f, 0.0f, 10.0f);
-        rounds[roundIndex].particle.setAcceleration(0.0f, 0.6f, 0.0f);
+        rounds[roundIndex].particle.setAcceleration(0.0f, -0.6f, 0.0f);
         rounds[roundIndex].particle.setDamping(0.99f);
         rounds[roundIndex].particle.setRadius(5.0f);
         std::cout << "Round at index: " << roundIndex << " has been initlaized FIREBALL" << std::endl;
@@ -119,8 +121,25 @@ void Ballistic::updateRound() {
             if (rounds[i].particle.getPosition().y <= 0.0f) {
                 std::cout << "Shot at index: " << i << " has hit the gorund" << std::endl;
                 std::cout << "Setting shot at index: " << i << " to UNUSED" << std::endl;
+                rounds[i].particle.clearAccumulator();
+                rounds[i].particle.clearAllValues();
                 rounds[i].type = UNUSED;
             }
         }
     }
+}
+
+// function used to check if all rounds within rounds vector are unused
+bool Ballistic::allRoundsUnused() {
+    bool unused = true;
+
+    for (int i = 0; i < rounds.size(); i++) {
+        if (rounds[i].type != UNUSED) {
+            unused = false;
+            std::cout << "Round at index: " << i << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            return unused;
+        }
+    }
+    return unused;
 }

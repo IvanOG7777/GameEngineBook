@@ -9,41 +9,15 @@ int main() {
 	for (int i = 0; i < ballistic.rounds.size(); i++) {
 		std::cout << "Type of munition: " << ballistic.rounds[i].type << std::endl;
 	}
-	ballistic.currentShotType = ballistic.PISTOL;
-	ballistic.fire();
-	/*ballistic.currentShotType = ballistic.ARTILLERY;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.FIREBALL;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.PISTOL;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.ARTILLERY;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.FIREBALL;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.PISTOL;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.ARTILLERY;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.FIREBALL;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.FIREBALL;
-	ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER;
-	ballistic.fire();
-	*/
 
-	while (true) {
+	ballistic.currentShotType = ballistic.PISTOL;
+	ballistic.fire();
+	ballistic.currentShotType = ballistic.ARTILLERY;
+	ballistic.fire();
+	ballistic.currentShotType = ballistic.FIREBALL;
+	ballistic.fire();
+
+	while (!ballistic.allRoundsUnused()) {
 		ballistic.updateRound();
 	}
 

@@ -33,4 +33,6 @@ public:
     void fire();
     // function used to updated rounds within rounds vector, acceleration, velocity, postion...
     void updateRound();
+    // function used to check if slots within rounds vector are all UNUSED
+    bool allRoundsUnused();
 };

@@ -182,6 +182,27 @@ void Particle::clearAccumulator() {
     forceAccumulator.z = 0;
 }
 
+// function used to clear all values of a particle object
+void Particle::clearAllValues() {
+    position.x = 0.0f;
+    position.y = 0.0f;
+    position.z = 0.0f;
+
+    velocity.x = 0.0f;
+    velocity.y = 0.0f;
+    velocity.z = 0.0f;
+
+    acceleration.x = 0.0f;
+    acceleration.y = 0.0f;
+    acceleration.z = 0.0f;
+
+    damping = 1.0f;
+    inverseMass = 0.0f;
+    kinetic = 0.0f;
+    mass = 0.0f;
+    radius = 0.0f;
+}
+
 void Particle::update(float time) {
     integrate(time);
 }
