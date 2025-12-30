@@ -116,8 +116,6 @@ int main() {
 
         glClear(GL_COLOR_BUFFER_BIT);
 
-        ballistic.updateRound(dt);
-
         glUseProgram(program);
         glUniform2f(uResolutionLoc, (float)w, (float)h);
         glBindVertexArray(vao);
@@ -127,6 +125,7 @@ int main() {
             if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
 
             Vector3 position = ballistic.rounds[i].particle.getPosition();
+            float particleForce = SMALL_GRAVITY / ballistic.rounds[i].particle.getInverseMass();
 
             switch (ballistic.rounds[i].type) {
             case Ballistic::PISTOL: glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); break;
@@ -135,10 +134,16 @@ int main() {
             default:                   glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
             }
 
+            keepCircleInFrame(ballistic.rounds[i].particle, ballistic.rounds[i].particle.getRadius(), w, h);
+
+            ballistic.rounds[i].particle.addForce(0, particleForce, 0);
+
+            ballistic.updateRound(dt);
+
             particleVerticies = makeCircleFan(position, ballistic.rounds[i].particle.getRadius(), res);
 
-            glBufferSubData(GL_ARRAY_BUFFER, 0, particleVerticies.size() * sizeof(float), particleVerticies.data());
-            glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)(particleVerticies.size() / 3));
+            glBufferSubData(GL_ARRAY_BUFFER, 0, particleVerticies.size() * sizeof(Vector3), particleVerticies.data());
+            glDrawArrays(GL_POINTS, 0, (GLsizei)(particleVerticies.size()));
         }
 
         glfwSwapBuffers(window);

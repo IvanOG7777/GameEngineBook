@@ -109,7 +109,7 @@ void Ballistic::fire() {
     }
 
     // set the particles default position and reassign its type to currentType
-    rounds[roundIndex].particle.setPosition(300.0f, 200.5f, 0.0f);
+    rounds[roundIndex].particle.setPosition(500.0f, 700.5f, 0.0f);
     rounds[roundIndex].type = currentShotType;
 }
 
