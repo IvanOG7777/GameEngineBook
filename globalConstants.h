@@ -1,3 +1,4 @@
+#pragma once
 constexpr float GLOBAL_TIME = 0.01667f;
 constexpr float PI = 3.14159265358979323846f;
 constexpr float SCREENWIDTH = 1080.0f;

@@ -2,6 +2,7 @@
 #include <thread>
 #include <chrono>
 #include "ballistics.h"
+#include "globalConstants.h"
 
 // default ballistic constructor, when a ballistic object is created
 // rounds is resized to hold 16 AmmoRound structs
@@ -49,7 +50,7 @@ void Ballistic::initializeParticleForAmmoRound(ShotType currentType) { // pass i
         break;
     }
 
-    ammoRound.particle.setPosition(0.0f, 10.5f, 0.0f);
+    ammoRound.particle.setPosition(SCREENHEIGHT / 2.0f, SCREENWIDTH / 2.0f, 0.0f);
     ammoRound.type = currentType;
 }
 
@@ -108,18 +109,18 @@ void Ballistic::fire() {
     }
 
     // set the particles default position and reassign its type to currentType
-    rounds[roundIndex].particle.setPosition(0.0f, 1.5f, 0.0f);
+    rounds[roundIndex].particle.setPosition(300.0f, 200.5f, 0.0f);
     rounds[roundIndex].type = currentShotType;
 }
 
-void Ballistic::updateRound() {
+void Ballistic::updateRound(double &dt) {
 
     for (int i = 0; i < rounds.size(); i++) {
         if (rounds[i].type != UNUSED) {
-            rounds[i].particle.update(0.016f);
+            rounds[i].particle.update(dt);
 
             if (rounds[i].particle.getPosition().y <= 0.0f) {
-                std::cout << "Shot at index: " << i << " has hit the gorund" << std::endl;
+                std::cout << "Shot at index: " << i << " has hit the ground" << std::endl;
                 std::cout << "Setting shot at index: " << i << " to UNUSED" << std::endl;
                 rounds[i].particle.clearAccumulator();
                 rounds[i].particle.clearAllValues();
@@ -131,15 +132,10 @@ void Ballistic::updateRound() {
 
 // function used to check if all rounds within rounds vector are unused
 bool Ballistic::allRoundsUnused() {
-    bool unused = true;
-
     for (int i = 0; i < rounds.size(); i++) {
         if (rounds[i].type != UNUSED) {
-            unused = false;
-            std::cout << "Round at index: " << i << std::endl;
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
-            return unused;
+            return false;
         }
     }
-    return unused;
+    return true;
 }

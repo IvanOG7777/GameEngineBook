@@ -75,26 +75,12 @@ int main() {
     std::vector<Vector3> particleVerticies = makeCircleFan(particle.getPosition(), particle.getRadius(), res);
     GLsizei particleVertexCount = static_cast<GLsizei>(particleVerticies.size());
 
-    std::cout << "Verts.size(): " << particleVerticies.size() << std::endl;
-    std::cout << "Size of Vector3: " << sizeof(Vector3) << std::endl;
-    std::cout << "Size of float: " << sizeof(float) << std::endl;
-    std::cout << "Verts.data(): " << particleVerticies.data() << std::endl;
-
-
     GLuint vao = 0, vbo = 0; // declare two openGL object handles(ID's), initalize to 0 to mean no object yet
     glGenVertexArrays(1, &vao); // generates 1 VAO and stores its ID into vao
     glGenBuffers(1, &vbo); // generates 1 VBO and stores its ID into vbo
 
-    std::cout << std::endl;
-
-    std::cout << "VAO ID: " << vao << std::endl;
-    std::cout << "VBO ID: " << vbo << std::endl;
-    std::cout << std::endl;
     glBindVertexArray(vao); // Binds VAO so all vertex attribute calls will be sotred in current VAO ID
-    GLint bound = 0;
-    glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &bound);
     glBindBuffer(GL_ARRAY_BUFFER, vbo); // makes vbo an active buffer, telling OpenGL where the vertex data will be uploaded and which buffer vertex attributes will read from 
-    std::cout << std::endl;
 
     glBufferData(
         GL_ARRAY_BUFFER, // openGL uses current bound VBO from GL_ARRAY_BUFFER above
@@ -128,11 +114,7 @@ int main() {
         std::cerr << "Uniform Resoluction or Color was not found or optimized" << std::endl;
         return 1;
     }
-    std::cout << "uResolutionLoc: " << uResolutionLoc << std::endl;
-    std::cout << "uColorLoc: " << uColorLoc << std::endl;
     float force = SMALL_GRAVITY / particle.getInverseMass();
-
-    std::cout << "force: " << force << std::endl; 
 
     // glfwWindowShouldClose returns 0 or 1, 0 meaning we are running 1 meaning we stop,
     // so while !0 (1) keep running
