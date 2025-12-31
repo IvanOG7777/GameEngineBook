@@ -42,131 +42,155 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-    GLFWwindow* window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT); // returns an addres in momory for the window
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
+	GLFWwindow* window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT); // returns an addres in momory for the window
+	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cerr << "Failed to init GLAD\n";
-        return 1;
-    }
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		std::cerr << "Failed to init GLAD\n";
+		return 1;
+	}
 
-    GLuint program = createProgram(cirlceVertex, circleFragment);
-    std::cout << "Program: " << program << std::endl;
-    if (!program) return 1;
-    glUseProgram(program);
+	GLuint program = createProgram(cirlceVertex, circleFragment);
+	std::cout << "Program: " << program << std::endl;
+	if (!program) return 1;
+	glUseProgram(program);
 
-    GLint uResolutionLoc = glGetUniformLocation(program, "uResolution");
-    GLint uColorLoc = glGetUniformLocation(program, "uColor");
+	GLint uResolutionLoc = glGetUniformLocation(program, "uResolution");
+	GLint uColorLoc = glGetUniformLocation(program, "uColor");
 
-    GLuint vao = 0, vbo = 0;
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &vbo);
+	GLuint vao = 0, vbo = 0;
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
 
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-    Ballistic ballistic;
-    int res = 100;
-    float baseRadius = 10.0f;
-    Vector3 basePosition;
-    std::vector<Vector3> particleVerticies = makeCircleFan(basePosition, baseRadius, res);
-    glBufferData(
-        GL_ARRAY_BUFFER,
-        particleVerticies.size() * sizeof(Vector3),
-        particleVerticies.data(),
-        GL_DYNAMIC_DRAW
-    );
+	Ballistic ballistic;
+	int key;
+	int res = 100;
+	float baseRadius = 10.0f;
+	Vector3 basePosition;
+	std::vector<Vector3> particleVerticies = makeCircleFan(basePosition, baseRadius, res);
+	glBufferData(
+		GL_ARRAY_BUFFER,
+		particleVerticies.size() * sizeof(Vector3),
+		particleVerticies.data(),
+		GL_DYNAMIC_DRAW
+	);
 
-    glVertexAttribPointer(
-        0,
-        3,
-        GL_FLOAT,
-        GL_FALSE,
-        sizeof(Vector3),
-        (void*)0
-    );
+	glVertexAttribPointer(
+		0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vector3),
+		(void*)0
+	);
 
-    glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(0);
 
-    glBindVertexArray(0);
+	glBindVertexArray(0);
 
-    if (uResolutionLoc == -1 || uColorLoc == -1) {
-        std::cerr << "Uniform Resoluction or Color was not found or optimized" << std::endl;
-        return 1;
-    }
+	if (uResolutionLoc == -1 || uColorLoc == -1) {
+		std::cerr << "Uniform Resoluction or Color was not found or optimized" << std::endl;
+		return 1;
+	}
 
-    ballistic.currentShotType = ballistic.PISTOL; ballistic.fire();
-    ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
-    ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
-    ballistic.currentShotType = ballistic.LASER; ballistic.fire();
-    int checkCounter = 0;
+	ballistic.currentShotType = ballistic.PISTOL; ballistic.fire();
+	ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
+	ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
+	ballistic.currentShotType = ballistic.LASER; ballistic.fire();
+	int checkCounter = 0;
 
-    auto start = std::chrono::high_resolution_clock::now();
-    while (!glfwWindowShouldClose(window)){
-        auto currentTime = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> deltaTime = currentTime - start;
-    start = currentTime;
-    double dt = deltaTime.count(); // seconds
+	bool pWasDown = false;
+	bool aWasDown = false;
+	bool fWasDown = false;
 
-    int w = SCREENWIDTH;
-    int h = SCREENHEIGHT;
+	auto start = std::chrono::high_resolution_clock::now();
+	while (!glfwWindowShouldClose(window)) {
+		auto currentTime = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double> deltaTime = currentTime - start;
+		start = currentTime;
+		double dt = deltaTime.count(); // seconds
 
-    glfwGetFramebufferSize(window, &w, &h);
+		int w = SCREENWIDTH;
+		int h = SCREENHEIGHT;
 
-    glClear(GL_COLOR_BUFFER_BIT);
+		glfwGetFramebufferSize(window, &w, &h);
+		glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(program);
-    glUniform2f(uResolutionLoc, (float)w, (float)h);
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glUseProgram(program);
+		glUniform2f(uResolutionLoc, (float)w, (float)h);
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-    for (int i = 0; i < ballistic.rounds.size(); i++) {
-        if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
-        float particleForceNewtons = SMALL_GRAVITY / ballistic.rounds[i].particle.getInverseMass();
-        ballistic.rounds[i].particle.addForce(0, particleForceNewtons, 0);
-    }
+		bool pDown = glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS;
+		bool aDown = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
+		bool fDown = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
 
-    ballistic.updateRound(dt);
+		if (pDown && !pWasDown) {
+			ballistic.spawnRound(GLFW_KEY_P);
+		}
 
-    resolveCollision(ballistic.rounds);
+		if (aDown && !aWasDown) {
+			ballistic.spawnRound(GLFW_KEY_A);
+		}
 
-    for (int i = 0; i < ballistic.rounds.size(); i++) {
-        if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
+		if (fDown && !fWasDown) {
+			ballistic.spawnRound(GLFW_KEY_F);
+		}
 
-        float particleRadius = ballistic.rounds[i].particle.getRadius();
-        keepCircleInFrame(ballistic.rounds[i].particle, particleRadius, w, h);
+		pWasDown = pDown;
+		aWasDown = aDown;
+		fWasDown = fDown;
 
-        Vector3 particlePosition = ballistic.rounds[i].particle.getPosition();
-        particleVerticies = makeCircleFan(particlePosition, particleRadius, res);
+		for (int i = 0; i < ballistic.rounds.size(); i++) {
+			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
+			float particleForceNewtons = SMALL_GRAVITY / ballistic.rounds[i].particle.getInverseMass();
+			ballistic.rounds[i].particle.addForce(0, particleForceNewtons, 0);
+		}
 
-        switch (ballistic.rounds[i].type) {
-        case Ballistic::PISTOL: glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); break;
-        case Ballistic::ARTILLERY: glUniform3f(uColorLoc, 1.0f, 0.8f, 0.2f); break;
-        case Ballistic::FIREBALL:  glUniform3f(uColorLoc, 1.0f, 0.2f, 0.2f); break;
-        default:                   glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
-        }
+		ballistic.updateRound(dt);
 
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferSubData(
-            GL_ARRAY_BUFFER,
-            0,
-            particleVerticies.size() * sizeof(Vector3),
-            particleVerticies.data()
-        );
+		resolveCollision(ballistic.rounds);
 
-        glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
+		for (int i = 0; i < ballistic.rounds.size(); i++) {
+			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
 
-    }
+			float particleRadius = ballistic.rounds[i].particle.getRadius();
+			keepCircleInFrame(ballistic.rounds[i].particle, particleRadius, w, h);
 
-    glfwSwapBuffers(window);
-    glfwPollEvents();
-    }
+			Vector3 particlePosition = ballistic.rounds[i].particle.getPosition();
+			particleVerticies = makeCircleFan(particlePosition, particleRadius, res);
 
-    glDeleteBuffers(1, &vbo);
-    glDeleteVertexArrays(1, &vao);
-    glDeleteProgram(program);
+			switch (ballistic.rounds[i].type) {
+			case Ballistic::PISTOL: glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); break;
+			case Ballistic::ARTILLERY: glUniform3f(uColorLoc, 1.0f, 0.8f, 0.2f); break;
+			case Ballistic::FIREBALL:  glUniform3f(uColorLoc, 1.0f, 0.2f, 0.2f); break;
+			default:                   glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
+			}
 
-    glfwTerminate();
-    return 0;
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBufferSubData(
+				GL_ARRAY_BUFFER,
+				0,
+				particleVerticies.size() * sizeof(Vector3),
+				particleVerticies.data()
+			);
+
+			glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
+
+		}
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
+	glDeleteProgram(program);
+
+	glfwTerminate();
+	return 0;
 }

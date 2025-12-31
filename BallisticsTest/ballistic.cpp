@@ -145,38 +145,43 @@ bool Ballistic::allRoundsUnused() {
     return true;
 }
 
-void Ballistic::spawnRound(int& key) {
+void Ballistic::spawnRound(int key) {
     Ballistic::AmmoRound round;
-    if (key == 80 || key == 112) { // case for PISTOL
+    if (key == 80) { // case for PISTOL
         round.particle.setMass(2.0f);
         round.particle.setVelocity(-10.0f, 35.0f, 0.0f);
         round.particle.setAcceleration(0.0f, -1.0f, 0.0f);
         round.particle.setDamping(0.99f);
         round.particle.setRadius(2.0f);
         round.particle.setPosition(500.0f, 950.0f, 0.0f);
-
-        Ballistic::rounds.emplace_back(round);
+        Ballistic::currentShotType = Ballistic::PISTOL;
+        round.type == currentShotType;  Ballistic::fire();
+        std::cout << "PISTOL has been added" << std::endl;
     }
 
-    if (key == 65 || key == 97) { // case for ARTILLERY
+    if (key == 65) { // case for ARTILLERY
         round.particle.setMass(200.0f);
         round.particle.setVelocity(-8.0f, 30.0f, 0.0f);
         round.particle.setAcceleration(0.0f, -20.0f, 0.0f);
         round.particle.setDamping(0.99f);
         round.particle.setRadius(10.0f);
         round.particle.setPosition(500.0f, 850.0f, 0.0f);
+        Ballistic::currentShotType = Ballistic::ARTILLERY;
+        round.type == currentShotType;  Ballistic::fire();
 
-        Ballistic::rounds.emplace_back(round);
+        std::cout << "ARTILLERY has been added" << std::endl;
     }
 
-    if (key == 70 || key == 102) { // case for FIREBALL
+    if (key == 70) { // case for FIREBALL
         round.particle.setMass(1.0f);
         round.particle.setVelocity(-10.0f, 10.0f, 0.0f);
         round.particle.setAcceleration(0.0f, -0.6f, 0.0f);
         round.particle.setDamping(0.99f);
         round.particle.setRadius(5.0f);
         round.particle.setPosition(500.0f, 700.0f, 0.0f);
+        Ballistic::currentShotType = Ballistic::FIREBALL;
+        round.type == currentShotType; Ballistic::fire();
 
-        Ballistic::rounds.emplace_back(round);
+        std::cout << "FIREBALL has been added" << std::endl;
     }
 }
