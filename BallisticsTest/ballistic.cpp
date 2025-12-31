@@ -76,26 +76,29 @@ void Ballistic::fire() {
     switch (currentShotType) {
     case PISTOL:
         rounds[roundIndex].particle.setMass(2.0f);
-        rounds[roundIndex].particle.setVelocity(0.0f, 0.0f, 35.0f);
+        rounds[roundIndex].particle.setVelocity(-10.0f, 35.0f, 0.0f);
         rounds[roundIndex].particle.setAcceleration(0.0f, -1.0f, 0.0f);
         rounds[roundIndex].particle.setDamping(0.99f);
         rounds[roundIndex].particle.setRadius(2.0f);
+        rounds[roundIndex].particle.setPosition(500.0f, 950.0f, 0.0f);
         std::cout << "Round at index: " << roundIndex << " has been initlaized to PISTOL" << std::endl;
         break;
     case ARTILLERY:
         rounds[roundIndex].particle.setMass(200.0f);
-        rounds[roundIndex].particle.setVelocity(0.0f, 30.0f, 40.0f);
+        rounds[roundIndex].particle.setVelocity(-8.0f, 30.0f, 0.0f);
         rounds[roundIndex].particle.setAcceleration(0.0f, -20.0f, 0.0f);
         rounds[roundIndex].particle.setDamping(0.99f);
         rounds[roundIndex].particle.setRadius(10.0f);
+        rounds[roundIndex].particle.setPosition(500.0f, 850.0f, 0.0f);
         std::cout << "Round at index: " << roundIndex << " has been initlaized ARTILLERY" << std::endl;
         break;
     case FIREBALL:
         rounds[roundIndex].particle.setMass(1.0f);
-        rounds[roundIndex].particle.setVelocity(0.0f, 0.0f, 10.0f);
+        rounds[roundIndex].particle.setVelocity(-10.0f, 10.0f, 0.0f);
         rounds[roundIndex].particle.setAcceleration(0.0f, -0.6f, 0.0f);
         rounds[roundIndex].particle.setDamping(0.99f);
         rounds[roundIndex].particle.setRadius(5.0f);
+        rounds[roundIndex].particle.setPosition(500.0f, 700.0f, 0.0f);
         std::cout << "Round at index: " << roundIndex << " has been initlaized FIREBALL" << std::endl;
         break;
     case LASER:
@@ -109,7 +112,6 @@ void Ballistic::fire() {
     }
 
     // set the particles default position and reassign its type to currentType
-    rounds[roundIndex].particle.setPosition(500.0f, 700.0f, 0.0f);
     rounds[roundIndex].type = currentShotType;
 }
 

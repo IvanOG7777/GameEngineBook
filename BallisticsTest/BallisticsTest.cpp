@@ -100,19 +100,6 @@ int main() {
     ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
     ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
     int checkCounter = 0;
-    for (size_t i = 0; i < ballistic.rounds.size(); i++) {
-        for (size_t j = i + 1; j < ballistic.rounds.size(); j++) {
-            if (circleCollision(ballistic.rounds[i], ballistic.rounds[j])) {
-                checkCounter++;
-                std::cout << "Object with radius: " << ballistic.rounds[i].particle.getRadius()
-                << " has hit Object with radius: " << ballistic.rounds[j].particle.getRadius()
-                    << std::endl;
-            }
-        }
-    }
-
-    std::cout << "We did " << checkCounter << " checks for collision" << std::endl;
-
 
     auto start = std::chrono::high_resolution_clock::now();
     while (!glfwWindowShouldClose(window)){
@@ -138,6 +125,17 @@ int main() {
 
     Vector3 position = ballistic.rounds[i].particle.getPosition();
     float particleForce = SMALL_GRAVITY / ballistic.rounds[i].particle.getInverseMass();
+    ballistic.rounds[i].particle.addForce(0, particleForce, 0);
+    ballistic.updateRound(dt);
+
+    for (int j = i + 1; j < ballistic.rounds.size(); j++) {
+        if (circleCollision(ballistic.rounds[i], ballistic.rounds[j])) {
+            std::cout << ballistic.rounds[i].type << " has hit " << ballistic.rounds[j].type << std::endl;
+            resolveCollision(ballistic.rounds[i], ballistic.rounds[j]);
+        }
+    }
+
+    keepCircleInFrame(ballistic.rounds[i].particle, ballistic.rounds[i].particle.getRadius(), w, h);
 
     switch (ballistic.rounds[i].type) {
     case Ballistic::PISTOL: glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); break;
@@ -146,11 +144,6 @@ int main() {
     default:                   glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
     }
 
-    keepCircleInFrame(ballistic.rounds[i].particle, ballistic.rounds[i].particle.getRadius(), w, h);
-
-    ballistic.rounds[i].particle.addForce(0, particleForce, 0);
-
-    ballistic.updateRound(dt);
 
     particleVerticies = makeCircleFan(position, ballistic.rounds[i].particle.getRadius(), res);
 
