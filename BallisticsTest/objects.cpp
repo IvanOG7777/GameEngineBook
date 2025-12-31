@@ -83,7 +83,7 @@ void resolveCollision(std::vector<Ballistic::AmmoRound>& rounds) {
 				Vector3 directionalVector = round2.particle.getPosition() - round1.particle.getPosition();
 				float directionalVectorLength = directionalVector.magnitude();
 
-				if (directionalVectorLength == 0.0f) return;
+				if (directionalVectorLength == 0.0f) continue;
 
 				Vector3 unitNormal = directionalVector / directionalVectorLength;
 
@@ -92,7 +92,7 @@ void resolveCollision(std::vector<Ballistic::AmmoRound>& rounds) {
 
 				float overlap = (radius1 + radius2) - directionalVectorLength;
 
-				if (overlap <= 0.0f) return;
+				if (overlap <= 0.0f) continue;
 
 				float correction = overlap * 0.5f;
 
@@ -112,9 +112,7 @@ void resolveCollision(std::vector<Ballistic::AmmoRound>& rounds) {
 
 				float velocityNormal = relativeVelocity.scalarProduct(unitNormal);
 
-				if (velocityNormal > 0) {
-					return;
-				}
+				if (velocityNormal > 0) continue;
 
 				float jImpulse = -(1 + e) * velocityNormal / (round1.particle.getInverseMass() + round2.particle.getInverseMass());
 

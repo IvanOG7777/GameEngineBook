@@ -35,4 +35,6 @@ public:
     void updateRound(double &dt);
     // function used to check if slots within rounds vector are all UNUSED
     bool allRoundsUnused();
+
+    void spawnRound(int& key);
 };

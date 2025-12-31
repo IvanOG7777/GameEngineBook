@@ -99,6 +99,7 @@ int main() {
     ballistic.currentShotType = ballistic.PISTOL; ballistic.fire();
     ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
     ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
+    ballistic.currentShotType = ballistic.LASER; ballistic.fire();
     int checkCounter = 0;
 
     auto start = std::chrono::high_resolution_clock::now();
