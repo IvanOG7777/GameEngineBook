@@ -91,6 +91,23 @@ void resolveCollision(Ballistic::AmmoRound& round1, Ballistic::AmmoRound& round2
 	round1.particle.setPosition(position1);
 	round2.particle.setPosition(position2);
 
+	Vector3 v1 = round1.particle.getVelocity();
+	Vector3 v2 = round2.particle.getVelocity();
+
+	Vector3 relativeVelocity = round2.particle.getVelocity() - round1.particle.getVelocity();
+
+	float velocityNormal = relativeVelocity.scalarProduct(unitNormal);
+
+	if (velocityNormal > 0) {
+		return;
+	}
+
+	float j = -(1 + e) * velocityNormal / (round1.particle.getInverseMass() + round2.particle.getInverseMass());
+
+	Vector3 impulse = unitNormal * j;
+
+	round1.particle.setVelocity(v1 - (impulse * round1.particle.getInverseMass()));
+	round2.particle.setVelocity(v2 + (impulse * round2.particle.getInverseMass()));
 }
 
 bool circleCollision(Ballistic::AmmoRound &round1, Ballistic::AmmoRound &round2) {

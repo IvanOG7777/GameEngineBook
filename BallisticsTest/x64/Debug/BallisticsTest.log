@@ -1,4 +1,6 @@
-﻿  BallisticsTest.cpp
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(45,55): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(45,42): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+﻿  ballistic.cpp
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(7,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  (compiling source file 'ballistic.cpp')
+  
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(120,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   BallisticsTest.vcxproj -> C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\x64\Debug\BallisticsTest.exe
