@@ -6,4 +6,9 @@ C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\Ballis
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(45,42): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(111,11): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(112,11): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+  objects.cpp
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(7,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  (compiling source file 'objects.cpp')
+  
+  Generating Code...
   BallisticsTest.vcxproj -> C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\x64\Debug\BallisticsTest.exe

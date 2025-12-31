@@ -121,34 +121,41 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
     for (int i = 0; i < ballistic.rounds.size(); i++) {
-    if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
+        if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
+        float particleForceNewtons = SMALL_GRAVITY / ballistic.rounds[i].particle.getInverseMass();
+        ballistic.rounds[i].particle.addForce(0, particleForceNewtons, 0);
+    }
 
-    Vector3 position = ballistic.rounds[i].particle.getPosition();
-    float particleForce = SMALL_GRAVITY / ballistic.rounds[i].particle.getInverseMass();
-    ballistic.rounds[i].particle.addForce(0, particleForce, 0);
     ballistic.updateRound(dt);
 
-    for (int j = i + 1; j < ballistic.rounds.size(); j++) {
-        if (circleCollision(ballistic.rounds[i], ballistic.rounds[j])) {
-            std::cout << ballistic.rounds[i].type << " has hit " << ballistic.rounds[j].type << std::endl;
-            resolveCollision(ballistic.rounds[i], ballistic.rounds[j]);
+    resolveCollision(ballistic.rounds);
+
+    for (int i = 0; i < ballistic.rounds.size(); i++) {
+        if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
+
+        float particleRadius = ballistic.rounds[i].particle.getRadius();
+        keepCircleInFrame(ballistic.rounds[i].particle, particleRadius, w, h);
+
+        Vector3 particlePosition = ballistic.rounds[i].particle.getPosition();
+        particleVerticies = makeCircleFan(particlePosition, particleRadius, res);
+
+        switch (ballistic.rounds[i].type) {
+        case Ballistic::PISTOL: glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); break;
+        case Ballistic::ARTILLERY: glUniform3f(uColorLoc, 1.0f, 0.8f, 0.2f); break;
+        case Ballistic::FIREBALL:  glUniform3f(uColorLoc, 1.0f, 0.2f, 0.2f); break;
+        default:                   glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
         }
-    }
 
-    keepCircleInFrame(ballistic.rounds[i].particle, ballistic.rounds[i].particle.getRadius(), w, h);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferSubData(
+            GL_ARRAY_BUFFER,
+            0,
+            particleVerticies.size() * sizeof(Vector3),
+            particleVerticies.data()
+        );
 
-    switch (ballistic.rounds[i].type) {
-    case Ballistic::PISTOL: glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); break;
-    case Ballistic::ARTILLERY: glUniform3f(uColorLoc, 1.0f, 0.8f, 0.2f); break;
-    case Ballistic::FIREBALL:  glUniform3f(uColorLoc, 1.0f, 0.2f, 0.2f); break;
-    default:                   glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
-    }
+        glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
 
-
-    particleVerticies = makeCircleFan(position, ballistic.rounds[i].particle.getRadius(), res);
-
-    glBufferSubData(GL_ARRAY_BUFFER, 0, particleVerticies.size() * sizeof(Vector3), particleVerticies.data());
-    glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)(particleVerticies.size()));
     }
 
     glfwSwapBuffers(window);
