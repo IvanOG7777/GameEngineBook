@@ -1,4 +1,8 @@
+#include <cassert>
+
+
 #include "objects.h"
+#include "ballistics.h"
 
 std::vector <Vector3> makeCircleFan(Vector3 center, float radius, int res) {
 	std::vector <Vector3> verticies;
@@ -59,4 +63,46 @@ void keepCircleInFrame(Particle& particle, float radius, int& windowWidth, int& 
 	// set the new position and velocity to the particle
 	particle.setPosition(p.x, p.y, p.z);
 	particle.setVelocity(v.x, v.y, v.z);
+}
+
+void resolveCollision(Ballistic::AmmoRound& round1, Ballistic::AmmoRound& round2) {
+	Vector3 directionalVector = round2.particle.getPosition() - round1.particle.getPosition();
+	float directionalVectorLength = directionalVector.magnitude();
+
+	if (directionalVectorLength == 0.0f) return;
+
+	Vector3 unitNormal = directionalVector / directionalVectorLength;
+
+	float radius1 = round1.particle.getRadius();
+	float radius2 = round2.particle.getRadius();
+
+	float overlap = (radius1 + radius2) - directionalVectorLength;
+
+	if (overlap <= 0.0f) return;
+
+	float correction = overlap * 0.5f;
+
+	Vector3 position1 = round1.particle.getPosition();
+	Vector3 position2 = round2.particle.getPosition();
+
+	position1 -= unitNormal * correction;
+	position2 += unitNormal * correction;
+
+	round1.particle.setPosition(position1);
+	round2.particle.setPosition(position2);
+
+}
+
+bool circleCollision(Ballistic::AmmoRound &round1, Ballistic::AmmoRound &round2) {
+	float distanceX = round1.particle.getPosition().x - round2.particle.getPosition().x;
+	float distanceY = round1.particle.getPosition().y - round2.particle.getPosition().y;
+
+	float realDistance = std::sqrtf((distanceX * distanceX) + (distanceY * distanceY));
+
+	if (realDistance <= (round1.particle.getRadius() + round2.particle.getRadius())) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }

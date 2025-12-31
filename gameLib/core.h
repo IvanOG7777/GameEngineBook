@@ -163,6 +163,21 @@ public:
         };
     }
 
+    Vector3 operator/(const Vector3& vector) const {
+        return { x / vector.x, y / vector.y, z / vector.z };
+    }
+
+    void operator/=(const Vector3& vector) {
+        // divide all components to *this vector object
+        x /= vector.x;
+        y /= vector.y;
+        z /= vector.z;
+    }
+
+    Vector3 operator/(const float &val) const {
+        return { x / val, y / val, z / val };
+    }
+
     void makeOrthoNormalBasis(Vector3* a, Vector3* b, Vector3* c) {
         a->normalize();
         (*c) = (*a) % (*b);
