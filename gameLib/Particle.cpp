@@ -59,7 +59,7 @@ void Particle::setPosition(float x, float y, float z) {
     position.z = z;
 }
 
-Vector3 Particle::getPosition() const {
+const Vector3& Particle::getPosition() const {
     return position;
 }
 
@@ -79,7 +79,7 @@ void Particle::setVelocity(float x, float y, float z) {
     velocity.y = y;
     velocity.z = z;
 }
-Vector3 Particle::getVelocity() const {
+const Vector3& Particle::getVelocity() const {
     return velocity;
 }
 
@@ -100,7 +100,7 @@ void Particle::setAcceleration(float x, float y, float z) {
     acceleration.z = z;
 }
 
-Vector3 Particle::getAcceleration() const {
+const Vector3& Particle::getAcceleration() const {
     return acceleration;
 }
 
@@ -116,7 +116,8 @@ void Particle::printAcceleration() {
 void Particle::setDamping(const float passedDamping) {
     damping = passedDamping;
 }
-float Particle::getDamping() {
+
+const float& Particle::getDamping() {
     return damping;
 }
 
@@ -134,11 +135,11 @@ void Particle::setMass(const float passedMass) {
     }
 }
 
-float Particle::getInverseMass() const {
+const float& Particle::getInverseMass() const {
     return inverseMass;
 }
 
-float Particle::getMass() const {
+const float& Particle::getMass() const {
     return mass;
 }
 ////////////////////////////////////////////////////////////
@@ -154,7 +155,7 @@ void Particle::setKineticEnergy() {
         kinetic = (powf(velocityMagnitude, 2)) / (2 * inverseMass);
     }
 }
-float Particle::getKineticEnergy() const {
+const float& Particle::getKineticEnergy() const {
     return kinetic;
 }
 ////////////////////////////////////////////////////////////
@@ -163,7 +164,7 @@ float Particle::getKineticEnergy() const {
 void Particle::setRadius(float passedRadius) {
     radius = passedRadius;
 }
-float Particle::getRadius() {
+const float& Particle::getRadius() {
     return radius;
 }
 ////////////////////////////////////////////////////////////
@@ -206,3 +207,9 @@ void Particle::clearAllValues() {
 void Particle::update(float time) {
     integrate(time);
 }
+
+/*NOTES
+* For the current getters /CONST *returnType functionName CONST\
+* The first const means you can read value but you cant modify it
+* The second const promises the function NOT to modify the object
+/*/
