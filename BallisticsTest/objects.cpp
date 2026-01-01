@@ -80,23 +80,32 @@ void keepCircleInFrame(Particle& particle, float radius, int& windowWidth, int& 
 
 
 // Loops over all rounds
-// ITs ok for now since our test cases are small but with more particles we will be doing many uncessacery collision checks
+// Its ok for now since our test cases are small but with more particles we will be doing many uncessacery collision checks
+// Tested with about 1000 particles and frames droped from around 160 to 30
+// we need to change this to a sweep and prune algorithim or kd-trees or something similar
 void resolveCollision(std::vector<Ballistic::AmmoRound>& rounds) {
 
+	// Doing a nested for loop
+	// Each object needs to check all other objects within the vector
 	for (int i = 0; i < rounds.size(); i++) {
-		if (rounds[i].type == Ballistic::UNUSED) continue;
+		if (rounds[i].type == Ballistic::UNUSED) continue; // if current rounds[i] type is UNUSED skip it
 		for (int j = i + 1; j < rounds.size(); j++) {
-			if (rounds[j].type == Ballistic::UNUSED) continue;
+			if (rounds[j].type == Ballistic::UNUSED) continue; // if current rounds[j] type is UNUSED skip it
 
+			// grab a reference of objects at i and j
+			// assign to round1 and round2 respectivly
 			Ballistic::AmmoRound &round1 = rounds[i];
 			Ballistic::AmmoRound &round2 = rounds[j];
 
+			// if circleCollison returns false no collison continue to the next J index
+			// if circleCollison returns true execute code below
 			if (!circleCollision(round1, round2)) continue;
 
-				Vector3 directionalVector = round2.particle.getPosition() - round1.particle.getPosition();
-				float directionalVectorLength = directionalVector.magnitude();
+				// compute the directionlVector
+				Vector3 directionalVector = round2.particle.getPosition() - round1.particle.getPosition(); // calculates the vector it takes to get from r2 to r1
+				float directionalVectorLength = directionalVector.magnitude(); // calculates the length it takes to get from r2 to r1 in a stright line
 
-				if (directionalVectorLength == 0.0f) continue;
+				if (directionalVectorLength == 0.0f) continue; // check if the length is equal to 0 if it is we move to next j index
 
 				Vector3 unitNormal = directionalVector / directionalVectorLength;
 
@@ -145,12 +154,16 @@ void resolveCollision(std::vector<Ballistic::AmmoRound>& rounds) {
 bool circleCollision(Ballistic::AmmoRound &round1, Ballistic::AmmoRound &round2) {
 
 	// calculations for distance between x and y axis of both rounds
-	float distanceX = round1.particle.getPosition().x - round2.particle.getPosition().x; //
-	float distanceY = round1.particle.getPosition().y - round2.particle.getPosition().y;
+	float distanceX = round1.particle.getPosition().x - round2.particle.getPosition().x; // grab round1 x position and subtract by round2 x position, This givesus the distance int the x direction between rounds
+	float distanceY = round1.particle.getPosition().y - round2.particle.getPosition().y; // grab round1 x position and subtract by round2 y position, This givesus the distance int the y direction between rounds
 
-	float realDistance = std::sqrtf((distanceX * distanceX) + (distanceY * distanceY));
+	// this calculates the real distance between the circles
+	float realDistance = std::sqrtf((distanceX * distanceX) + (distanceY * distanceY)); // we take the sqrt(distanceX^2 + distanceY^2) to get real distance
 
-	if (realDistance <= (round1.particle.getRadius() + round2.particle.getRadius())) return true;
+	// check if the realDistance is small than or equal to the sum of both rounds radiuses.
+	// This means that the objects are either touching or inside of eachother
+	if (realDistance <= (round1.particle.getRadius() + round2.particle.getRadius())) return true; // return true that we have collided
 	
-	return false;
+	// if all else above doesnt return true
+	return false; // return false we have not collided
 }

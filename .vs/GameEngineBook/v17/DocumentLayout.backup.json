@@ -7,16 +7,12 @@
       "RelativeMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|solutionrelative:BallisticsTest\\objects.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\ballistic.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|solutionrelative:BallisticsTest\\ballistic.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\BallisticsTest.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|solutionrelative:BallisticsTest\\BallisticsTest.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\objects.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|solutionrelative:BallisticsTest\\objects.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\ballistic.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|solutionrelative:BallisticsTest\\ballistic.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\ballistics.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -25,6 +21,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\globalConstants.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|solutionrelative:BallisticsTest\\globalConstants.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\GAMELIB\\PARTICLE.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|solutionrelative:GAMELIB\\PARTICLE.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\gameLib\\Particle.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|solutionrelative:gameLib\\Particle.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\objects.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{90DB309B-08A4-4BDA-9430-9F29D0624471}|BallisticsTest\\BallisticsTest.vcxproj|solutionrelative:BallisticsTest\\objects.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1B27DCEA-78CD-4502-803B-A5230CE500C6}|GameEngineBook.vcxproj|C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Engine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -38,11 +46,11 @@
       "DocumentGroups": [
         {
           "DockedHeight": 257,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "objects.h",
               "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\objects.h",
               "RelativeDocumentMoniker": "BallisticsTest\\objects.h",
@@ -51,12 +59,37 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-12-31T03:27:12.844Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Particle.h",
+              "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\gameLib\\Particle.h",
+              "RelativeDocumentMoniker": "gameLib\\Particle.h",
+              "ToolTip": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\gameLib\\Particle.h",
+              "RelativeToolTip": "gameLib\\Particle.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-01-01T19:18:07.588Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Particle.cpp",
+              "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\gameLib\\Particle.cpp",
+              "RelativeDocumentMoniker": "gameLib\\Particle.cpp",
+              "ToolTip": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\gameLib\\Particle.cpp",
+              "RelativeToolTip": "gameLib\\Particle.cpp",
+              "ViewState": "AgIAACUAAAAAAAAAAAAQwFUAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-01T19:16:17.423Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -66,14 +99,14 @@
               "RelativeDocumentMoniker": "BallisticsTest\\objects.cpp",
               "ToolTip": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\objects.cpp",
               "RelativeToolTip": "BallisticsTest\\objects.cpp",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAAAJYAAABeAAAAAAAAAA==",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAGYAAABhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-12-31T21:31:13.841Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "globalConstants.h",
               "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\globalConstants.h",
               "RelativeDocumentMoniker": "BallisticsTest\\globalConstants.h",
@@ -81,11 +114,12 @@
               "RelativeToolTip": "BallisticsTest\\globalConstants.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-31T07:03:09.772Z"
+              "WhenOpened": "2025-12-31T07:03:09.772Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "ballistics.h",
               "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\ballistics.h",
               "RelativeDocumentMoniker": "BallisticsTest\\ballistics.h",
@@ -93,24 +127,25 @@
               "RelativeToolTip": "BallisticsTest\\ballistics.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-31T21:30:37.239Z"
+              "WhenOpened": "2025-12-31T21:30:37.239Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ballistic.cpp",
               "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\ballistic.cpp",
               "RelativeDocumentMoniker": "BallisticsTest\\ballistic.cpp",
               "ToolTip": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\ballistic.cpp",
               "RelativeToolTip": "BallisticsTest\\ballistic.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAA0AAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-12-27T17:02:37.203Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "BallisticsTest.cpp",
               "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\BallisticsTest.cpp",
               "RelativeDocumentMoniker": "BallisticsTest\\BallisticsTest.cpp",
@@ -154,7 +189,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Engine.cpp",
               "DocumentMoniker": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\Engine.cpp",
               "RelativeDocumentMoniker": "Engine.cpp",
