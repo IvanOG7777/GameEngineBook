@@ -45,7 +45,7 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 257,
+          "DockedHeight": 333,
           "SelectedChildIndex": 4,
           "Children": [
             {
@@ -75,8 +75,7 @@
               "RelativeToolTip": "gameLib\\Particle.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-01-01T19:18:07.588Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-01T19:18:07.588Z"
             },
             {
               "$type": "Document",
@@ -88,8 +87,7 @@
               "RelativeToolTip": "gameLib\\Particle.cpp",
               "ViewState": "AgIAACUAAAAAAAAAAAAQwFUAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-01-01T19:16:17.423Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-01T19:16:17.423Z"
             },
             {
               "$type": "Document",
@@ -99,7 +97,7 @@
               "RelativeDocumentMoniker": "BallisticsTest\\objects.cpp",
               "ToolTip": "C:\\Users\\elder\\OneDrive\\Desktop\\C\u002B\u002BProjects\\GameEngineBook\\BallisticsTest\\objects.cpp",
               "RelativeToolTip": "BallisticsTest\\objects.cpp",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAAGYAAABhAAAAAAAAAA==",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAAAJQAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-12-31T21:31:13.841Z",
               "EditorCaption": ""
@@ -114,8 +112,7 @@
               "RelativeToolTip": "BallisticsTest\\globalConstants.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-31T07:03:09.772Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-31T07:03:09.772Z"
             },
             {
               "$type": "Document",
@@ -127,8 +124,7 @@
               "RelativeToolTip": "BallisticsTest\\ballistics.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-12-31T21:30:37.239Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-31T21:30:37.239Z"
             },
             {
               "$type": "Document",
@@ -140,8 +136,7 @@
               "RelativeToolTip": "BallisticsTest\\ballistic.cpp",
               "ViewState": "AgIAAA8AAAAAAAAAAAAAAA0AAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-27T17:02:37.203Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-27T17:02:37.203Z"
             },
             {
               "$type": "Document",
@@ -153,13 +148,12 @@
               "RelativeToolTip": "BallisticsTest\\BallisticsTest.cpp",
               "ViewState": "AgIAAIIAAAAAAAAAAAAQwJsAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-12-27T17:43:12.715Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-27T17:43:12.715Z"
             }
           ]
         },
         {
-          "DockedHeight": 143,
+          "DockedHeight": 67,
           "SelectedChildIndex": -1,
           "Children": [
             {

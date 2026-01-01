@@ -107,39 +107,62 @@ void resolveCollision(std::vector<Ballistic::AmmoRound>& rounds) {
 
 				if (directionalVectorLength == 0.0f) continue; // check if the length is equal to 0 if it is we move to next j index
 
-				Vector3 unitNormal = directionalVector / directionalVectorLength;
+				Vector3 unitNormal = directionalVector / directionalVectorLength; // calculate the unit normal vector of (directional vector) / directionalLength
+				// this vector only conserves the direction of where the objects need to do after collison.
 
+				// grab each particles radius
 				float radius1 = round1.particle.getRadius();
 				float radius2 = round2.particle.getRadius();
 
+				// calculate thier overlap
+				// radius1 + radius2 the distance where circles would just touch
+				// directionalVectorLength the actual distance between centers
 				float overlap = (radius1 + radius2) - directionalVectorLength;
 
+				// if overlap is seperated (<) or just touching (=), continue to next index
 				if (overlap <= 0.0f) continue;
 
+				// calculate the correction for the overlap
 				float correction = overlap * 0.5f;
 
+				// create new positon vectors to edit
 				Vector3 position1 = round1.particle.getPosition();
 				Vector3 position2 = round2.particle.getPosition();
 
+				// seperation the particles through the unitNormal vector
+				// Ex if they hit directly on the x axis, one will go left and the other to the right
 				position1 -= unitNormal * correction;
 				position2 += unitNormal * correction;
 
+				// pass the new postions to the actual object
 				round1.particle.setPosition(position1);
 				round2.particle.setPosition(position2);
 
+				// create new velocity vectors to edit
 				Vector3 v1 = round1.particle.getVelocity();
 				Vector3 v2 = round2.particle.getVelocity();
 
-				Vector3 relativeVelocity = round2.particle.getVelocity() - round1.particle.getVelocity();
+				// Calculate the relative velocity between the two
+				// Think of it as how is round2 moving compared to round1
+				//If both move together the relative velocity = 0
+				// If they move toward each other the relative velocity points inward
+				// If they move away from each other the relative velocity points outward
+				Vector3 relativeVelocity = v2 - v1;
 
+				//calculate the velocity Normal vector by scaling each component by unitNormal vector and returing sum
 				float velocityNormal = relativeVelocity.scalarProduct(unitNormal);
 
+				// velocityNormal greater than 0 means objects are moving away from eachother along the collision axis
 				if (velocityNormal > 0) continue;
 
+				// calculate the impulse scaler'
+				// smaller jImpulse values means a soft collisions
+				// larger jImpulse values means Bouncy collisions
 				float jImpulse = -(1 + e) * velocityNormal / (round1.particle.getInverseMass() + round2.particle.getInverseMass());
 
-				Vector3 impulse = unitNormal * jImpulse;
+				Vector3 impulse = unitNormal * jImpulse; // calculate the impulse vector by scaling the unitNormal vector(vector the objects will be moving in
 
+				// set each particles new velocities
 				round1.particle.setVelocity(v1 - (impulse * round1.particle.getInverseMass()));
 				round2.particle.setVelocity(v2 + (impulse * round2.particle.getInverseMass()));
 		}
