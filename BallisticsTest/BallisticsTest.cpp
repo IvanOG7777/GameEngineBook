@@ -106,13 +106,14 @@ int main() {
 	bool pWasDown = false;
 	bool aWasDown = false;
 	bool fWasDown = false;
-
+	double maxDt = 1.0 / 180.0;
 	auto start = std::chrono::high_resolution_clock::now();
 	while (!glfwWindowShouldClose(window)) {
 		auto currentTime = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> deltaTime = currentTime - start;
 		start = currentTime;
 		double dt = deltaTime.count(); // seconds
+		if (dt > maxDt) dt = maxDt;
 
 		int w = SCREENWIDTH;
 		int h = SCREENHEIGHT;
@@ -148,10 +149,10 @@ int main() {
 		for (int i = 0; i < ballistic.rounds.size(); i++) {
 			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
 			float particleForceNewtons = SMALL_GRAVITY / ballistic.rounds[i].particle.getInverseMass();
-			ballistic.rounds[i].particle.addForce(0, particleForceNewtons, 0);
+			ballistic.rounds[i].particle.addForce(-10, particleForceNewtons, 0);
 		}
 
-		ballistic.updateRound(dt);
+		ballistic.updateRound(maxDt);
 
 		resolveCollision(ballistic.rounds);
 

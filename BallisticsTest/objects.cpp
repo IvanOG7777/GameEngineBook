@@ -53,24 +53,24 @@ void keepCircleInFrame(Particle& particle, float radius, int& windowWidth, int& 
 	// if p.x is less than the minX
 	if (p.x < minX) {
 		p.x = minX; // swap current x position with minX
-		v.x = -v.x; // reverse the x veclocity
+		v.x = -v.x * e; // reverse the x veclocity
 	}
 	// if p.x is less than the minX
 	if (p.x > maxX) {
 		p.x = maxX; // swap current x position with maxX
-		v.x = -v.x; // reverse the x veclocity
+		v.x = -v.x * e; // reverse the x veclocity
 	}
 
 	// Bottom / Top
 	// if p.y is less than the minY
 	if (p.y < minY) {
 		p.y = minY; // swap current y position with minY
-		v.y = -v.y; // reverse the y veclocity
+		v.y = -v.y * e; // reverse the y veclocity
 	}
 	// if p.y is more than the maxY
 	if (p.y > maxY) {
 		p.y = maxY; // swap current y position with maxY
-		v.y = -v.y; // reverse the y veclocity
+		v.y = -v.y * e; // reverse the y veclocity
 	}
 
 	// set the new position and velocity to the particle
