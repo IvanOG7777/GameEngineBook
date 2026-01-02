@@ -1,62 +1,12 @@
-﻿  glad.c
-  Engine.cpp
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(1,17): error C2374: 'GLOBAL_TIME': redefinition; multiple initialization
-  (compiling source file 'Engine.cpp')
-      C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(1,17):
-      see declaration of 'GLOBAL_TIME'
-  
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(1,17): error C2086: 'const float GLOBAL_TIME': redefinition
-  (compiling source file 'Engine.cpp')
-      C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(1,17):
-      see declaration of 'GLOBAL_TIME'
-  
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(2,17): error C2374: 'PI': redefinition; multiple initialization
-  (compiling source file 'Engine.cpp')
-      C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(2,17):
-      see declaration of 'PI'
-  
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(2,17): error C2086: 'const float PI': redefinition
-  (compiling source file 'Engine.cpp')
-      C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(2,17):
-      see declaration of 'PI'
-  
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(3,17): error C2374: 'SCREENWIDTH': redefinition; multiple initialization
-  (compiling source file 'Engine.cpp')
-      C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(3,17):
-      see declaration of 'SCREENWIDTH'
-  
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(3,17): error C2086: 'const float SCREENWIDTH': redefinition
-  (compiling source file 'Engine.cpp')
-      C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(3,17):
-      see declaration of 'SCREENWIDTH'
-  
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(4,17): error C2374: 'SCREENHEIGHT': redefinition; multiple initialization
-  (compiling source file 'Engine.cpp')
-      C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(4,17):
-      see declaration of 'SCREENHEIGHT'
-  
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(4,17): error C2086: 'const float SCREENHEIGHT': redefinition
-  (compiling source file 'Engine.cpp')
-      C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(4,17):
-      see declaration of 'SCREENHEIGHT'
-  
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(5,17): error C2374: 'SMALL_GRAVITY': redefinition; multiple initialization
-  (compiling source file 'Engine.cpp')
-      C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(5,17):
-      see declaration of 'SMALL_GRAVITY'
-  
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(5,17): error C2086: 'const float SMALL_GRAVITY': redefinition
-  (compiling source file 'Engine.cpp')
-      C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\globalConstants.h(5,17):
-      see declaration of 'SMALL_GRAVITY'
-  
+﻿  Engine.cpp
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(50,55): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(50,42): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(71,25): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(148,15): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(149,15): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(159,25): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(130,15): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(131,15): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Engine.cpp(141,25): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Particle.cpp
   objects.cpp
   windowFunctions.cpp
   Generating Code...
+  GameEngineBook.vcxproj -> C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\x64\Debug\GameEngineBook.exe

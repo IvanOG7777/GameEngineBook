@@ -152,7 +152,7 @@ int main() {
 			ballistic.rounds[i].particle.addForce(-10, particleForceNewtons, 0);
 		}
 
-		ballistic.updateRound(maxDt);
+		ballistic.updateRound(dt);
 
 		resolveCollision(ballistic.rounds);
 
@@ -160,7 +160,8 @@ int main() {
 			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
 
 			float particleRadius = ballistic.rounds[i].particle.getRadius();
-			keepCircleInFrame(ballistic.rounds[i].particle, particleRadius, w, h);
+			/*keepCircleInFrame(ballistic.rounds[i].particle, w, h);*/
+			sweptBounds(ballistic.rounds[i].particle, dt, w, h);
 
 			Vector3 particlePosition = ballistic.rounds[i].particle.getPosition();
 			particleVerticies = makeCircleFan(particlePosition, particleRadius, res);

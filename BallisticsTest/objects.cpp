@@ -1,4 +1,7 @@
 #include <cassert>
+#include <iostream>
+#include <thread>
+#include <chrono>
 
 
 #include "objects.h"
@@ -39,7 +42,8 @@ std::vector <Vector3> makeCircleFan(Vector3 center, float radius, int res) {
 // Pass in a particle object by reference
 // Pass in the radis of particle
 // Pass in the window height and width
-void keepCircleInFrame(Particle& particle, float radius, int& windowWidth, int& windowHeight) {
+void keepCircleInFrame(Particle& particle, int& windowWidth, int& windowHeight) {
+	float radius = particle.getRadius();
 	// Set the min x/y and max x/y values of the particle
 	float minX = radius; // Min x is radius
 	float maxX = static_cast<float>(windowWidth) - radius; // max is is the windowWidth - radius
@@ -74,6 +78,42 @@ void keepCircleInFrame(Particle& particle, float radius, int& windowWidth, int& 
 	}
 
 	// set the new position and velocity to the particle
+	particle.setPosition(p.x, p.y, p.z);
+	particle.setVelocity(v.x, v.y, v.z);
+}
+
+void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHeight) {
+	float radius = particle.getRadius();
+	Vector3 p = particle.getPosition();
+	Vector3 v = particle.getVelocity();
+
+	float maxX = static_cast<float>(windowWidth) - radius;
+	float minX = radius;
+	float maxY = static_cast<float>(windowHeight) - radius;
+	float minY = radius;
+
+
+	
+
+
+
+	if (p.x < minX) {
+		p.x = minX; // swap current x position with minX
+		v.x = -v.x * e; // reverse the x veclocity
+	}
+
+	// Bottom / Top
+	// if p.y is less than the minY
+	if (p.y < minY) {
+		p.y = minY; // swap current y position with minY
+		v.y = -v.y * e; // reverse the y veclocity
+	}
+	// if p.y is more than the maxY
+	if (p.y > maxY) {
+		p.y = maxY; // swap current y position with maxY
+		v.y = -v.y * e; // reverse the y veclocity
+	}
+
 	particle.setPosition(p.x, p.y, p.z);
 	particle.setVelocity(v.x, v.y, v.z);
 }
