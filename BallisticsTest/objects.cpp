@@ -92,26 +92,71 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 	float maxY = static_cast<float>(windowHeight) - radius;
 	float minY = radius;
 
+	// moving to the right
+	if (v.x > 0.0f) {
+		double tHit = (maxX - p.x) / v.x;
 
+		if (tHit >= 0.0 && tHit <= dt) {
+
+			p.x += v.x * static_cast<float>(tHit); // moves to the actual imact point in this case the wall
+
+			v.x = -v.x * e; // inverse and take away a small amount of the velocity
+
+			double remaining = dt - tHit; // calculate the remaining time
+
+			if (remaining > 0.0) { // if remaining time is greater than 0
+				p.x += v.x * static_cast<float>(remaining); // move
+			}
+		}
+	}
 	
+	if (v.x < 0.0) { // moving to the left
+		double tHit = (minX - p.x) / v.x;
 
+		if (tHit >= 0.0 && tHit <= dt) {
 
+			p.x += v.x * static_cast<float>(tHit);
 
-	if (p.x < minX) {
-		p.x = minX; // swap current x position with minX
-		v.x = -v.x * e; // reverse the x veclocity
+			v.x = -v.x * e;
+
+			double remaining = dt - tHit;
+
+			if (remaining > 0.0) {
+				p.x += v.x * static_cast<float>(remaining);
+			}
+		}
 	}
 
-	// Bottom / Top
-	// if p.y is less than the minY
-	if (p.y < minY) {
-		p.y = minY; // swap current y position with minY
-		v.y = -v.y * e; // reverse the y veclocity
+	if (v.y > 0.0f) {
+		double tHit = (maxY - p.y) / v.y;
+
+		if (tHit >= 0.0 && tHit <= dt) {
+			p.y += v.y * static_cast<float>(tHit);
+
+			v.y = -v.y * e;
+
+			double remaining = dt - tHit;
+
+			if (remaining > 0.0) {
+				p.y += v.y * static_cast<float>(remaining);
+			}
+		}
 	}
-	// if p.y is more than the maxY
-	if (p.y > maxY) {
-		p.y = maxY; // swap current y position with maxY
-		v.y = -v.y * e; // reverse the y veclocity
+	
+	if (v.y < 0.0f) {
+		double tHit = (minY - p.y) / v.y;
+
+		if (tHit >= 0.0 && tHit <= dt) {
+			p.y += v.y * static_cast<float>(tHit);
+
+			v.y = -v.y * e;
+
+			double remaining = dt - tHit;
+
+			if (remaining > 0.0) {
+				p.y += v.y * static_cast<float>(remaining);
+			}
+		}
 	}
 
 	particle.setPosition(p.x, p.y, p.z);

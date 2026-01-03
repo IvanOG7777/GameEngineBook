@@ -19,7 +19,7 @@ public:
         ShotType type = UNUSED;
     };
 
-    static constexpr unsigned MaxAmmo = 16;
+    static constexpr unsigned MaxAmmo = 1000;
 
 public:
     Ballistic(); // default Ballistic object constructor

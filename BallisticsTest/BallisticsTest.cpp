@@ -159,8 +159,8 @@ int main() {
 		for (int i = 0; i < ballistic.rounds.size(); i++) {
 			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
 
-			float particleRadius = ballistic.rounds[i].particle.getRadius();
-			/*keepCircleInFrame(ballistic.rounds[i].particle, w, h);*/
+			float particleRadius = ballistic.rounds[i].particle.getRadius();/*
+			keepCircleInFrame(ballistic.rounds[i].particle, w, h);*/
 			sweptBounds(ballistic.rounds[i].particle, dt, w, h);
 
 			Vector3 particlePosition = ballistic.rounds[i].particle.getPosition();
