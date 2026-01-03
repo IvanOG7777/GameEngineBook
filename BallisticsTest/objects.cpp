@@ -93,7 +93,7 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 	float minY = radius;
 
 	// moving to the right
-	if (v.x > 0.0f) {
+	if ((v.x > 0.0f) && (p.x < maxX)) {
 		double tHit = (maxX - p.x) / v.x;
 
 		if (tHit >= 0.0 && tHit <= dt) {
@@ -109,8 +109,12 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 			}
 		}
 	}
+	else if (p.x > maxX){
+		p.x = maxX; // swap current x position with maxX
+		v.x = -v.x * e; // reverse the x veclocity
+	}
 	
-	if (v.x < 0.0) { // moving to the left
+	if ((v.x < 0.0) && (p.x > minX)) { // moving to the left
 		double tHit = (minX - p.x) / v.x;
 
 		if (tHit >= 0.0 && tHit <= dt) {
@@ -126,8 +130,12 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 			}
 		}
 	}
+	else if (p.x < minX) {
+		p.x = minX; // swap current x position with minX
+		v.x = -v.x * e; // reverse the x veclocity
+	}
 
-	if (v.y > 0.0f) {
+	if ((v.y > 0.0f) && (p.y < maxY)) {
 		double tHit = (maxY - p.y) / v.y;
 
 		if (tHit >= 0.0 && tHit <= dt) {
@@ -142,8 +150,12 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 			}
 		}
 	}
+	else if (p.y > maxY) {
+		p.y = maxY; // swap current x position with maxX
+		v.y = -v.y * e; // reverse the x veclocity
+	}
 	
-	if (v.y < 0.0f) {
+	if ((v.y < 0.0f) && (p.y > minY)) {
 		double tHit = (minY - p.y) / v.y;
 
 		if (tHit >= 0.0 && tHit <= dt) {
@@ -157,6 +169,10 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 				p.y += v.y * static_cast<float>(remaining);
 			}
 		}
+	}
+	else if (p.y < minY) {
+		p.y = minY; // swap current x position with maxX
+		v.y = -v.y * e; // reverse the x veclocity
 	}
 
 	particle.setPosition(p.x, p.y, p.z);
