@@ -82,6 +82,10 @@ void keepCircleInFrame(Particle& particle, int& windowWidth, int& windowHeight) 
 	particle.setVelocity(v.x, v.y, v.z);
 }
 
+// Swept and bounds function. Used to correctly calcualte when a particle has hit a wall.
+// Calculates real hit at real time and updated position at real hit/time, updates postion for remaining dt-realHit time
+// Parameters:
+//		Particle object, change in time, window width/height
 void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHeight) {
 	float radius = particle.getRadius();
 	Vector3 p = particle.getPosition();
@@ -93,9 +97,10 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 	float minY = radius;
 
 	// moving to the right
-	if ((v.x > 0.0f) && (p.x < maxX)) {
-		double tHit = (maxX - p.x) / v.x;
+	if (v.x > 0.0f) {
+		double tHit = (maxX - p.x) / v.x; // calculates the time particle hits the wall
 
+		// checks 0.0 < tHit < dt
 		if (tHit >= 0.0 && tHit <= dt) {
 
 			p.x += v.x * static_cast<float>(tHit); // moves to the actual imact point in this case the wall
@@ -105,16 +110,11 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 			double remaining = dt - tHit; // calculate the remaining time
 
 			if (remaining > 0.0) { // if remaining time is greater than 0
-				p.x += v.x * static_cast<float>(remaining); // move
+				p.x += v.x * static_cast<float>(remaining); // move updated position by v.x * remaining pixels for rest of frame
 			}
 		}
 	}
-	else if (p.x > maxX){
-		p.x = maxX; // swap current x position with maxX
-		v.x = -v.x * e; // reverse the x veclocity
-	}
-	
-	if ((v.x < 0.0) && (p.x > minX)) { // moving to the left
+	else if (v.x < 0.0) { // moving to the left
 		double tHit = (minX - p.x) / v.x;
 
 		if (tHit >= 0.0 && tHit <= dt) {
@@ -130,12 +130,8 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 			}
 		}
 	}
-	else if (p.x < minX) {
-		p.x = minX; // swap current x position with minX
-		v.x = -v.x * e; // reverse the x veclocity
-	}
 
-	if ((v.y > 0.0f) && (p.y < maxY)) {
+	if (v.y > 0.0f) {
 		double tHit = (maxY - p.y) / v.y;
 
 		if (tHit >= 0.0 && tHit <= dt) {
@@ -150,12 +146,7 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 			}
 		}
 	}
-	else if (p.y > maxY) {
-		p.y = maxY; // swap current x position with maxX
-		v.y = -v.y * e; // reverse the x veclocity
-	}
-	
-	if ((v.y < 0.0f) && (p.y > minY)) {
+	else if (v.y < 0.0f) {
 		double tHit = (minY - p.y) / v.y;
 
 		if (tHit >= 0.0 && tHit <= dt) {
@@ -170,9 +161,27 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 			}
 		}
 	}
-	else if (p.y < minY) {
-		p.y = minY; // swap current x position with maxX
-		v.y = -v.y * e; // reverse the x veclocity
+
+	if (p.x < minX) {
+		p.x = minX; // swap current x position with minX
+		v.x = -v.x * e; // reverse the x veclocity
+	}
+	// if p.x is less than the minX
+	if (p.x > maxX) {
+		p.x = maxX; // swap current x position with maxX
+		v.x = -v.x * e; // reverse the x veclocity
+	}
+
+	// Bottom / Top
+	// if p.y is less than the minY
+	if (p.y < minY) {
+		p.y = minY; // swap current y position with minY
+		v.y = -v.y * e; // reverse the y veclocity
+	}
+	// if p.y is more than the maxY
+	if (p.y > maxY) {
+		p.y = maxY; // swap current y position with maxY
+		v.y = -v.y * e; // reverse the y veclocity
 	}
 
 	particle.setPosition(p.x, p.y, p.z);

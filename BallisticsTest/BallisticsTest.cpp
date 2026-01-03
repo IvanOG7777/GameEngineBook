@@ -149,7 +149,7 @@ int main() {
 		for (int i = 0; i < ballistic.rounds.size(); i++) {
 			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
 			float particleForceNewtons = SMALL_GRAVITY / ballistic.rounds[i].particle.getInverseMass();
-			ballistic.rounds[i].particle.addForce(-10, particleForceNewtons, 0);
+			ballistic.rounds[i].particle.addForce(0, particleForceNewtons, 0);
 		}
 
 		ballistic.updateRound(dt);
@@ -159,8 +159,7 @@ int main() {
 		for (int i = 0; i < ballistic.rounds.size(); i++) {
 			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
 
-			float particleRadius = ballistic.rounds[i].particle.getRadius();/*
-			keepCircleInFrame(ballistic.rounds[i].particle, w, h);*/
+			float particleRadius = ballistic.rounds[i].particle.getRadius();
 			sweptBounds(ballistic.rounds[i].particle, dt, w, h);
 
 			Vector3 particlePosition = ballistic.rounds[i].particle.getPosition();
