@@ -13,6 +13,7 @@ Ballistic::Ballistic() {
     rounds.resize(MaxAmmo);
     currentShotType = UNUSED;
     ammoRound = AmmoRound();
+    root = nullptr;
 }
 
 // function to initlaize a shot type with appropriate particle parameters
@@ -185,3 +186,59 @@ void Ballistic::spawnRound(int key) {
         std::cout << "FIREBALL has been added" << std::endl;
     }
 }
+
+void Ballistic::addNodes(BallisticNode* node) {
+    if (root == nullptr) {
+        root = node;
+        return;
+    }
+
+    // sanity check make sure node is a leaf node
+    node->left = nullptr;
+    node->right = nullptr;
+
+    BallisticNode* current = root;
+    int depth = 0;
+
+    while (true) {
+        // x axis check
+        if (depth % 2 == 0) {
+            if (node->roundNode.particle.getPosition().x > current->roundNode.particle.getPosition().x) {
+                if (current->right == nullptr) {
+                    current->right = node;
+                    return;
+                }
+                current = current->right;
+            }
+            else if (node->roundNode.particle.getPosition().x < current->roundNode.particle.getPosition().x) {
+                if (current->left == nullptr) {
+                    current->left = node;
+                    return;
+                }
+                current = current->left;
+            }
+        }
+        // y axis check
+        else if (depth % 2 == 1) {
+            if (node->roundNode.particle.getPosition().y > current->roundNode.particle.getPosition().y) {
+                if (current->right == nullptr) {
+                    current->right = node;
+                    return;
+                }
+                current = current->right;
+            }
+            else if (node->roundNode.particle.getPosition().y < current->roundNode.particle.getPosition().y) {
+                if (current->left == nullptr) {
+                    current->left = node;
+                    return;
+                }
+                current = current->left;
+            }
+        }
+        depth++;
+    }
+}
+
+//BallisticNode Ballistic::findNearestNeighborHelper(BallisticNode* currentNode, const BallisticNode* targetNode, BallisticNode*& bestNode, int depth, float& bestDistance) {
+//    return currentNode;
+//}

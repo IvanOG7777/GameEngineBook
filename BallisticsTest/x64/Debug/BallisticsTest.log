@@ -11,10 +11,10 @@ C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\Ballis
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
   (compiling source file 'ballistic.cpp')
   
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(125,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(158,20): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(170,20): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(183,20): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(126,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(159,20): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(171,20): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(184,20): warning C4553: '==': result of expression not used; did you intend '='?
   objects.cpp
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
   (compiling source file 'objects.cpp')

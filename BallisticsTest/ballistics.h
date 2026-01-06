@@ -19,7 +19,16 @@ public:
         ShotType type = UNUSED;
     };
 
+    struct BallisticNode {
+        AmmoRound roundNode{};
+        BallisticNode* left = nullptr;
+        BallisticNode* right = nullptr;
+    };
+
     static constexpr unsigned MaxAmmo = 1000;
+
+private:
+    BallisticNode* root;
 
 public:
     Ballistic(); // default Ballistic object constructor
@@ -37,4 +46,10 @@ public:
     bool allRoundsUnused();
 
     void spawnRound(int key);
+
+    void addNodes(BallisticNode* node);
+
+    void printBydepth();
+
+   /* BallisticNode findNearestNeighborHelper(BallisticNode* currentNode, const BallisticNode* targetNode, BallisticNode*& bestNode, int depth, float& bestDistance);*/
 };
