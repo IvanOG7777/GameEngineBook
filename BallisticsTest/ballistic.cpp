@@ -288,10 +288,10 @@ float Ballistic::distance2(BallisticNode* node1, BallisticNode* node2) {
     return std::sqrtf(xSquared + ySquared);
 }
 
-void Ballistic::resolveCollisionKDTree(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth) {
-    if (current == nullptr) {
-        return;
-    }
-
-
-}
+//void Ballistic::resolveCollisionKDTree(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth) {
+//    if (current == nullptr) {
+//        return;
+//    }
+//
+//
+//}

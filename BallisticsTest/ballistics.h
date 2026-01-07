@@ -43,7 +43,7 @@ public:
     // function used to initalize rounds within rounds vector
     void fire();
     // function used to updated rounds within rounds vector, acceleration, velocity, postion...
-    void updateRound(double &dt);
+    void updateRound(double& dt);
     // function used to check if slots within rounds vector are all UNUSED
     bool allRoundsUnused();
 
@@ -55,6 +55,7 @@ public:
 
     void printBydepth();
 
-    float distance2(BallisticNode *node1, BallisticNode *node2);
+    float distance2(BallisticNode* node1, BallisticNode* node2);
 
     void resolveCollisionKDTree(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth);
+};

@@ -1,21 +1,21 @@
-﻿  BallisticsTest.cpp
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
-  (compiling source file 'BallisticsTest.cpp')
-  
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(45,52): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(45,39): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(70,6): warning C4101: 'key': unreferenced local variable
-  ballistic.cpp
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
+﻿  ballistic.cpp
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
   (compiling source file 'ballistic.cpp')
   
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\BallisticsTest\ballistic.cpp(127,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\BallisticsTest\ballistic.cpp(160,20): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\BallisticsTest\ballistic.cpp(172,20): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\BallisticsTest\ballistic.cpp(185,20): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(127,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(160,20): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(172,20): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(185,20): warning C4553: '==': result of expression not used; did you intend '='?
+  BallisticsTest.cpp
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  (compiling source file 'BallisticsTest.cpp')
+  
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(45,52): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(45,39): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(70,6): warning C4101: 'key': unreferenced local variable
   objects.cpp
-C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
   (compiling source file 'objects.cpp')
   
   Generating Code...
-  BallisticsTest.vcxproj -> C:\Users\sexyz\Desktop\C+Projects\GameEngineBook\x64\Debug\BallisticsTest.exe
+  BallisticsTest.vcxproj -> C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\x64\Debug\BallisticsTest.exe
