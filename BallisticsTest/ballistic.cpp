@@ -2,6 +2,7 @@
 #include <thread>
 #include <chrono>
 #include <random>
+#include <queue>
 
 #include "ballistics.h"
 #include "globalConstants.h"
@@ -187,7 +188,7 @@ void Ballistic::spawnRound(int key) {
     }
 }
 
-void Ballistic::addNodes(BallisticNode* node) {
+void Ballistic::addNode(BallisticNode* node) {
     if (root == nullptr) {
         root = node;
         return;
@@ -203,14 +204,14 @@ void Ballistic::addNodes(BallisticNode* node) {
     while (true) {
         // x axis check
         if (depth % 2 == 0) {
-            if (node->roundNode.particle.getPosition().x > current->roundNode.particle.getPosition().x) {
+            if (node->roundNode.particle.getPosition().x >= current->roundNode.particle.getPosition().x) {
                 if (current->right == nullptr) {
                     current->right = node;
                     return;
                 }
                 current = current->right;
             }
-            else if (node->roundNode.particle.getPosition().x < current->roundNode.particle.getPosition().x) {
+            else if (node->roundNode.particle.getPosition().x <= current->roundNode.particle.getPosition().x) {
                 if (current->left == nullptr) {
                     current->left = node;
                     return;
@@ -220,14 +221,14 @@ void Ballistic::addNodes(BallisticNode* node) {
         }
         // y axis check
         else if (depth % 2 == 1) {
-            if (node->roundNode.particle.getPosition().y > current->roundNode.particle.getPosition().y) {
+            if (node->roundNode.particle.getPosition().y >= current->roundNode.particle.getPosition().y) {
                 if (current->right == nullptr) {
                     current->right = node;
                     return;
                 }
                 current = current->right;
             }
-            else if (node->roundNode.particle.getPosition().y < current->roundNode.particle.getPosition().y) {
+            else if (node->roundNode.particle.getPosition().y <= current->roundNode.particle.getPosition().y) {
                 if (current->left == nullptr) {
                     current->left = node;
                     return;
@@ -239,6 +240,52 @@ void Ballistic::addNodes(BallisticNode* node) {
     }
 }
 
-//BallisticNode Ballistic::findNearestNeighborHelper(BallisticNode* currentNode, const BallisticNode* targetNode, BallisticNode*& bestNode, int depth, float& bestDistance) {
-//    return currentNode;
+void Ballistic::addNodesVector(std::vector<AmmoRound> rounds) {
+    for (auto &node : rounds) {
+        BallisticNode* newNode = new BallisticNode(node);
+
+        addNode(newNode);
+    }
+}
+
+void Ballistic::printBydepth() {
+    if (root == nullptr) {
+        return;
+    }
+
+    int depth = 0;
+    std::queue<BallisticNode*> queue;
+    queue.push(root);
+
+    while (!queue.empty()) {
+        size_t length = queue.size();
+        std::cout << "Depth: " << depth << std::endl;
+        for (size_t i = 0; i < length; i++) {
+            if (queue.front()->left != nullptr) {
+                queue.push(queue.front()->left);
+            }
+            if (queue.front()->right != nullptr) {
+                queue.push(queue.front()->right);
+            }
+
+            std::cout << "Type of node: " << queue.front()->roundNode.type << std::endl;
+            std::cout << "Position ";
+            queue.front()->roundNode.particle.printPosition();
+            queue.pop();
+        }
+        depth++;
+        std::cout << std::endl;
+    }
+}
+
+//float Ballistic::distance2(BallisticNode* node1, BallisticNode* node2) {
+//
 //}
+
+void Ballistic::resolveCollisionKDTree(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth) {
+    if (current == nullptr) {
+        return;
+    }
+
+
+}

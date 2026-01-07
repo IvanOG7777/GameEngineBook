@@ -23,9 +23,11 @@ public:
         AmmoRound roundNode{};
         BallisticNode* left = nullptr;
         BallisticNode* right = nullptr;
+
+        BallisticNode(AmmoRound round) : roundNode(round) {}
     };
 
-    static constexpr unsigned MaxAmmo = 1000;
+    static constexpr unsigned MaxAmmo = 14;
 
 private:
     BallisticNode* root;
@@ -47,9 +49,12 @@ public:
 
     void spawnRound(int key);
 
-    void addNodes(BallisticNode* node);
+    void addNode(BallisticNode* node);
+
+    void addNodesVector(std::vector<AmmoRound> rounds);
 
     void printBydepth();
 
-   /* BallisticNode findNearestNeighborHelper(BallisticNode* currentNode, const BallisticNode* targetNode, BallisticNode*& bestNode, int depth, float& bestDistance);*/
-};
+    float distance2(BallisticNode *node1, BallisticNode *node2);
+
+    void resolveCollisionKDTree(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth);
