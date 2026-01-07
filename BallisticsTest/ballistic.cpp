@@ -278,9 +278,15 @@ void Ballistic::printBydepth() {
     }
 }
 
-//float Ballistic::distance2(BallisticNode* node1, BallisticNode* node2) {
-//
-//}
+float Ballistic::distance2(BallisticNode* node1, BallisticNode* node2) {
+    float sumX = node1->roundNode.particle.getPosition().x - node2->roundNode.particle.getPosition().x;
+    float sumY = node1->roundNode.particle.getPosition().y - node2->roundNode.particle.getPosition().y;
+    
+    float xSquared = sumX * sumX;
+    float ySquared = sumY * sumY;
+
+    return std::sqrtf(xSquared + ySquared);
+}
 
 void Ballistic::resolveCollisionKDTree(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth) {
     if (current == nullptr) {
