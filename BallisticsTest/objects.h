@@ -12,3 +12,4 @@ void keepCircleInFrame(Particle& particle, int& windowWidth, int& windowHeight);
 void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHeight);
 bool circleCollision(Ballistic::AmmoRound &round1, Ballistic::AmmoRound &round2);
 void resolveCollision(std:: vector<Ballistic::AmmoRound> &rounds);
+void resolveCollisionKDTree(Ballistic& ballistic, std::vector<Ballistic::AmmoRound>& rounds);

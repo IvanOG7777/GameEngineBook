@@ -279,6 +279,12 @@ void resolveCollision(std::vector<Ballistic::AmmoRound>& rounds) {
 	}
 }
 
+void resolveCollisionKDTree(Ballistic &ballistic, std::vector<Ballistic::AmmoRound> rounds) {
+
+
+
+}
+
 // function used to check if two cirlces have collided
 // credit for logic @: https://jeffreythompson.org/collision-detection/circle-circle.php, this webside has MANY different ways to test for collisions
 // bool function since we only want to know if they have collided

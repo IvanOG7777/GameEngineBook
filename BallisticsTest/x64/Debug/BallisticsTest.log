@@ -1,11 +1,11 @@
-﻿  ballistic.cpp
+﻿  glad.c
+  Particle.cpp
+  ballistic.cpp
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
   (compiling source file 'ballistic.cpp')
   
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(127,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(160,20): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(172,20): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(185,20): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(337,12): error C2065: 'root': undeclared identifier
   BallisticsTest.cpp
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
   (compiling source file 'BallisticsTest.cpp')
@@ -17,5 +17,11 @@ C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\Ballis
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
   (compiling source file 'objects.cpp')
   
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\objects.cpp(293,13): error C2530: 'round': references must be initialized
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\objects.cpp(293,13): error C3531: 'round': a symbol whose type contains 'auto' must have an initializer
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\objects.cpp(293,18): error C2143: syntax error: missing ';' before ')'
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\objects.cpp(295,1): error C2143: syntax error: missing ';' before '}'
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\objects.cpp(295,1): error C2143: syntax error: missing ')' before '}'
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\objects.cpp(295,1): error C2059: syntax error: '}'
+  windowFunctions.cpp
   Generating Code...
-  BallisticsTest.vcxproj -> C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\x64\Debug\BallisticsTest.exe

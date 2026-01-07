@@ -101,20 +101,21 @@ int main() {
 	ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
 	ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
 	ballistic.currentShotType = ballistic.LASER; ballistic.fire();
-	ballistic.currentShotType = ballistic.PISTOL; ballistic.fire();
-	ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
-	ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER; ballistic.fire();
-	ballistic.currentShotType = ballistic.PISTOL; ballistic.fire();
-	ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
-	ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER; ballistic.fire();
+	
 	int checkCounter = 0;
 	std::cout << std::endl;
 
-	ballistic.addNodesVector(ballistic.rounds);
+	ballistic.addNodesFromVectorToTree(ballistic.rounds);
 
 	ballistic.printBydepth();
+	Ballistic::BallisticNode target(ballistic.rounds[0]);
+	Ballistic::BallisticNode bestNode = ballistic.findBestNode(&target);
+
+	std::cout << "Target Nodes postion: ";
+	target.roundNode.particle.printPosition();
+
+	std::cout << "Best Nodes position: ";
+	bestNode.roundNode.particle.printPosition();
 
 	//bool pWasDown = false;
 	//bool aWasDown = false;
