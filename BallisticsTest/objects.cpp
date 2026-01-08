@@ -279,10 +279,67 @@ void resolveCollision(std::vector<Ballistic::AmmoRound>& rounds) {
 	}
 }
 
-void resolveCollisionKDTree(Ballistic &ballistic, std::vector<Ballistic::AmmoRound> rounds) {
+void resolveCollisionKDTree(Ballistic &ballistic, std::vector<Ballistic::AmmoRound> &rounds) {
+	
+	if (rounds.empty()) return;
+
+	for (auto& round : rounds) {
+		Ballistic::BallisticNode newNode(&round);
+		Ballistic::BallisticNode *closestNode = ballistic.findBestNode(&newNode);
+
+		if (closestNode == nullptr) return;
+
+		resolveCollision2(&newNode, closestNode);
+	}
+}
+
+void resolveCollision2(Ballistic:: BallisticNode *node1, Ballistic::BallisticNode *node2) {
+	Ballistic::AmmoRound& round1 = *node1->roundNode;
+	Ballistic::AmmoRound& round2 = *node2->roundNode;
+
+	if (!circleCollision(round1, round2)) return;
+
+	Vector3 directionalVector = round2.particle.getPosition() - round1.particle.getPosition();
+	float directionalVectorLength = directionalVector.magnitude();
+
+	if (directionalVectorLength == 0.0f) return;
+
+	Vector3 unitNormal = directionalVector / directionalVectorLength;
+
+	float radius1 = round1.particle.getRadius();
+	float radius2 = round2.particle.getRadius();
+
+	float overlap = (radius1 + radius2) - directionalVectorLength;
+
+	float correction = overlap * 0.5f;
+
+	if (overlap <= 0.0f) return;
+
+	Vector3 position1 = round1.particle.getPosition();
+	Vector3 position2 = round2.particle.getPosition();
+
+	position1 -= unitNormal * correction;
+	position2 += unitNormal * correction;
+
+	round1.particle.setPosition(position1);
+	round2.particle.setPosition(position2);
 
 
+	Vector3 v1 = round1.particle.getVelocity();
+	Vector3 v2 = round2.particle.getVelocity();
 
+	Vector3 relativeVelocity = v2 - v1;
+
+	float velocityNormal = relativeVelocity.scalarProduct(unitNormal);
+
+	if (velocityNormal > 0) return;
+
+	float jImpulse = -(1 + e) * velocityNormal / (round1.particle.getInverseMass() + round2.particle.getInverseMass());
+
+	Vector3 impulse = unitNormal * jImpulse;
+
+	round1.particle.setVelocity(v1 - (impulse * round1.particle.getInverseMass()));
+	round2.particle.setVelocity(v2 + (impulse * round2.particle.getInverseMass()));
 }
 
 // function used to check if two cirlces have collided

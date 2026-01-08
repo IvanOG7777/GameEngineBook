@@ -19,24 +19,30 @@ public:
         ShotType type = UNUSED;
     };
 
+    // Ballistic Node struct for theKDTree
     struct BallisticNode {
-        AmmoRound roundNode{};
+        AmmoRound *roundNode = nullptr; // make sure the round we want is a pointer to the actualy address of a AmmoRound
+        // initialze left and right nodes to null
         BallisticNode* left = nullptr;
         BallisticNode* right = nullptr;
 
-        BallisticNode(const AmmoRound &round) : roundNode(round) {}
+        // Constructor for a BallisticNode struct
+        // Pass in a type AmmoRound round through a pointer to its address
+        BallisticNode(AmmoRound *round) : roundNode(round) {} // initialze BallisticNodes roundNode to round
     };
 
-    static constexpr unsigned MaxAmmo = 14;
+    static constexpr unsigned MaxAmmo = 1000;
 
 private:
+    // Give Ballistic class a root node
     BallisticNode* root;
 
 public:
-    Ballistic(); // default Ballistic object constructor
+    Ballistic(); // default Ballistic object constructor, no parameters needed
     AmmoRound ammoRound; // used for now only to define a single round. Not neccescary. I will use mainly for testing
     ShotType currentShotType; // set the current type of shot for when use use fire() it will fire that current shot within rounds
     std::vector<AmmoRound> rounds; // vector of AmmoRound Structs, can hold multiple types of shots PISTOL,ARTILERY...
+    std::vector<BallisticNode> nodePool;
 
     void initializeParticleForAmmoRound(ShotType currentType); // function used to initalize an AmmoRound struct, function is really only used for testing since its not cycling through all elements of rounds
 
@@ -51,7 +57,7 @@ public:
 
     void addNode(BallisticNode* node);
 
-    void addNodesFromVectorToTree(std::vector<AmmoRound> rounds);
+    void addNodesFromVectorToTree(std::vector<AmmoRound> &rounds);
 
     void printBydepth();
 
@@ -59,7 +65,11 @@ public:
 
     void findBestNodeHelper(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth);
 
-    BallisticNode findBestNode(BallisticNode* tagetNode);
+    BallisticNode* findBestNode(BallisticNode* tagetNode);
 
     BallisticNode* getRoot();
+
+    void resetRoot();
+
+    void clearTree(BallisticNode* root);
 };

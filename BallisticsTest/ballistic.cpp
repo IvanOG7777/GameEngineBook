@@ -12,8 +12,9 @@
 // set initial current shot to unused.
 Ballistic::Ballistic() {
     rounds.resize(MaxAmmo);
+    nodePool.reserve(MaxAmmo);
     currentShotType = UNUSED;
-    ammoRound = AmmoRound();
+    ammoRound = AmmoRound(); // NOT really needed, only for testing, but this constructs a single ammoRound of type AmmoRound and sets its value to default AmmoRound constructor
     root = nullptr;
 }
 
@@ -204,14 +205,14 @@ void Ballistic::addNode(BallisticNode* node) {
     while (true) {
         // x axis check
         if (depth % 2 == 0) {
-            if (node->roundNode.particle.getPosition().x >= current->roundNode.particle.getPosition().x) {
+            if (node->roundNode->particle.getPosition().x >= current->roundNode->particle.getPosition().x) {
                 if (current->right == nullptr) {
                     current->right = node;
                     return;
                 }
                 current = current->right;
             }
-            else if (node->roundNode.particle.getPosition().x <= current->roundNode.particle.getPosition().x) {
+            else if (node->roundNode->particle.getPosition().x <= current->roundNode->particle.getPosition().x) {
                 if (current->left == nullptr) {
                     current->left = node;
                     return;
@@ -221,14 +222,14 @@ void Ballistic::addNode(BallisticNode* node) {
         }
         // y axis check
         else if (depth % 2 == 1) {
-            if (node->roundNode.particle.getPosition().y >= current->roundNode.particle.getPosition().y) {
+            if (node->roundNode->particle.getPosition().y >= current->roundNode->particle.getPosition().y) {
                 if (current->right == nullptr) {
                     current->right = node;
                     return;
                 }
                 current = current->right;
             }
-            else if (node->roundNode.particle.getPosition().y <= current->roundNode.particle.getPosition().y) {
+            else if (node->roundNode->particle.getPosition().y <= current->roundNode->particle.getPosition().y) {
                 if (current->left == nullptr) {
                     current->left = node;
                     return;
@@ -240,10 +241,10 @@ void Ballistic::addNode(BallisticNode* node) {
     }
 }
 
-void Ballistic::addNodesFromVectorToTree(std::vector<AmmoRound> rounds) {
+void Ballistic::addNodesFromVectorToTree(std::vector<AmmoRound> &rounds) {
     for (auto &node : rounds) {
         if (node.type == UNUSED) continue;
-        BallisticNode* newNode = new BallisticNode(node);
+        BallisticNode* newNode = new BallisticNode(&node);
 
         addNode(newNode);
     }
@@ -269,9 +270,9 @@ void Ballistic::printBydepth() {
                 queue.push(queue.front()->right);
             }
 
-            std::cout << "Type of node: " << queue.front()->roundNode.type << std::endl;
+            std::cout << "Type of node: " << queue.front()->roundNode->type << std::endl;
             std::cout << "Position ";
-            queue.front()->roundNode.particle.printPosition();
+            queue.front()->roundNode->particle.printPosition();
             queue.pop();
         }
         depth++;
@@ -280,8 +281,8 @@ void Ballistic::printBydepth() {
 }
 
 float Ballistic::distance2(BallisticNode* node1, BallisticNode* node2) {
-    float sumX = node1->roundNode.particle.getPosition().x - node2->roundNode.particle.getPosition().x;
-    float sumY = node1->roundNode.particle.getPosition().y - node2->roundNode.particle.getPosition().y;
+    float sumX = node1->roundNode->particle.getPosition().x - node2->roundNode->particle.getPosition().x;
+    float sumY = node1->roundNode->particle.getPosition().y - node2->roundNode->particle.getPosition().y;
     
     float xSquared = sumX * sumX;
     float ySquared = sumY * sumY;
@@ -303,8 +304,8 @@ void Ballistic::findBestNodeHelper(BallisticNode* current, BallisticNode* target
 
     int axis = depth % 2;
 
-    float currentAxisValue = (axis == 0) ? current->roundNode.particle.getPosition().x : current->roundNode.particle.getPosition().y;
-    float targetAxisValue = (axis == 0) ? target->roundNode.particle.getPosition().x : target->roundNode.particle.getPosition().y;
+    float currentAxisValue = (axis == 0) ? current->roundNode->particle.getPosition().x : current->roundNode->particle.getPosition().y;
+    float targetAxisValue = (axis == 0) ? target->roundNode->particle.getPosition().x : target->roundNode->particle.getPosition().y;
 
     BallisticNode* nearChild = (targetAxisValue < currentAxisValue) ? current->left : current->right;
     BallisticNode* farChild = (targetAxisValue < currentAxisValue) ? current->right : current->left;
@@ -319,10 +320,10 @@ void Ballistic::findBestNodeHelper(BallisticNode* current, BallisticNode* target
     }
 }
 
-Ballistic::BallisticNode Ballistic::findBestNode(BallisticNode* target) {
+Ballistic::BallisticNode* Ballistic::findBestNode(BallisticNode* target) {
     if (root == nullptr) {
         std::cout << "Returning target node" << std::endl;
-        return *target;
+        return target;
     }
 
     float bestDistance = std::numeric_limits<float>::infinity();
@@ -330,9 +331,23 @@ Ballistic::BallisticNode Ballistic::findBestNode(BallisticNode* target) {
 
     findBestNodeHelper(root, target, bestNode, bestDistance, 0);
 
-    return *bestNode;
+    return bestNode;
 }
 
 Ballistic::BallisticNode* Ballistic::getRoot() {
     return root;
+}
+
+void Ballistic:: resetRoot() {
+    clearTree(root);
+    root = nullptr;
+}
+
+void Ballistic::clearTree(BallisticNode* node) {
+    if (!node) return;
+
+    clearTree(node->left);
+    clearTree(node->right);
+
+    delete node;
 }
