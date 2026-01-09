@@ -12,10 +12,11 @@
 // set initial current shot to unused.
 Ballistic::Ballistic() {
     rounds.resize(MaxAmmo);
-    nodePool.reserve(MaxAmmo);
+    nodePool.resize(MaxAmmo);
     currentShotType = UNUSED;
     ammoRound = AmmoRound(); // NOT really needed, only for testing, but this constructs a single ammoRound of type AmmoRound and sets its value to default AmmoRound constructor
     root = nullptr;
+    poolUsed = 0;
 }
 
 // function to initlaize a shot type with appropriate particle parameters
@@ -242,9 +243,10 @@ void Ballistic::addNode(BallisticNode* node) {
 }
 
 void Ballistic::addNodesFromVectorToTree(std::vector<AmmoRound> &rounds) {
-    for (auto &node : rounds) {
-        if (node.type == UNUSED) continue;
-        BallisticNode* newNode = new BallisticNode(&node);
+    for (auto &round : rounds) {
+        if (round.type == UNUSED) continue;
+        BallisticNode* newNode = allocateNode(&round);
+        if (!newNode) break;
 
         addNode(newNode);
     }
@@ -338,16 +340,19 @@ Ballistic::BallisticNode* Ballistic::getRoot() {
     return root;
 }
 
-void Ballistic:: resetRoot() {
-    clearTree(root);
+void Ballistic:: treeReset() {
     root = nullptr;
+    poolUsed = 0;
 }
 
-void Ballistic::clearTree(BallisticNode* node) {
-    if (!node) return;
+Ballistic::BallisticNode* Ballistic:: allocateNode(AmmoRound *round) {
+    if (poolUsed >= nodePool.size()) return nullptr;
 
-    clearTree(node->left);
-    clearTree(node->right);
+    BallisticNode* node = &nodePool[poolUsed++];
 
-    delete node;
+    node->roundNode = round;
+    node->left = nullptr;
+    node->right = nullptr;
+
+    return node;
 }

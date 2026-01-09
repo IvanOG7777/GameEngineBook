@@ -167,7 +167,7 @@ int main() {
 		}
 
 		ballistic.updateRound(dt);
-		ballistic.resetRoot();
+		ballistic.treeReset();
 		ballistic.addNodesFromVectorToTree(ballistic.rounds);
 		resolveCollisionKDTree(ballistic, ballistic.rounds);
 

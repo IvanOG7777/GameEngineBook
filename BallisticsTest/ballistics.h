@@ -28,6 +28,7 @@ public:
 
         // Constructor for a BallisticNode struct
         // Pass in a type AmmoRound round through a pointer to its address
+        BallisticNode() : roundNode(nullptr), left(nullptr), right(nullptr) {}
         BallisticNode(AmmoRound *round) : roundNode(round) {} // initialze BallisticNodes roundNode to round
     };
 
@@ -42,7 +43,8 @@ public:
     AmmoRound ammoRound; // used for now only to define a single round. Not neccescary. I will use mainly for testing
     ShotType currentShotType; // set the current type of shot for when use use fire() it will fire that current shot within rounds
     std::vector<AmmoRound> rounds; // vector of AmmoRound Structs, can hold multiple types of shots PISTOL,ARTILERY...
-    std::vector<BallisticNode> nodePool;
+    std::vector<BallisticNode> nodePool; // vector that will hold BallisticNodes
+    int poolUsed;
 
     void initializeParticleForAmmoRound(ShotType currentType); // function used to initalize an AmmoRound struct, function is really only used for testing since its not cycling through all elements of rounds
 
@@ -69,7 +71,7 @@ public:
 
     BallisticNode* getRoot();
 
-    void resetRoot();
+    void treeReset();
 
-    void clearTree(BallisticNode* root);
+    BallisticNode* allocateNode(AmmoRound* round);
 };
