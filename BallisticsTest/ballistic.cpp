@@ -87,6 +87,7 @@ void Ballistic::fire() {
         rounds[roundIndex].particle.setDamping(0.99f);
         rounds[roundIndex].particle.setRadius(2.0f);
         rounds[roundIndex].particle.setPosition(500.0f, 950.0f, 0.0f);
+        rounds[roundIndex].lifeTime = 8.0f;
         std::cout << "Round at index: " << roundIndex << " has been initlaized to PISTOL" << std::endl;
         break;
     case ARTILLERY:
@@ -96,6 +97,7 @@ void Ballistic::fire() {
         rounds[roundIndex].particle.setDamping(0.99f);
         rounds[roundIndex].particle.setRadius(10.0f);
         rounds[roundIndex].particle.setPosition(500.0f, 850.0f, 0.0f);
+        rounds[roundIndex].lifeTime = 10.0f;
         std::cout << "Round at index: " << roundIndex << " has been initlaized ARTILLERY" << std::endl;
         break;
     case FIREBALL:
@@ -105,6 +107,7 @@ void Ballistic::fire() {
         rounds[roundIndex].particle.setDamping(0.99f);
         rounds[roundIndex].particle.setRadius(5.0f);
         rounds[roundIndex].particle.setPosition(500.0f, 700.0f, 0.0f);
+        rounds[roundIndex].lifeTime = 5.0f;
         std::cout << "Round at index: " << roundIndex << " has been initlaized FIREBALL" << std::endl;
         break;
     case LASER:
@@ -114,6 +117,7 @@ void Ballistic::fire() {
         rounds[roundIndex].particle.setDamping(0.999f);
         rounds[roundIndex].particle.setPosition(200.0f, 700.0f, 0.0f);
         rounds[roundIndex].particle.setRadius(1.1f);
+        rounds[roundIndex].lifeTime = 10.0f;
         std::cout << "Round at index: " << roundIndex << " has been initlaized LASER" << std::endl;
         break;
     }
@@ -126,8 +130,15 @@ void Ballistic::updateRound(double &dt) {
 
     for (int i = 0; i < rounds.size(); i++) {
         if (rounds[i].type != UNUSED) {
-            rounds[i].particle.update(dt);
 
+            rounds[i].lifeTime -= static_cast<float>(dt);
+            if (rounds[i].lifeTime <= 0) {
+                rounds[i].particle.clearAccumulator();
+                rounds[i].particle.clearAllValues();
+                rounds[i].type = UNUSED;
+            }
+
+            rounds[i].particle.update(dt);
             if (rounds[i].particle.getPosition().y <= 0.0f) {
                 std::cout << "Shot at index: " << i << " has hit the ground" << std::endl;
                 std::cout << "Setting shot at index: " << i << " to UNUSED" << std::endl;
@@ -158,6 +169,7 @@ void Ballistic::spawnRound(int key) {
         round.particle.setDamping(0.99f);
         round.particle.setRadius(2.0f);
         round.particle.setPosition(500.0f, 950.0f, 0.0f);
+        round.lifeTime = 8;
         Ballistic::currentShotType = Ballistic::PISTOL;
         round.type = currentShotType;  Ballistic::fire();
         std::cout << "PISTOL has been added" << std::endl;
@@ -169,6 +181,7 @@ void Ballistic::spawnRound(int key) {
         round.particle.setAcceleration(0.0f, -20.0f, 0.0f);
         round.particle.setDamping(0.99f);
         round.particle.setRadius(10.0f);
+        round.lifeTime = 10;
         round.particle.setPosition(500.0f, 850.0f, 0.0f);
         Ballistic::currentShotType = Ballistic::ARTILLERY;
         round.type = currentShotType;  Ballistic::fire();
@@ -183,6 +196,7 @@ void Ballistic::spawnRound(int key) {
         round.particle.setDamping(0.99f);
         round.particle.setRadius(5.0f);
         round.particle.setPosition(500.0f, 700.0f, 0.0f);
+        round.lifeTime = 5;
         Ballistic::currentShotType = Ballistic::FIREBALL;
         round.type = currentShotType; Ballistic::fire();
 

@@ -3,13 +3,43 @@
 #include <fstream>
 #include <sstream>
 
-GLFWwindow* startGLFWwindow(int height, int width) {
+GLFWwindow* startGLFWwindow(int height, int width, bool fullscreen) {
 	if (!glfwInit()) {
 		std::cerr << "Couldn't initialize GLFW window" << std::endl;
 		return nullptr;
 	}
 
-	GLFWwindow* window = glfwCreateWindow(width, height, "Game Engine", NULL, NULL);
+	GLFWmonitor* monitor = nullptr;
+	const GLFWvidmode* mode = nullptr;
+
+	if (fullscreen) {
+		monitor = glfwGetPrimaryMonitor();
+		if (!monitor) {
+			std::cerr << "Couldn't get primary monitor" << std::endl;
+			return nullptr;
+		}
+
+		mode = glfwGetVideoMode(monitor);
+		if (!mode) {
+			std::cerr << "Couldn't get video mode" << std::endl;
+			return nullptr;
+		}
+
+		// Use native monitor resolution for fullscreen
+		width = mode->width;
+		height = mode->height;
+
+		// Optional but nice: match monitor refresh rate
+		glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+	}
+
+	GLFWwindow* window = glfwCreateWindow(width,height, "Game Engine", monitor, nullptr);
+
+	if (!window) {
+		std::cerr << "Failed to create GLFW window\n";
+		glfwTerminate();
+		return nullptr;
+	}
 
 	return window;
 }

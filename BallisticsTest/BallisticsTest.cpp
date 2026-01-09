@@ -42,7 +42,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-	GLFWwindow* window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT); // returns an addres in momory for the window
+	GLFWwindow* window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, true); // returns an addres in momory for the window
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
 
@@ -120,6 +120,7 @@ int main() {
 	bool pWasDown = false;
 	bool aWasDown = false;
 	bool fWasDown = false;
+	bool escWasDown = false;
 	double maxDt = 1.0 / 180.0;
 	auto start = std::chrono::high_resolution_clock::now();
 	while (!glfwWindowShouldClose(window)) {
@@ -143,6 +144,7 @@ int main() {
 		bool pDown = glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS;
 		bool aDown = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
 		bool fDown = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
+		bool escDown = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 
 		if (pDown && !pWasDown) {
 			ballistic.spawnRound(GLFW_KEY_P);
@@ -154,6 +156,16 @@ int main() {
 
 		if (fDown && !fWasDown) {
 			ballistic.spawnRound(GLFW_KEY_F);
+		}
+
+		if (escDown && !escWasDown) {
+			std::cout << "Program has been killed " << std::endl;
+			glDeleteBuffers(1, &vbo);
+			glDeleteVertexArrays(1, &vao);
+			glDeleteProgram(program);
+
+			glfwTerminate();
+			return 0;
 		}
 
 		pWasDown = pDown;

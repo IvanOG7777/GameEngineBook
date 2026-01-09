@@ -14,7 +14,7 @@ public:
     };
 
     struct AmmoRound {
-        uint32_t startTime = 0;
+        float lifeTime = 0;
         Particle particle;
         ShotType type = UNUSED;
     };
