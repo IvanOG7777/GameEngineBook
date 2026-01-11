@@ -66,12 +66,13 @@ public:
     float distance2(BallisticNode* node1, BallisticNode* node2);
 
     void findBestNodeHelper(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth);
-
     BallisticNode* findBestNode(BallisticNode* tagetNode);
 
     BallisticNode* getRoot();
-
     void treeReset();
-
     BallisticNode* allocateNode(AmmoRound* round);
+
+    static bool duplicateCheck(const  std::vector<std::pair<float, BallisticNode*>>& nodes, const BallisticNode* node);
+    void findMultipleNNHelper(BallisticNode* node, BallisticNode* target, std::vector<std::pair<float, BallisticNode*>>& bestNodes, int maxBestNodes, int depth);
+    std::vector<BallisticNode*> findMultipleNN(BallisticNode* target);
 };

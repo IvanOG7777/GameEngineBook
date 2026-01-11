@@ -370,3 +370,22 @@ Ballistic::BallisticNode* Ballistic:: allocateNode(AmmoRound *round) {
 
     return node;
 }
+
+void Ballistic:: findMultipleNNHelper(BallisticNode* node, BallisticNode* target, std::vector<std::pair<float, BallisticNode*>>& bestNodes, int maxBestNodes, int depth) {
+    if (node == nullptr) return;
+
+    float distance = distance2(node, target);
+    int axis = depth % 2;
+
+    if (distance > 0.0f && !duplicateCheck(bestNodes, node)) {
+        if (distance < bestNodes.back().first) {}
+    }
+
+}
+std::vector<Ballistic:: BallisticNode*> Ballistic:: findMultipleNN(BallisticNode* target) {
+
+}
+
+bool Ballistic::duplicateCheck(const std::vector<std::pair<float, BallisticNode*>>& nodes, const BallisticNode* node) {
+
+}
