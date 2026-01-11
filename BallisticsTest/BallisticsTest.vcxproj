@@ -147,7 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\MotionSim\glad.c" />
+    <ClCompile Include="..\..\..\..\..\Downloads\glad\src\glad.c" />
     <ClCompile Include="..\gameLib\Particle.cpp" />
     <ClCompile Include="ballistic.cpp" />
     <ClCompile Include="BallisticsTest.cpp" />
