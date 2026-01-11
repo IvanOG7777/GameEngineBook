@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\BallisticsTest"
   ],
-  "SelectedNode": "\\GameEngineBook.sln",
+  "SelectedNode": "\\BallisticsTest\\BallisticsTest.vcxproj.filters",
   "PreviewInSolutionExplorer": false
 }
