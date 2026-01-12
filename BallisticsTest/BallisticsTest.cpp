@@ -115,7 +115,13 @@ int main() {
 	std::cout << "Nearest Nodes to rounds at index 0: ";
 	ballistic.rounds[0].particle.printPosition();
 
+	std::cout << "Size of bestNodes is: " << bestNodes.size() << std::endl;
+
 	for (auto& node : bestNodes) {
+		if (node == nullptr) {
+			std::cout << "nullptr" << std::endl;
+			continue;
+		}
 		node->roundNode->particle.printPosition();
 	}
 

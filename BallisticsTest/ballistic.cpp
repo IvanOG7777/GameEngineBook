@@ -412,21 +412,23 @@ void Ballistic:: findMultipleNNHelper(BallisticNode* node, BallisticNode* target
 
 }
 std::vector<Ballistic:: BallisticNode*> Ballistic:: findMultipleNN(Ballistic::BallisticNode *target, int maxBestNodes) {
-    if (root == nullptr) return {};
+    if (root == nullptr || maxBestNodes <= 0) return {};
 
     std::vector<BallisticNode*> bestNodes;
     std::vector<std::pair<float, BallisticNode*>> bestDistancesAndNodes;
 
     bestDistancesAndNodes.reserve(maxBestNodes);
-    bestNodes.reserve(maxBestNodes);
 
-    float distance = distance2(root, target);
+    float distance = std::numeric_limits<float>::infinity();
 
-    bestDistancesAndNodes.emplace_back(distance, root);
+    bestDistancesAndNodes.emplace_back(distance, nullptr);
 
     findMultipleNNHelper(root, target, bestDistancesAndNodes, maxBestNodes, 0);
 
+    bestNodes.reserve(bestDistancesAndNodes.size());
+
     for (auto& pair : bestDistancesAndNodes) {
+        if (pair.second == nullptr) continue;
         bestNodes.emplace_back(pair.second);
     }
 
