@@ -101,123 +101,125 @@ int main() {
 	ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
 	ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
 	ballistic.currentShotType = ballistic.LASER; ballistic.fire();
+
+	ballistic.addNodesFromVectorToTree(ballistic.rounds);
 	
-	int checkCounter = 0;
-	std::cout << std::endl;
+	std::vector<Ballistic::BallisticNode*> bestNodes = ballistic.findMultipleNN(&ballistic.nodePool[0], 4);
 
-	/*ballistic.addNodesFromVectorToTree(ballistic.rounds);
+	if (bestNodes.empty()) std::cout << "Best Nodes is empty" << std::endl;
 
-	ballistic.printBydepth();
-	Ballistic::BallisticNode target(&ballistic.rounds[0]);
-	Ballistic::BallisticNode bestNode = ballistic.findBestNode(&target);
+	ballistic.addNodesFromVectorToTree(ballistic.rounds);
 
-	std::cout << "Target Nodes postion: ";
-	target.roundNode->particle.printPosition();
 
-	std::cout << "Best Nodes position: ";
-	bestNode.roundNode->particle.printPosition();*/
 
-	bool pWasDown = false;
-	bool aWasDown = false;
-	bool fWasDown = false;
-	bool escWasDown = false;
-	double maxDt = 1.0 / 180.0;
-	auto start = std::chrono::high_resolution_clock::now();
-	while (!glfwWindowShouldClose(window)) {
-		auto currentTime = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double> deltaTime = currentTime - start;
-		start = currentTime;
-		double dt = deltaTime.count(); // seconds
-		if (dt > maxDt) dt = maxDt;
+	std::cout << "Nearest Nodes to rounds at index 0: ";
+	ballistic.rounds[0].particle.printPosition();
 
-		int w = SCREENWIDTH;
-		int h = SCREENHEIGHT;
-
-		glfwGetFramebufferSize(window, &w, &h);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		glUseProgram(program);
-		glUniform2f(uResolutionLoc, (float)w, (float)h);
-		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-		bool pDown = glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS;
-		bool aDown = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
-		bool fDown = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
-		bool escDown = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
-
-		if (pDown && !pWasDown) {
-			ballistic.spawnRound(GLFW_KEY_P);
-		}
-
-		if (aDown && !aWasDown) {
-			ballistic.spawnRound(GLFW_KEY_A);
-		}
-
-		if (fDown && !fWasDown) {
-			ballistic.spawnRound(GLFW_KEY_F);
-		}
-
-		if (escDown && !escWasDown) {
-			std::cout << "Program has been killed " << std::endl;
-			glDeleteBuffers(1, &vbo);
-			glDeleteVertexArrays(1, &vao);
-			glDeleteProgram(program);
-
-			glfwTerminate();
-			return 0;
-		}
-
-		pWasDown = pDown;
-		aWasDown = aDown;
-		fWasDown = fDown;
-
-		for (int i = 0; i < ballistic.rounds.size(); i++) {
-			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
-			float particleForceNewtons = SMALL_GRAVITY / ballistic.rounds[i].particle.getInverseMass();
-			ballistic.rounds[i].particle.addForce(0, particleForceNewtons, 0);
-		}
-
-		ballistic.updateRound(dt);
-		ballistic.treeReset();
-		ballistic.addNodesFromVectorToTree(ballistic.rounds);
-		resolveCollisionKDTree(ballistic, ballistic.rounds);
-
-		for (int i = 0; i < ballistic.rounds.size(); i++) {
-			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
-
-			float particleRadius = ballistic.rounds[i].particle.getRadius();
-			sweptBounds(ballistic.rounds[i].particle, dt, w, h);
-
-			Vector3 particlePosition = ballistic.rounds[i].particle.getPosition();
-			particleVerticies = makeCircleFan(particlePosition, particleRadius, res);
-
-			switch (ballistic.rounds[i].type) {
-			case Ballistic::PISTOL: glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); break;
-			case Ballistic::ARTILLERY: glUniform3f(uColorLoc, 1.0f, 0.8f, 0.2f); break;
-			case Ballistic::FIREBALL:  glUniform3f(uColorLoc, 1.0f, 0.2f, 0.2f); break;
-			default:                   glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
-			}
-
-			glBindBuffer(GL_ARRAY_BUFFER, vbo);
-			glBufferSubData(
-				GL_ARRAY_BUFFER,
-				0,
-				particleVerticies.size() * sizeof(Vector3),
-				particleVerticies.data()
-			);
-
-			glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
-
-		}
-
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+	for (auto& node : bestNodes) {
+		node->roundNode->particle.printPosition();
 	}
 
-	glDeleteBuffers(1, &vbo);
-	glDeleteVertexArrays(1, &vao);
-	glDeleteProgram(program);
+	//bool pWasDown = false;
+	//bool aWasDown = false;
+	//bool fWasDown = false;
+	//bool escWasDown = false;
+	//double maxDt = 1.0 / 180.0;
+	//auto start = std::chrono::high_resolution_clock::now();
+	//while (!glfwWindowShouldClose(window)) {
+	//	auto currentTime = std::chrono::high_resolution_clock::now();
+	//	std::chrono::duration<double> deltaTime = currentTime - start;
+	//	start = currentTime;
+	//	double dt = deltaTime.count(); // seconds
+	//	if (dt > maxDt) dt = maxDt;
+
+	//	int w = SCREENWIDTH;
+	//	int h = SCREENHEIGHT;
+
+	//	glfwGetFramebufferSize(window, &w, &h);
+	//	glClear(GL_COLOR_BUFFER_BIT);
+
+	//	glUseProgram(program);
+	//	glUniform2f(uResolutionLoc, (float)w, (float)h);
+	//	glBindVertexArray(vao);
+	//	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	//	bool pDown = glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS;
+	//	bool aDown = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
+	//	bool fDown = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
+	//	bool escDown = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
+
+	//	if (pDown && !pWasDown) {
+	//		ballistic.spawnRound(GLFW_KEY_P);
+	//	}
+
+	//	if (aDown && !aWasDown) {
+	//		ballistic.spawnRound(GLFW_KEY_A);
+	//	}
+
+	//	if (fDown && !fWasDown) {
+	//		ballistic.spawnRound(GLFW_KEY_F);
+	//	}
+
+	//	if (escDown && !escWasDown) {
+	//		std::cout << "Program has been killed " << std::endl;
+	//		glDeleteBuffers(1, &vbo);
+	//		glDeleteVertexArrays(1, &vao);
+	//		glDeleteProgram(program);
+
+	//		glfwTerminate();
+	//		return 0;
+	//	}
+
+	//	pWasDown = pDown;
+	//	aWasDown = aDown;
+	//	fWasDown = fDown;
+
+	//	for (int i = 0; i < ballistic.rounds.size(); i++) {
+	//		if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
+	//		float particleForceNewtons = SMALL_GRAVITY / ballistic.rounds[i].particle.getInverseMass();
+	//		ballistic.rounds[i].particle.addForce(0, particleForceNewtons, 0);
+	//	}
+
+	//	ballistic.updateRound(dt);
+	//	ballistic.treeReset();
+	//	ballistic.addNodesFromVectorToTree(ballistic.rounds);
+	//	resolveCollisionKDTree(ballistic, ballistic.rounds);
+
+	//	for (int i = 0; i < ballistic.rounds.size(); i++) {
+	//		if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
+
+	//		float particleRadius = ballistic.rounds[i].particle.getRadius();
+	//		sweptBounds(ballistic.rounds[i].particle, dt, w, h);
+
+	//		Vector3 particlePosition = ballistic.rounds[i].particle.getPosition();
+	//		particleVerticies = makeCircleFan(particlePosition, particleRadius, res);
+
+	//		switch (ballistic.rounds[i].type) {
+	//		case Ballistic::PISTOL: glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); break;
+	//		case Ballistic::ARTILLERY: glUniform3f(uColorLoc, 1.0f, 0.8f, 0.2f); break;
+	//		case Ballistic::FIREBALL:  glUniform3f(uColorLoc, 1.0f, 0.2f, 0.2f); break;
+	//		default:                   glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
+	//		}
+
+	//		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	//		glBufferSubData(
+	//			GL_ARRAY_BUFFER,
+	//			0,
+	//			particleVerticies.size() * sizeof(Vector3),
+	//			particleVerticies.data()
+	//		);
+
+	//		glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
+
+	//	}
+
+	//	glfwSwapBuffers(window);
+	//	glfwPollEvents();
+	//}
+
+	//glDeleteBuffers(1, &vbo);
+	//glDeleteVertexArrays(1, &vao);
+	//glDeleteProgram(program);
 
 	glfwTerminate();
 	return 0;

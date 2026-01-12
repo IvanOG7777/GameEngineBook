@@ -74,5 +74,6 @@ public:
 
     static bool duplicateCheck(const  std::vector<std::pair<float, BallisticNode*>>& nodes, const BallisticNode* node);
     void findMultipleNNHelper(BallisticNode* node, BallisticNode* target, std::vector<std::pair<float, BallisticNode*>>& bestNodes, int maxBestNodes, int depth);
-    std::vector<BallisticNode*> findMultipleNN(BallisticNode* target);
+    std::vector<BallisticNode*> findMultipleNN(Ballistic::BallisticNode* target, int maxBestNodes);
+    static bool compareNodeDistances(std::pair<float, BallisticNode*> nodeA, std::pair<float, BallisticNode*> nodeB);
 };
