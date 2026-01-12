@@ -206,14 +206,14 @@ void Ballistic::spawnRound(int key) {
 }
 
 void Ballistic::addNode(BallisticNode* node) {
+
+    node->left = nullptr;
+    node->right = nullptr;
+
     if (root == nullptr) {
         root = node;
         return;
     }
-
-    // sanity check make sure node is a leaf node
-    node->left = nullptr;
-    node->right = nullptr;
 
     BallisticNode* current = root;
     int depth = 0;
@@ -377,7 +377,8 @@ bool Ballistic:: compareNodeDistances(std::pair<float, BallisticNode*> nodeA, st
 }
 
 void Ballistic:: findMultipleNNHelper(BallisticNode* node, BallisticNode* target, std::vector<std::pair<float, BallisticNode*>>& bestNodes, int maxBestNodes, int depth) {
-    if (node == nullptr) return;
+    if (node == nullptr || target == nullptr) return;
+    if (node->roundNode == nullptr || target->roundNode == nullptr) return;
 
     float distance = distance2(node, target);
     int axis = depth % 2;
@@ -418,10 +419,6 @@ std::vector<Ballistic:: BallisticNode*> Ballistic:: findMultipleNN(Ballistic::Ba
     std::vector<std::pair<float, BallisticNode*>> bestDistancesAndNodes;
 
     bestDistancesAndNodes.reserve(maxBestNodes);
-
-    float distance = std::numeric_limits<float>::infinity();
-
-    bestDistancesAndNodes.emplace_back(distance, nullptr);
 
     findMultipleNNHelper(root, target, bestDistancesAndNodes, maxBestNodes, 0);
 
