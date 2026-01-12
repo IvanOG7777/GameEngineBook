@@ -102,11 +102,6 @@ int main() {
 	ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
 	ballistic.currentShotType = ballistic.LASER; ballistic.fire();
 
-	ballistic.addNodesFromVectorToTree(ballistic.rounds);
-	
-	std::vector<Ballistic::BallisticNode*> bestNodes = ballistic.findMultipleNN(&ballistic.nodePool[0], 4);
-
-	if (bestNodes.empty()) std::cout << "Best Nodes is empty" << std::endl;
 
 	ballistic.addNodesFromVectorToTree(ballistic.rounds);
 

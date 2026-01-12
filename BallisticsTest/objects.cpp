@@ -293,6 +293,20 @@ void resolveCollisionKDTree(Ballistic &ballistic, std::vector<Ballistic::AmmoRou
 	}
 }
 
+//void resolveMultipleCollitionKDTree(Ballistic& ballistic, std::vector < Ballistic::AmmoRound>& rounds) {
+//	if (rounds.empty()) return;
+//
+//	for (auto& round : rounds) {
+//		if (round.type == Ballistic::UNUSED) continue;
+//		Ballistic::BallisticNode newNode(&round);
+//		std::vector<Ballistic::BallisticNode*> bestNodes = ballistic.findMultipleNN(&newNode, 3);
+//
+//		for (auto& node : bestNodes) {
+//			resolveCollision2(&newNode, node);
+//		}
+//	}
+//}
+
 void resolveCollision2(Ballistic:: BallisticNode *node1, Ballistic::BallisticNode *node2) {
 	Ballistic::AmmoRound& round1 = *node1->roundNode;
 	Ballistic::AmmoRound& round2 = *node2->roundNode;

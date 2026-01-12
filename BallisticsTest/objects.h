@@ -14,4 +14,4 @@ bool circleCollision(Ballistic::AmmoRound &round1, Ballistic::AmmoRound &round2)
 void resolveCollision(std:: vector<Ballistic::AmmoRound> &rounds);
 void resolveCollision2(Ballistic::BallisticNode* node1, Ballistic::BallisticNode* node2);
 void resolveCollisionKDTree(Ballistic& ballistic, std::vector<Ballistic::AmmoRound>& rounds);
-void resolveMultipleCollisionKDTree(Ballistic& ballistic, std::vector<Ballistic::BallisticNode>& nodePool);
+//void resolveMultipleCollitionKDTree(Ballistic& ballistic, std::vector < Ballistic::AmmoRound>& rounds);

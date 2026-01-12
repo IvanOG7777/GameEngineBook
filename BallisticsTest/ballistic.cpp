@@ -132,12 +132,12 @@ void Ballistic::updateRound(double &dt) {
     for (int i = 0; i < rounds.size(); i++) {
         if (rounds[i].type != UNUSED) {
 
-            rounds[i].lifeTime -= static_cast<float>(dt);
+            /*rounds[i].lifeTime -= static_cast<float>(dt);
             if (rounds[i].lifeTime <= 0) {
                 rounds[i].particle.clearAccumulator();
                 rounds[i].particle.clearAllValues();
                 rounds[i].type = UNUSED;
-            }
+            }*/
 
             rounds[i].particle.update(dt);
             if (rounds[i].particle.getPosition().y <= 0.0f) {
@@ -372,75 +372,75 @@ Ballistic::BallisticNode* Ballistic:: allocateNode(AmmoRound *round) {
     return node;
 }
 
-bool Ballistic:: compareNodeDistances(std::pair<float, BallisticNode*> nodeA, std::pair<float, BallisticNode*> nodeB) {
-    return nodeA.first < nodeB.first;
-}
-
-void Ballistic:: findMultipleNNHelper(BallisticNode* node, BallisticNode* target, std::vector<std::pair<float, BallisticNode*>>& bestNodes, int maxBestNodes, int depth) {
-    if (node == nullptr || target == nullptr) return;
-    if (node->roundNode == nullptr || target->roundNode == nullptr) return;
-
-    float distance = distance2(node, target);
-    int axis = depth % 2;
-
-    if (distance > 0.0f && !duplicateCheck(bestNodes, node)) {
-        if (static_cast<int>(bestNodes.size()) < maxBestNodes) {
-            bestNodes.emplace_back(distance, node);
-            std::sort(bestNodes.begin(), bestNodes.end(), compareNodeDistances);
-        }
-        else if (distance < bestNodes.back().first) {
-            bestNodes.back() = { distance, node };
-            std::sort(bestNodes.begin(), bestNodes.end(), compareNodeDistances);
-        }
-    }
-
-    float targetAxisValue = (axis == 0) ? target->roundNode->particle.getPosition().x : target->roundNode->particle.getPosition().y;
-    float nodeAxisValue = (axis == 0) ? node->roundNode->particle.getPosition().x : node->roundNode->particle.getPosition().y;
-
-    BallisticNode* nearChild = (targetAxisValue < nodeAxisValue) ? node->left : node->right;
-    BallisticNode* farChild = (targetAxisValue < nodeAxisValue) ? node->right : node->left;
-
-    findMultipleNNHelper(nearChild, target, bestNodes, maxBestNodes, depth + 1);
-
-    float worstDistance = (bestNodes.size() < maxBestNodes) ? std::numeric_limits<float>::infinity() : bestNodes.back().first;
-
-    float difference = targetAxisValue - nodeAxisValue;
-    float differenceSquared = difference * difference;
-
-    if (differenceSquared < worstDistance) {
-        findMultipleNNHelper(farChild, target, bestNodes, maxBestNodes, depth + 1);
-    }
-
-}
-std::vector<Ballistic:: BallisticNode*> Ballistic:: findMultipleNN(Ballistic::BallisticNode *target, int maxBestNodes) {
-    if (root == nullptr || maxBestNodes <= 0) return {};
-
-    std::vector<BallisticNode*> bestNodes;
-    std::vector<std::pair<float, BallisticNode*>> bestDistancesAndNodes;
-
-    bestDistancesAndNodes.reserve(maxBestNodes);
-
-    findMultipleNNHelper(root, target, bestDistancesAndNodes, maxBestNodes, 0);
-
-    bestNodes.reserve(bestDistancesAndNodes.size());
-
-    for (auto& pair : bestDistancesAndNodes) {
-        if (pair.second == nullptr) continue;
-        bestNodes.emplace_back(pair.second);
-    }
-
-    return bestNodes;
-
-}
-
-bool Ballistic::duplicateCheck(const std::vector<std::pair<float, BallisticNode*>>& nodes, const BallisticNode* node) {
-    bool duplicate = false;
-
-    if (nodes.empty()) return duplicate;
-
-    for (auto& pair : nodes) {
-        if (pair.second == node) duplicate = true;
-    }
-
-    return duplicate;
-}
+//bool Ballistic:: compareNodeDistances(std::pair<float, BallisticNode*> nodeA, std::pair<float, BallisticNode*> nodeB) {
+//    return nodeA.first < nodeB.first;
+//}
+//
+//void Ballistic:: findMultipleNNHelper(BallisticNode* node, BallisticNode* target, std::vector<std::pair<float, BallisticNode*>>& bestNodes, int maxBestNodes, int depth) {
+//    if (node == nullptr || target == nullptr) return;
+//    if (node->roundNode == nullptr || target->roundNode == nullptr) return;
+//
+//    float distance = distance2(node, target);
+//    int axis = depth % 2;
+//
+//    if (distance > 0.0f && !duplicateCheck(bestNodes, node)) {
+//        if (static_cast<int>(bestNodes.size()) < maxBestNodes) {
+//            bestNodes.emplace_back(distance, node);
+//            std::sort(bestNodes.begin(), bestNodes.end(), compareNodeDistances);
+//        }
+//        else if (distance < bestNodes.back().first) {
+//            bestNodes.back() = { distance, node };
+//            std::sort(bestNodes.begin(), bestNodes.end(), compareNodeDistances);
+//        }
+//    }
+//
+//    float targetAxisValue = (axis == 0) ? target->roundNode->particle.getPosition().x : target->roundNode->particle.getPosition().y;
+//    float nodeAxisValue = (axis == 0) ? node->roundNode->particle.getPosition().x : node->roundNode->particle.getPosition().y;
+//
+//    BallisticNode* nearChild = (targetAxisValue < nodeAxisValue) ? node->left : node->right;
+//    BallisticNode* farChild = (targetAxisValue < nodeAxisValue) ? node->right : node->left;
+//
+//    findMultipleNNHelper(nearChild, target, bestNodes, maxBestNodes, depth + 1);
+//
+//    float worstDistance = (bestNodes.size() < maxBestNodes) ? std::numeric_limits<float>::infinity() : bestNodes.back().first;
+//
+//    float difference = targetAxisValue - nodeAxisValue;
+//    float differenceSquared = difference * difference;
+//
+//    if (differenceSquared < worstDistance) {
+//        findMultipleNNHelper(farChild, target, bestNodes, maxBestNodes, depth + 1);
+//    }
+//
+//}
+//std::vector<Ballistic:: BallisticNode*> Ballistic:: findMultipleNN(Ballistic::BallisticNode *target, int maxBestNodes) {
+//    if (root == nullptr || maxBestNodes <= 0) return {};
+//
+//    std::vector<BallisticNode*> bestNodes;
+//    std::vector<std::pair<float, BallisticNode*>> bestDistancesAndNodes;
+//
+//    bestDistancesAndNodes.reserve(maxBestNodes);
+//
+//    findMultipleNNHelper(root, target, bestDistancesAndNodes, maxBestNodes, 0);
+//
+//    bestNodes.reserve(bestDistancesAndNodes.size());
+//
+//    for (auto& pair : bestDistancesAndNodes) {
+//        if (pair.second == nullptr) continue;
+//        bestNodes.emplace_back(pair.second);
+//    }
+//
+//    return bestNodes;
+//
+//}
+//
+//bool Ballistic::duplicateCheck(const std::vector<std::pair<float, BallisticNode*>>& nodes, const BallisticNode* node) {
+//    bool duplicate = false;
+//
+//    if (nodes.empty()) return duplicate;
+//
+//    for (auto& pair : nodes) {
+//        if (pair.second == node) duplicate = true;
+//    }
+//
+//    return duplicate;
+//}
