@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\gameLib;C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Libraries\lib;C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\gameLib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Libraries\include;$(IncludePath)</IncludePath>
@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\gameLib;C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Libraries\lib;C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\gameLib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\Libraries\include;$(IncludePath)</IncludePath>
