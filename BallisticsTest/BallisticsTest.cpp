@@ -103,7 +103,7 @@ int main() {
 	ballistic.currentShotType = ballistic.LASER; ballistic.fire();
 
 
-	ballistic.addNodesFromVectorToTree(ballistic.rounds);
+	ballistic.addRoundsFromVectorToTree(ballistic.rounds);
 
 	bool pWasDown = false;
 	bool aWasDown = false;
@@ -168,7 +168,7 @@ int main() {
 
 		ballistic.updateRound(dt);
 		ballistic.treeReset();
-		ballistic.addNodesFromVectorToTree(ballistic.rounds);
+		ballistic.addRoundsFromVectorToTree(ballistic.rounds);
 		resolveCollisionKDTree(ballistic, ballistic.rounds);
 
 		for (int i = 0; i < ballistic.rounds.size(); i++) {

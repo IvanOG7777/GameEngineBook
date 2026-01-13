@@ -37,6 +37,10 @@ public:
 private:
     // Give Ballistic class a root node
     BallisticNode* root;
+    float distance2(BallisticNode* node1, BallisticNode* node2);
+    void findBestNodeHelper(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth);
+    BallisticNode* allocateNode(AmmoRound* round);
+    void addNode(BallisticNode* node);
 
 public:
     Ballistic(); // default Ballistic object constructor, no parameters needed
@@ -44,7 +48,7 @@ public:
     ShotType currentShotType; // set the current type of shot for when use use fire() it will fire that current shot within rounds
     std::vector<AmmoRound> rounds; // vector of AmmoRound Structs, can hold multiple types of shots PISTOL,ARTILERY...
     std::vector<BallisticNode> nodePool; // vector that will hold BallisticNodes
-    int poolUsed;
+    int poolUsed; // counter
 
     void initializeParticleForAmmoRound(ShotType currentType); // function used to initalize an AmmoRound struct, function is really only used for testing since its not cycling through all elements of rounds
 
@@ -57,23 +61,17 @@ public:
 
     void spawnRound(int key);
 
-    void addNode(BallisticNode* node);
-
-    void addNodesFromVectorToTree(std::vector<AmmoRound> &rounds);
+    void addRoundsFromVectorToTree(std::vector<AmmoRound> &rounds);
 
     void printBydepth();
 
-    float distance2(BallisticNode* node1, BallisticNode* node2);
-
-    void findBestNodeHelper(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth);
     BallisticNode* findBestNode(BallisticNode* tagetNode);
 
     BallisticNode* getRoot();
     void treeReset();
-    BallisticNode* allocateNode(AmmoRound* round);
 
-    static bool duplicateCheck(const  std::vector<std::pair<float, BallisticNode*>>& nodes, const BallisticNode* node);
+    /*static bool duplicateCheck(const  std::vector<std::pair<float, BallisticNode*>>& nodes, const BallisticNode* node);
     void findMultipleNNHelper(BallisticNode* node, BallisticNode* target, std::vector<std::pair<float, BallisticNode*>>& bestNodes, int maxBestNodes, int depth);
     std::vector<BallisticNode*> findMultipleNN(Ballistic::BallisticNode* target, int maxBestNodes);
-    static bool compareNodeDistances(std::pair<float, BallisticNode*> nodeA, std::pair<float, BallisticNode*> nodeB);
+    static bool compareNodeDistances(std::pair<float, BallisticNode*> nodeA, std::pair<float, BallisticNode*> nodeB);*/
 };

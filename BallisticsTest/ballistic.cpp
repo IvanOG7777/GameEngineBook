@@ -12,8 +12,8 @@
 // rounds is resized to hold 16 AmmoRound structs
 // set initial current shot to unused.
 Ballistic::Ballistic() {
-    rounds.resize(MaxAmmo);
-    nodePool.resize(MaxAmmo);
+    rounds.resize(MaxAmmo); // resize the vector to the MaxAmmo size. This preallocates AmmoRound structs within the vector
+    nodePool.resize(MaxAmmo); // resize the vector to the MaxAmmo size. This preallocates BallisticNode structs within the vector
     currentShotType = UNUSED;
     ammoRound = AmmoRound(); // NOT really needed, only for testing, but this constructs a single ammoRound of type AmmoRound and sets its value to default AmmoRound constructor
     root = nullptr;
@@ -205,19 +205,31 @@ void Ballistic::spawnRound(int key) {
     }
 }
 
+// function used to add a node to the tree
+/* Parameters:
+*       BallisticNode struct pointer
+* Returns void (nothing)
+*/
 void Ballistic::addNode(BallisticNode* node) {
 
+    // Sanity check, makes passed node a leaf node
     node->left = nullptr;
     node->right = nullptr;
 
+    // if root is nullptr make passed node root of tree
     if (root == nullptr) {
         root = node;
         return;
     }
 
+    // If above is false make initialize current node pointer to root
+    // Initialize depth to 0 to calculate the axis to check 
     BallisticNode* current = root;
     int depth = 0;
 
+    // Essentially a normal tree addition of nodes only we are switching compareision axis values on different depths
+    // Even depths we check the x-axis and odd depths we check the y-axis
+    // While we dont hit a return statment
     while (true) {
         // x axis check
         if (depth % 2 == 0) {
@@ -257,16 +269,42 @@ void Ballistic::addNode(BallisticNode* node) {
     }
 }
 
-void Ballistic::addNodesFromVectorToTree(std::vector<AmmoRound> &rounds) {
+// Function used to add a round from a vector to the tree itself
+/* Parameters:
+*       Vector of AmmoRound structs. We are referencing the values from the vector
+*       Returns nothing
+*/
+void Ballistic::addRoundsFromVectorToTree(std::vector<AmmoRound> &rounds) {
+    // for each round in rounds
     for (auto &round : rounds) {
-        if (round.type == UNUSED) continue;
-        BallisticNode* newNode = allocateNode(&round);
-        if (!newNode) break;
+        if (round.type == UNUSED) continue; // if round type is UNUSED(invalid particle) continue to next round
+        BallisticNode* newNode = allocateNode(&round); // newNode points to a node within the the nodePool that is now initliazed to have the current rounds value
+        if (!newNode) break; // if newNode is nullptr break
 
-        addNode(newNode);
+        addNode(newNode); // add this node to the tree
     }
 }
 
+// Function used to allocate a node using a round struct
+/* Parameters:
+*       Pointer to an AmmoRound struct
+*       Returns a BallisticNode
+*/
+Ballistic::BallisticNode* Ballistic::allocateNode(AmmoRound* round) {
+    if (poolUsed >= nodePool.size()) return nullptr; // if the poolUsed counter is greater than or equal to the nodePoolsize return a nullptr
+
+    BallisticNode* node = &nodePool[poolUsed++]; // reference the "dummy" node within the pool and make node point to that
+
+    node->roundNode = round; // assign node's roundtype to the passed round
+    // sanitize the node to make it a leaf node
+    node->left = nullptr;
+    node->right = nullptr;
+
+    return node; // return the node
+}
+
+// function used to print nodes by depth
+// no parameters
 void Ballistic::printBydepth() {
     if (root == nullptr) {
         return;
@@ -297,58 +335,91 @@ void Ballistic::printBydepth() {
     }
 }
 
+// Function used to calculated the distance squared between the positions of two nodes
+/* Parameters:
+*       Two Ballistic nodes passed by pointers
+*       Returns a float value (distance square)
+*/
 float Ballistic::distance2(BallisticNode* node1, BallisticNode* node2) {
-    float sumX = node1->roundNode->particle.getPosition().x - node2->roundNode->particle.getPosition().x;
-    float sumY = node1->roundNode->particle.getPosition().y - node2->roundNode->particle.getPosition().y;
+    float sumX = node1->roundNode->particle.getPosition().x - node2->roundNode->particle.getPosition().x; // do node1.x - node2.x
+    float sumY = node1->roundNode->particle.getPosition().y - node2->roundNode->particle.getPosition().y; // do node1.y - node2.y
     
+    // square the sums
     float xSquared = sumX * sumX;
     float ySquared = sumY * sumY;
 
+    // return the sums of the squares
     return xSquared + ySquared;
 }
 
+
+// Function used to find the nearestNeighbor of a target node
+/* Parameters:
+*       Current node pointer, Target node pointer, Pointer reference of the best node found, Reference of current bestDistance, current depth
+*/
 void Ballistic::findBestNodeHelper(BallisticNode* current, BallisticNode* target, BallisticNode*& bestNode, float& bestDistance, int depth) {
+    // if the current node is nullptr
+    // return to previous recursion call
     if (current == nullptr) {
         return;
     }
 
-    float distance = distance2(current, target);
+    // calcuate the current distance on current recursive call
+    float distance = distance2(current, target); // pass in the current node we are checking and the target node
 
+    // if the distance is greater than 0.0f(cannot be itsself) AND if the distance is less than the current bestDistance
     if (distance > 0.0f && distance < bestDistance) {
+        //swap bestDistance to distance and bestNode to current node
         bestDistance = distance;
         bestNode = current;
     }
 
+    // calculate the axis we are going to check in the tree
+    // if axis is 0 we check x-axis if 1 we check y-axis
     int axis = depth % 2;
 
+    // if axis is 0 we the the x position of the current and target nodes
     float currentAxisValue = (axis == 0) ? current->roundNode->particle.getPosition().x : current->roundNode->particle.getPosition().y;
     float targetAxisValue = (axis == 0) ? target->roundNode->particle.getPosition().x : target->roundNode->particle.getPosition().y;
 
+    // if the targetAxis value is less than the currentAxisValue nearChild pointer is set to currents left pointer else the right pointer
+    // if the targetAxis value is less than the currentAxisValue farChild pointer is set to currents right pointer else the left pointer
     BallisticNode* nearChild = (targetAxisValue < currentAxisValue) ? current->left : current->right;
     BallisticNode* farChild = (targetAxisValue < currentAxisValue) ? current->right : current->left;
 
-    findBestNodeHelper(nearChild, target, bestNode, bestDistance, depth+1);
+    findBestNodeHelper(nearChild, target, bestNode, bestDistance, depth+1); // recursivly call function on nearChild
 
+    // only enters this portion after we are returing up from the bottom nodes
     float difference = targetAxisValue - currentAxisValue;
     float differenceSquared = difference * difference;
 
+    // if the differneceSquared is less than the curernt bestDistance
+    // we potentially have a better out put on the far child
     if (differenceSquared < bestDistance) {
-        findBestNodeHelper(farChild, target, bestNode, bestDistance, depth+1);
+        findBestNodeHelper(farChild, target, bestNode, bestDistance, depth+1); // recursivly call function on farChild
     }
 }
 
+
+// Function that calls findBestNodeHelper and returns the bestNode found
+/* Parameters:
+*       BallisticNode pointer to target
+*/
 Ballistic::BallisticNode* Ballistic::findBestNode(BallisticNode* target) {
+    // if the root of the tree is null 
     if (root == nullptr) {
         std::cout << "Returning target node" << std::endl;
-        return target;
+        return target; // return the target
     }
 
+    // Initialize the best distance to infinity and bestNode to root node
     float bestDistance = std::numeric_limits<float>::infinity();
     BallisticNode* bestNode = root;
 
+    // call recursive helper function
     findBestNodeHelper(root, target, bestNode, bestDistance, 0);
 
-    return bestNode;
+    return bestNode; // return the pointer to the bestNode
 }
 
 Ballistic::BallisticNode* Ballistic::getRoot() {
@@ -358,18 +429,6 @@ Ballistic::BallisticNode* Ballistic::getRoot() {
 void Ballistic:: treeReset() {
     root = nullptr;
     poolUsed = 0;
-}
-
-Ballistic::BallisticNode* Ballistic:: allocateNode(AmmoRound *round) {
-    if (poolUsed >= nodePool.size()) return nullptr;
-
-    BallisticNode* node = &nodePool[poolUsed++];
-
-    node->roundNode = round;
-    node->left = nullptr;
-    node->right = nullptr;
-
-    return node;
 }
 
 //bool Ballistic:: compareNodeDistances(std::pair<float, BallisticNode*> nodeA, std::pair<float, BallisticNode*> nodeB) {
