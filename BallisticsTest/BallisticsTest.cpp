@@ -49,6 +49,7 @@ int main() {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfwSetCursorEnterCallback(window, cursorEnterCallback);
 	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+
 	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -72,7 +73,7 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 	Ballistic ballistic;
-	glfwSetWindowUserPointer(window, &ballistic);
+	glfwSetWindowUserPointer(window, &ballistic); // stores a void* for the current window, doenst know the type of ballistic so it only stores it address
 	int key;
 	int res = 100;
 	float baseRadius = 10.0f;
