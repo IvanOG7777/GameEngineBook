@@ -1,2 +1,5 @@
 ﻿  windowFunctions.cpp
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  (compiling source file 'windowFunctions.cpp')
+  
   BallisticsTest.vcxproj -> C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\x64\Debug\BallisticsTest.exe

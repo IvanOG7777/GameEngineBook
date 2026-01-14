@@ -1,7 +1,11 @@
-#include "windowFunctions.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
+
+#include "windowFunctions.h"
+#include "ballistics.h"
+#include "globalConstants.h"
 
 GLFWwindow* startGLFWwindow(int height, int width, bool fullscreen) {
 	if (!glfwInit()) {
@@ -106,8 +110,8 @@ GLuint createProgram(const char* vertexShader, const char* fragmentShader) {
 }
 
  void cursorPositionCallback(GLFWwindow* window, double positionX, double positionY) {
-	std::cout << "X position: " << positionX << std::endl;
-	std::cout << "Y position: " << positionY << std::endl;
+	//std::cout << "X position: " << positionX << std::endl;
+	//std::cout << "Y position: " << positionY << std::endl;
 	std::cout << std::endl;
 }
 
@@ -123,6 +127,24 @@ GLuint createProgram(const char* vertexShader, const char* fragmentShader) {
  void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 	 if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
 		 std::cout << "Left mouse click has been pressed" << std::endl;
+		 auto *ballistic = static_cast<Ballistic*>(glfwGetWindowUserPointer(window));
+
+		 if (!ballistic) return;
+
+		 double xPosition = 0.0;
+		 double yPosition = 0.0;
+		 int height = 0;
+		 int width = 0;
+
+		 glfwGetCursorPos(window, &xPosition, &yPosition);
+		 glfwGetWindowSize(window, &width, &height);
+
+		 std::cout << "xPosition: " << xPosition << std::endl;
+		 std::cout << "yPosition: " << yPosition << std::endl;
+
+		 double yFlipped = static_cast<float>(height) - yPosition;
+
+		 ballistic->spawnRoundWithMouse(xPosition, yFlipped);
 	 }
 	 
 	 if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {

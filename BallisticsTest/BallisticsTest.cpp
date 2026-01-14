@@ -49,7 +49,6 @@ int main() {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfwSetCursorEnterCallback(window, cursorEnterCallback);
 	glfwSetMouseButtonCallback(window, mouseButtonCallback);
-
 	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -73,6 +72,7 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 	Ballistic ballistic;
+	glfwSetWindowUserPointer(window, &ballistic);
 	int key;
 	int res = 100;
 	float baseRadius = 10.0f;
@@ -103,10 +103,10 @@ int main() {
 		return 1;
 	}
 
-	ballistic.currentShotType = ballistic.PISTOL; ballistic.fire();
+	/*ballistic.currentShotType = ballistic.PISTOL; ballistic.fire();
 	ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
 	ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER; ballistic.fire();
+	ballistic.currentShotType = ballistic.LASER; ballistic.fire();*/
 
 
 	ballistic.addRoundsFromVectorToTree(ballistic.rounds);
@@ -115,6 +115,7 @@ int main() {
 	bool aWasDown = false;
 	bool fWasDown = false;
 	bool escWasDown = false;
+	int count = 0;
 	double maxDt = 1.0 / 180.0;
 	auto start = std::chrono::high_resolution_clock::now();
 	while (!glfwWindowShouldClose(window)) {

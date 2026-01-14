@@ -5,6 +5,9 @@
 #include <queue>
 #include <limits>
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include "ballistics.h"
 #include "globalConstants.h"
 
@@ -62,7 +65,7 @@ void Ballistic::initializeParticleForAmmoRound(ShotType currentType) { // pass i
 }
 
 // function used to initlize a slot within rounds with round types particle parameters
-void Ballistic::fire() {
+void Ballistic::fire(double &xPosition, double &yPosition) {
     // initial for loop to loop through the rounds vector
     int roundIndex = 0;
     for (; roundIndex < rounds.size(); roundIndex++) {
@@ -87,7 +90,7 @@ void Ballistic::fire() {
         rounds[roundIndex].particle.setAcceleration(0.0f, -1.0f, 0.0f);
         rounds[roundIndex].particle.setDamping(0.99f);
         rounds[roundIndex].particle.setRadius(2.0f);
-        rounds[roundIndex].particle.setPosition(500.0f, 950.0f, 0.0f);
+        rounds[roundIndex].particle.setPosition(static_cast<float>(xPosition), static_cast<float>(yPosition), 0.0f);
         rounds[roundIndex].lifeTime = 8.0f;
         std::cout << "Round at index: " << roundIndex << " has been initlaized to PISTOL" << std::endl;
         break;
@@ -97,7 +100,7 @@ void Ballistic::fire() {
         rounds[roundIndex].particle.setAcceleration(0.0f, -20.0f, 0.0f);
         rounds[roundIndex].particle.setDamping(0.99f);
         rounds[roundIndex].particle.setRadius(10.0f);
-        rounds[roundIndex].particle.setPosition(500.0f, 850.0f, 0.0f);
+        rounds[roundIndex].particle.setPosition(static_cast<float>(xPosition), static_cast<float>(yPosition), 0.0f);
         rounds[roundIndex].lifeTime = 10.0f;
         std::cout << "Round at index: " << roundIndex << " has been initlaized ARTILLERY" << std::endl;
         break;
@@ -107,7 +110,7 @@ void Ballistic::fire() {
         rounds[roundIndex].particle.setAcceleration(0.0f, -0.6f, 0.0f);
         rounds[roundIndex].particle.setDamping(0.99f);
         rounds[roundIndex].particle.setRadius(5.0f);
-        rounds[roundIndex].particle.setPosition(500.0f, 700.0f, 0.0f);
+        rounds[roundIndex].particle.setPosition(static_cast<float>(xPosition), static_cast<float>(yPosition), 0.0f);
         rounds[roundIndex].lifeTime = 5.0f;
         std::cout << "Round at index: " << roundIndex << " has been initlaized FIREBALL" << std::endl;
         break;
@@ -116,7 +119,7 @@ void Ballistic::fire() {
         rounds[roundIndex].particle.setVelocity(0.0f, 0.0f, 100.0f);
         rounds[roundIndex].particle.setAcceleration(0, 0, 0);
         rounds[roundIndex].particle.setDamping(0.999f);
-        rounds[roundIndex].particle.setPosition(200.0f, 700.0f, 0.0f);
+        rounds[roundIndex].particle.setPosition(static_cast<float>(xPosition), static_cast<float>(yPosition), 0.0f);
         rounds[roundIndex].particle.setRadius(1.1f);
         rounds[roundIndex].lifeTime = 10.0f;
         std::cout << "Round at index: " << roundIndex << " has been initlaized LASER" << std::endl;
@@ -169,10 +172,10 @@ void Ballistic::spawnRound(int key) {
         round.particle.setAcceleration(0.0f, -1.0f, 0.0f);
         round.particle.setDamping(0.99f);
         round.particle.setRadius(2.0f);
-        round.particle.setPosition(500.0f, 950.0f, 0.0f);
         round.lifeTime = 8;
         Ballistic::currentShotType = Ballistic::PISTOL;
-        round.type = currentShotType;  Ballistic::fire();
+        round.type = currentShotType;  /*Ballistic::fire();*/
+
         std::cout << "PISTOL has been added" << std::endl;
     }
 
@@ -183,9 +186,8 @@ void Ballistic::spawnRound(int key) {
         round.particle.setDamping(0.99f);
         round.particle.setRadius(10.0f);
         round.lifeTime = 10;
-        round.particle.setPosition(500.0f, 850.0f, 0.0f);
         Ballistic::currentShotType = Ballistic::ARTILLERY;
-        round.type = currentShotType;  Ballistic::fire();
+        round.type = currentShotType; /* Ballistic::fire();*/
 
         std::cout << "ARTILLERY has been added" << std::endl;
     }
@@ -196,10 +198,55 @@ void Ballistic::spawnRound(int key) {
         round.particle.setAcceleration(0.0f, -0.6f, 0.0f);
         round.particle.setDamping(0.99f);
         round.particle.setRadius(5.0f);
-        round.particle.setPosition(500.0f, 700.0f, 0.0f);
         round.lifeTime = 5;
-        Ballistic::currentShotType = Ballistic::FIREBALL;
-        round.type = currentShotType; Ballistic::fire();
+        currentShotType = FIREBALL;
+        /*fire();*/
+
+        std::cout << "FIREBALL has been added" << std::endl;
+    }
+}
+
+void Ballistic:: spawnRoundWithMouse(double xPosition, double yPosition) {
+    Ballistic::AmmoRound round;
+    int particleType = mouseCount % 3;
+    mouseCount++;
+    if (particleType == 0) {
+        round.particle.setMass(2.0f);
+        round.particle.setVelocity(-10.0f, 35.0f, 0.0f);
+        round.particle.setAcceleration(0.0f, -1.0f, 0.0f);
+        round.particle.setDamping(0.99f);
+        round.particle.setRadius(2.0f);
+        round.lifeTime = 8;
+        currentShotType = PISTOL;
+        fire(xPosition, yPosition);
+        std::cout << "Count: " << mouseCount << std::endl;
+        std::cout << "PISTOL has been added" << std::endl;
+    }
+
+    if (particleType == 1) {
+        round.particle.setMass(200.0f);
+        round.particle.setVelocity(-8.0f, 30.0f, 0.0f);
+        round.particle.setAcceleration(0.0f, -20.0f, 0.0f);
+        round.particle.setDamping(0.99f);
+        round.particle.setRadius(10.0f);
+        round.lifeTime = 10;
+        currentShotType = Ballistic::ARTILLERY;
+        fire(xPosition, yPosition);
+        std::cout << "Count: " << mouseCount << std::endl;
+
+        std::cout << "ARTILLERY has been added" << std::endl;
+    }
+
+    if (particleType == 2) {
+        round.particle.setMass(1.0f);
+        round.particle.setVelocity(-10.0f, 10.0f, 0.0f);
+        round.particle.setAcceleration(0.0f, -0.6f, 0.0f);
+        round.particle.setDamping(0.99f);
+        round.particle.setRadius(5.0f);
+        round.lifeTime = 5;
+        currentShotType = FIREBALL;
+        fire(xPosition, yPosition);
+        std::cout << "Count: " << mouseCount << std::endl;
 
         std::cout << "FIREBALL has been added" << std::endl;
     }

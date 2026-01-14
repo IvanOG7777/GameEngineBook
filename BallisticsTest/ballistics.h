@@ -49,17 +49,19 @@ public:
     std::vector<AmmoRound> rounds; // vector of AmmoRound Structs, can hold multiple types of shots PISTOL,ARTILERY...
     std::vector<BallisticNode> nodePool; // vector that will hold BallisticNodes
     int poolUsed; // counter
+    int mouseCount = 0;
 
     void initializeParticleForAmmoRound(ShotType currentType); // function used to initalize an AmmoRound struct, function is really only used for testing since its not cycling through all elements of rounds
 
     // function used to initalize rounds within rounds vector
-    void fire();
+    void fire(double &xPosition, double &yPosition);
     // function used to updated rounds within rounds vector, acceleration, velocity, postion...
     void updateRound(double& dt);
     // function used to check if slots within rounds vector are all UNUSED
     bool allRoundsUnused();
 
     void spawnRound(int key);
+    void spawnRoundWithMouse(double xPosition, double yPosition);
 
     void addRoundsFromVectorToTree(std::vector<AmmoRound> &rounds);
 
