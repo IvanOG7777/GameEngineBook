@@ -44,6 +44,12 @@ int main() {
 
 	GLFWwindow* window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, true); // returns an addres in momory for the window
 	glfwMakeContextCurrent(window);
+
+	glfwSetCursorPosCallback(window, cursorPositionCallback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	glfwSetCursorEnterCallback(window, cursorEnterCallback);
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+
 	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {

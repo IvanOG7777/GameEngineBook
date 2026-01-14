@@ -104,3 +104,28 @@ GLuint createProgram(const char* vertexShader, const char* fragmentShader) {
 	}
 	return prog;
 }
+
+ void cursorPositionCallback(GLFWwindow* window, double positionX, double positionY) {
+	std::cout << "X position: " << positionX << std::endl;
+	std::cout << "Y position: " << positionY << std::endl;
+	std::cout << std::endl;
+}
+
+ void cursorEnterCallback(GLFWwindow* window, int entered) {
+	 if (entered) {
+		 std::cout << "Entered the window" << std::endl;
+	 }
+	 else {
+		 std::cout << "Outside window" << std::endl;
+	 }
+ }
+
+ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+	 if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		 std::cout << "Left mouse click has been pressed" << std::endl;
+	 }
+	 
+	 if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+		 std::cout << "Left mouse click has been released" << std::endl;
+	 }
+ }
