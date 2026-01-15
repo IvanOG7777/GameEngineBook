@@ -21,6 +21,14 @@ Ballistic::Ballistic() {
     ammoRound = AmmoRound(); // NOT really needed, only for testing, but this constructs a single ammoRound of type AmmoRound and sets its value to default AmmoRound constructor
     root = nullptr;
     poolUsed = 0;
+
+    //mouse function variables
+    isMouseDown = false;
+    mousePositionX = 0.0;
+    mousePositionY = 0.0;
+
+    holdTime = 0.0;
+    spawnCooldown = 0.0;
 }
 
 // function to initlaize a shot type with appropriate particle parameters
@@ -173,8 +181,9 @@ void Ballistic::spawnRound(int key) {
         round.particle.setDamping(0.99f);
         round.particle.setRadius(2.0f);
         round.lifeTime = 8;
-        Ballistic::currentShotType = Ballistic::PISTOL;
-        round.type = currentShotType;  /*Ballistic::fire();*/
+        currentShotType = PISTOL;
+        round.type = currentShotType;
+        fire(mousePositionX, mousePositionY);
 
         std::cout << "PISTOL has been added" << std::endl;
     }
@@ -186,8 +195,9 @@ void Ballistic::spawnRound(int key) {
         round.particle.setDamping(0.99f);
         round.particle.setRadius(10.0f);
         round.lifeTime = 10;
-        Ballistic::currentShotType = Ballistic::ARTILLERY;
-        round.type = currentShotType; /* Ballistic::fire();*/
+        currentShotType = ARTILLERY;
+        round.type = currentShotType;
+        fire(mousePositionX, mousePositionY);
 
         std::cout << "ARTILLERY has been added" << std::endl;
     }
@@ -200,7 +210,7 @@ void Ballistic::spawnRound(int key) {
         round.particle.setRadius(5.0f);
         round.lifeTime = 5;
         currentShotType = FIREBALL;
-        /*fire();*/
+        fire(mousePositionX, mousePositionY);
 
         std::cout << "FIREBALL has been added" << std::endl;
     }
@@ -219,7 +229,6 @@ void Ballistic:: spawnRoundWithMouse(double xPosition, double yPosition) {
         round.lifeTime = 8;
         currentShotType = PISTOL;
         fire(xPosition, yPosition);
-        std::cout << "Count: " << mouseCount << std::endl;
         std::cout << "PISTOL has been added" << std::endl;
     }
 
@@ -232,7 +241,6 @@ void Ballistic:: spawnRoundWithMouse(double xPosition, double yPosition) {
         round.lifeTime = 10;
         currentShotType = Ballistic::ARTILLERY;
         fire(xPosition, yPosition);
-        std::cout << "Count: " << mouseCount << std::endl;
 
         std::cout << "ARTILLERY has been added" << std::endl;
     }
@@ -246,7 +254,6 @@ void Ballistic:: spawnRoundWithMouse(double xPosition, double yPosition) {
         round.lifeTime = 5;
         currentShotType = FIREBALL;
         fire(xPosition, yPosition);
-        std::cout << "Count: " << mouseCount << std::endl;
 
         std::cout << "FIREBALL has been added" << std::endl;
     }

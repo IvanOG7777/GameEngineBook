@@ -116,6 +116,7 @@ int main() {
 	bool aWasDown = false;
 	bool fWasDown = false;
 	bool escWasDown = false;
+	bool mouseWasDown = false;
 	int count = 0;
 	double maxDt = 1.0 / 180.0;
 	auto start = std::chrono::high_resolution_clock::now();
@@ -143,14 +144,17 @@ int main() {
 		bool escDown = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 
 		if (pDown && !pWasDown) {
+			std::cout << "P key was hit" << std::endl;
 			ballistic.spawnRound(GLFW_KEY_P);
 		}
 
 		if (aDown && !aWasDown) {
+			std::cout << "A key was hit" << std::endl;
 			ballistic.spawnRound(GLFW_KEY_A);
 		}
 
 		if (fDown && !fWasDown) {
+			std::cout << "F key was hit" << std::endl;
 			ballistic.spawnRound(GLFW_KEY_F);
 		}
 
@@ -163,10 +167,37 @@ int main() {
 			glfwTerminate();
 			return 0;
 		}
-
+		
 		pWasDown = pDown;
 		aWasDown = aDown;
 		fWasDown = fDown;
+
+		bool mouseDown = ballistic.isMouseDown;
+
+		if (mouseDown && !mouseWasDown) {
+			ballistic.spawnRoundWithMouse(ballistic.mousePositionX, ballistic.mousePositionY);
+
+			ballistic.holdTime = 0.0;
+			ballistic.spawnCooldown = 0.0;
+		}
+
+		if (mouseDown) {
+			ballistic.holdTime += dt;
+
+			if (ballistic.holdTime >= holdThreshold) {
+				ballistic.spawnCooldown -= dt;
+				while (ballistic.spawnCooldown <= 0.0) {
+					ballistic.spawnRoundWithMouse(ballistic.mousePositionX, ballistic.mousePositionY);
+					ballistic.spawnCooldown += secondsPerSpawn;
+				}
+			}
+		}
+		else {
+			ballistic.holdTime = 0.0;
+			ballistic.spawnCooldown = 0.0;
+		}
+
+		mouseWasDown = mouseDown;
 
 		for (int i = 0; i < ballistic.rounds.size(); i++) {
 			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;

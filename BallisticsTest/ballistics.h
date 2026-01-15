@@ -51,6 +51,16 @@ public:
     int poolUsed; // counter
     int mouseCount = 0;
 
+
+    bool isMouseDown;
+    double mousePositionX;
+    double mousePositionY;
+    
+    double holdTime;
+    double spawnCooldown;
+
+
+
     void initializeParticleForAmmoRound(ShotType currentType); // function used to initalize an AmmoRound struct, function is really only used for testing since its not cycling through all elements of rounds
 
     // function used to initalize rounds within rounds vector

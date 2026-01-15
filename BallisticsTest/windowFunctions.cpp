@@ -112,9 +112,20 @@ GLuint createProgram(const char* vertexShader, const char* fragmentShader) {
 // function that gets the current x and y position of the mouse
 // you have you pass this function into glfwSetCursorPosCallback where points to current screen and assigns x and y position
  void cursorPositionCallback(GLFWwindow* window, double positionX, double positionY) {
-	std::cout << "X position: " << positionX << std::endl;
-	std::cout << "Y position: " << positionY << std::endl;
-	std::cout << std::endl;
+
+	 // create ballistic class pointer to an instance of the ballistic class from main. when did this: glfwSetWindowUserPointer(window, &ballistic) it stores the address of the ballistic class
+	 auto* ballistic = static_cast<Ballistic*>(glfwGetWindowUserPointer(window)); // glfwGetWindowUserPointer returns the ballistic class address
+	 if (!ballistic) return; // if no pointer is found return out of the function
+
+	 int width = 0;
+	 int height = 0;
+
+	 glfwGetWindowSize(window, &width, &height);
+
+	 double flippedY = static_cast<float>(height) - positionY;
+
+	 ballistic->mousePositionX = positionX;
+	 ballistic->mousePositionY = flippedY;
 }
 
  // function used to check if the mouse is in the current screen
@@ -138,32 +149,19 @@ GLuint createProgram(const char* vertexShader, const char* fragmentShader) {
  *		what modifiers we with the button click (shift + click or cntrl + click)
  */
  void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+
+
+	 // create ballistic class pointer to an instance of the ballistic class from main. when did this: glfwSetWindowUserPointer(window, &ballistic) it stores the address of the ballistic class
+	 auto* ballistic = static_cast<Ballistic*>(glfwGetWindowUserPointer(window)); // glfwGetWindowUserPointer returns the ballistic class address
+	 if (!ballistic) return; // if no pointer is found return out of the function
+
 	 // check if the buttons value is the same as GLFW_MOUSE_BUTTON_LEFT and if out action is GLFW_PRESS
-	 if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-		 std::cout << "Left mouse click has been pressed" << std::endl;
-
-		 // create ballistic class pointer to an instance of the ballistic class from main. when did this: glfwSetWindowUserPointer(window, &ballistic) it stores the address of the ballistic class
-		 auto *ballistic = static_cast<Ballistic*>(glfwGetWindowUserPointer(window)); // glfwGetWindowUserPointer returns the ballistic class address
-
-		 if (!ballistic) return; // if no pointer is found return out of the function
-
-		 double xPosition = 0.0;
-		 double yPosition = 0.0;
-		 int height = 0;
-		 int width = 0;
-
-		 glfwGetCursorPos(window, &xPosition, &yPosition); // get the current x/y position from the current window
-		 glfwGetWindowSize(window, &width, &height); // get the current width/height position from the current window
-
-		 std::cout << "xPosition: " << xPosition << std::endl;
-		 std::cout << "yPosition: " << yPosition << std::endl;
-
-		 double yFlipped = static_cast<float>(height) - yPosition; // use actualy window height - current y position to get mouse on screens real position
-
-		 ballistic->spawnRoundWithMouse(xPosition, yFlipped); // pass in the x and y position to spawner to spwan particle at mouses current position
-	 }
-	 
-	 if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
-		 std::cout << "Left mouse click has been released" << std::endl;
+	 if (button == GLFW_MOUSE_BUTTON_LEFT) {
+		 if (action == GLFW_PRESS) {
+			 ballistic->isMouseDown = true;
+		 }
+		 else if (action == GLFW_RELEASE) {
+			 ballistic->isMouseDown = false;
+		 }
 	 }
  }

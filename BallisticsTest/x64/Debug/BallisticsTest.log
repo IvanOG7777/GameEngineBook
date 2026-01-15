@@ -1,5 +1,24 @@
-﻿  windowFunctions.cpp
+﻿  BallisticsTest.cpp
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  (compiling source file 'BallisticsTest.cpp')
+  
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(45,52): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(45,39): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(130,9): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(131,9): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\BallisticsTest.cpp(77,6): warning C4101: 'key': unreferenced local variable
+  ballistic.cpp
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  (compiling source file 'ballistic.cpp')
+  
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\ballistic.cpp(153,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  objects.cpp
+C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  (compiling source file 'objects.cpp')
+  
+  windowFunctions.cpp
 C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\BallisticsTest\globalConstants.h(6,19): warning C4305: 'initializing': truncation from 'double' to 'const float'
   (compiling source file 'windowFunctions.cpp')
   
+  Generating Code...
   BallisticsTest.vcxproj -> C:\Users\elder\OneDrive\Desktop\C++Projects\GameEngineBook\x64\Debug\BallisticsTest.exe
