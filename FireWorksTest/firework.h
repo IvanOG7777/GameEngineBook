@@ -5,9 +5,18 @@
 #pragma once
 
 #include "core.h"
+#include "Particle.h"
 
 class Firework {
 public:
+
+	enum FireworkType {
+		UNUSED = 0,
+		ROCKET,
+		BURST,
+		SPARK,
+		FOUNTAIN,
+	};
 
 	//Defines this firework, the type, min and max age, min/max vel and damping
 	struct FireWorkRule {
@@ -27,7 +36,7 @@ public:
 			damping(1)
 		{}
 
-		FireWorkRule(unsigned int type, float minAge, float maxAge, float damping, Vector3& minVelocity, Vector3& maxVelocity) :
+		FireWorkRule(unsigned int type, float minAge, float maxAge, float damping, const Vector3& minVelocity, const Vector3& maxVelocity) :
 			minVelocity(minVelocity),
 			maxVelocity(maxVelocity),
 			type(type),
@@ -47,6 +56,24 @@ public:
 
 		Payload(unsigned int type, unsigned int count) : type(type), count(count) {}
 	};
+
+	struct FireworkParticle {
+		Particle particle;
+		float age;
+		unsigned int type;
+	};
+
+	struct FireworkNode {
+		FireworkParticle* fireworkNode = nullptr;
+
+		FireworkNode* left = nullptr;
+		FireworkNode* right = nullptr;
+
+		FireworkNode() : fireworkNode(nullptr), left(nullptr), right(nullptr) {}
+		FireworkNode(FireworkParticle* fireworkParticle) : fireworkNode(fireworkParticle) {}
+	};
+
+	static constexpr unsigned maxFireworks = 1000;
 
 
 private:
