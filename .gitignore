@@ -1,0 +1,22 @@
+﻿# Visual Studio
+.vs/
+*.suo
+*.user
+*.db
+*.db-shm
+*.db-wal
+*.ipch
+
+# Build output
+x64/
+Debug/
+Release/
+build/
+
+# MSVC artifacts
+*.obj
+*.ilk
+*.pdb
+*.log
+*.tlog
+*.idb

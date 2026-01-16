@@ -42,8 +42,14 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-	GLFWwindow* window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT); // returns an addres in momory for the window
+	GLFWwindow* window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, true); // returns an addres in momory for the window
 	glfwMakeContextCurrent(window);
+
+	glfwSetCursorPosCallback(window, cursorPositionCallback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	glfwSetCursorEnterCallback(window, cursorEnterCallback);
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+
 	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -67,6 +73,7 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 	Ballistic ballistic;
+	glfwSetWindowUserPointer(window, &ballistic); // stores a void* for the current window, doenst know the type of ballistic so it only stores it address
 	int key;
 	int res = 100;
 	float baseRadius = 10.0f;
@@ -97,15 +104,20 @@ int main() {
 		return 1;
 	}
 
-	ballistic.currentShotType = ballistic.PISTOL; ballistic.fire();
+	/*ballistic.currentShotType = ballistic.PISTOL; ballistic.fire();
 	ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
 	ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER; ballistic.fire();
-	int checkCounter = 0;
+	ballistic.currentShotType = ballistic.LASER; ballistic.fire();*/
+
+
+	ballistic.addRoundsFromVectorToTree(ballistic.rounds);
 
 	bool pWasDown = false;
 	bool aWasDown = false;
 	bool fWasDown = false;
+	bool escWasDown = false;
+	bool mouseWasDown = false;
+	int count = 0;
 	double maxDt = 1.0 / 180.0;
 	auto start = std::chrono::high_resolution_clock::now();
 	while (!glfwWindowShouldClose(window)) {
@@ -129,22 +141,63 @@ int main() {
 		bool pDown = glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS;
 		bool aDown = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
 		bool fDown = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
+		bool escDown = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 
 		if (pDown && !pWasDown) {
+			std::cout << "P key was hit" << std::endl;
 			ballistic.spawnRound(GLFW_KEY_P);
 		}
 
 		if (aDown && !aWasDown) {
+			std::cout << "A key was hit" << std::endl;
 			ballistic.spawnRound(GLFW_KEY_A);
 		}
 
 		if (fDown && !fWasDown) {
+			std::cout << "F key was hit" << std::endl;
 			ballistic.spawnRound(GLFW_KEY_F);
 		}
 
+		if (escDown && !escWasDown) {
+			std::cout << "Program has been killed " << std::endl;
+			glDeleteBuffers(1, &vbo);
+			glDeleteVertexArrays(1, &vao);
+			glDeleteProgram(program);
+
+			glfwTerminate();
+			return 0;
+		}
+		
 		pWasDown = pDown;
 		aWasDown = aDown;
 		fWasDown = fDown;
+
+		bool mouseDown = ballistic.isMouseDown;
+
+		if (mouseDown && !mouseWasDown) {
+			ballistic.spawnRoundWithMouse(ballistic.mousePositionX, ballistic.mousePositionY);
+
+			ballistic.holdTime = 0.0;
+			ballistic.spawnCooldown = 0.0;
+		}
+
+		if (mouseDown) {
+			ballistic.holdTime += dt;
+
+			if (ballistic.holdTime >= holdThreshold) {
+				ballistic.spawnCooldown -= dt;
+				while (ballistic.spawnCooldown <= 0.0) {
+					ballistic.spawnRoundWithMouse(ballistic.mousePositionX, ballistic.mousePositionY);
+					ballistic.spawnCooldown += secondsPerSpawn;
+				}
+			}
+		}
+		else {
+			ballistic.holdTime = 0.0;
+			ballistic.spawnCooldown = 0.0;
+		}
+
+		mouseWasDown = mouseDown;
 
 		for (int i = 0; i < ballistic.rounds.size(); i++) {
 			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
@@ -153,8 +206,9 @@ int main() {
 		}
 
 		ballistic.updateRound(dt);
-
-		resolveCollision(ballistic.rounds);
+		ballistic.treeReset();
+		ballistic.addRoundsFromVectorToTree(ballistic.rounds);
+		resolveCollisionKDTree(ballistic, ballistic.rounds);
 
 		for (int i = 0; i < ballistic.rounds.size(); i++) {
 			if (ballistic.rounds[i].type == Ballistic::UNUSED) continue;
