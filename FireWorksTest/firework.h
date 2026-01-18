@@ -123,7 +123,7 @@ private:
 public:
 	Firework();
 	FireworkParticle singleFireWork;
-	FireworkType currentFireworkType;
+	FireworkSizeType currentFireworkType;
 	std::vector<FireworkParticle> fireworks;
 	std::vector<FireworkNode> nodepool;
 	int poolUsed;
