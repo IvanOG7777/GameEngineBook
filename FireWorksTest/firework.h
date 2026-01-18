@@ -12,8 +12,14 @@
 
 class Firework {
 public:
+	
+	enum BurstType {
+		ROCKET,
+		FOUNTAIN,
+		FIREWORK,
+	};
 
-	enum FireworkType {
+	enum FireworkSizeType {
 		UNUSED = 0,
 		SMALL,
 		MEDIUM,

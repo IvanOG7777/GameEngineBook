@@ -63,6 +63,9 @@ void Firework::findNNHelper(FireworkNode* current, FireworkNode* target, Firewor
 }
 
 void Firework::addNode(FireworkNode* node) {
+	node->left = nullptr;
+	node->right = nullptr;
+
 	if (root == nullptr) {
 		root == node;
 	}
@@ -104,5 +107,11 @@ void Firework::addNode(FireworkNode* node) {
 }
 
 Firework::FireworkNode Firework::allocateNode(FireworkParticle* fireworkParticle) {
-	if (nodepool.size() >= maxFireworks) return;
+	if (poolUsed >= nodepool.size()) return nullptr;
+
+	FireworkNode *newNode = &nodepool[poolUsed++];
+
+	newNode->fireworkNode = fireworkParticle;
+
+	addNode(newNode);
 }
