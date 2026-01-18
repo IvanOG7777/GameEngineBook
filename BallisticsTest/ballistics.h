@@ -82,6 +82,11 @@ public:
     BallisticNode* getRoot();
     void treeReset();
 
+
+    ~Ballistic() {
+        std::cout << "Ballistic class has been destroyed" << std::endl;
+    }
+
     /*static bool duplicateCheck(const  std::vector<std::pair<float, BallisticNode*>>& nodes, const BallisticNode* node);
     void findMultipleNNHelper(BallisticNode* node, BallisticNode* target, std::vector<std::pair<float, BallisticNode*>>& bestNodes, int maxBestNodes, int depth);
     std::vector<BallisticNode*> findMultipleNN(Ballistic::BallisticNode* target, int maxBestNodes);

@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\gameLib\Particle.cpp" />
     <ClCompile Include="firework.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

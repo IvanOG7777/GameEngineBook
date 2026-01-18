@@ -8,8 +8,15 @@
 #include <GLFW/glfw3.h>
 
 #include "Particle.h"
-
+#include "firework.h"
 
 int main() {
+	Particle particle;
+	particle.setPosition(10, 10, 10);
+
+	std::cout << "Particle should exitist" << std::endl;
+	particle.printPosition();
+
+	Firework firework;
 
 }
