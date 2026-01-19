@@ -21,11 +21,5 @@ int main() {
 
 	firework.addFireworksFromVectorToTree(firework.fireworks);
 
-	Firework::FireworkNode* root = firework.getRoot();
-
-	std::cout << root->fireworkNode->type << std::endl;
-	std::cout << root->left->fireworkNode->type << std::endl;
-	std::cout << root->right->fireworkNode->type << std::endl;
-
-	firework.printByDepth();
+	/*firework.printByDepth();*/
 }

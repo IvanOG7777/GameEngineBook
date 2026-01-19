@@ -27,47 +27,15 @@ public:
 		EXTRALARGE,
 	};
 
-	//Defines this firework, the type, min and max age, min/max vel and damping
-	struct FireworkRule {
-		Vector3 minVelocity{};
-		Vector3 maxVelocity{};
-		unsigned int type;
-		float minAge;
-		float maxAge;
-		float damping;
-
-		//default constructor
-		FireworkRule() :
-			minVelocity{},
-			maxVelocity{},
-			type(UNUSED),
-			minAge(0),
-			maxAge(0),
-			damping(1)
-		{
-		}
-
-		//constructor with passed parameters
-		FireworkRule(unsigned int type, float minAge, float maxAge, float damping, const Vector3& minVelocity, const Vector3& maxVelocity) :
-			minVelocity(minVelocity),
-			maxVelocity(maxVelocity),
-			type(type),
-			minAge(minAge),
-			maxAge(maxAge),
-			damping(damping)
-		{
-		}
-
-		/*~FireworkRule() {
-			std::cout << "Instance of FireworkRule has been destroyed" << std::endl;
-		}*/
-	};
-
-
 	// Defines when this firework dies and what new fireworks should be created
 	struct Payload {
 		unsigned int type;
 		unsigned int count;
+
+		void set(unsigned int type, unsigned int count) {
+			Payload::type = type;
+			Payload::count = count;
+		}
 
 		//default constructor
 		Payload() : type(UNUSED), count(0) {}
@@ -79,6 +47,37 @@ public:
 			std::cout << "Instance of Payload has been destroyed" << std::endl;
 		}*/
 	};
+
+	//Defines this firework, the type, min and max age, min/max vel and damping
+	struct FireworkRule {
+		Vector3 minVelocity{};
+		Vector3 maxVelocity{};
+		unsigned int type;
+		float minAge;
+		float maxAge;
+		float damping;
+
+		// declare as static so the same value is used throughout scopes
+		unsigned int payloadCount;
+		std::vector<Payload> payloads;
+
+		void init(unsigned int payloadCount);
+
+		//default constructor
+		FireworkRule() : minVelocity{}, maxVelocity{}, type(UNUSED), minAge(0), maxAge(0), damping(1), payloadCount(0){}
+
+		//constructor with passed parameters
+		FireworkRule(unsigned int type, float minAge, float maxAge, float damping, const Vector3& minVelocity, const Vector3& maxVelocity, unsigned int payloadCount) :
+			minVelocity(minVelocity), maxVelocity(maxVelocity),
+			type(type), minAge(minAge), maxAge(maxAge),
+			damping(damping), payloadCount(payloadCount){}
+
+		/*~FireworkRule() {
+			std::cout << "Instance of FireworkRule has been destroyed" << std::endl;
+		}*/
+	};
+
+
 
 	// struct to define a single firework particle
 	struct FireworkParticle {
@@ -128,21 +127,16 @@ public:
 	FireworkSizeType currentFireworkType;
 	std::vector<FireworkParticle> fireworks;
 	std::vector<FireworkNode> nodepool;
+	std::vector<Firework::FireworkRule> rules;
 	int poolUsed;
 
-	/*unsigned int payloadCount;
-	Payload* payloads;*/
-
-	void init(unsigned int payloadCount);
 	void initFireworkType(FireworkSizeType type);
 
 	void addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks);
 
 	void printByDepth();
 
-	FireworkNode* getRoot() {
-		return root;
-	}
+	FireworkNode* getRoot();
 
 	/*~Firework() {
 		delete payloads;

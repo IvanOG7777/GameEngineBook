@@ -18,10 +18,11 @@ Firework::Firework() {
 
 
 // since each particle will have its own amount of payloads maybye pass in the node to initlaize its payload amount?
-void Firework::init(unsigned int payloadCount) {
-	payloadCount = payloadCount;
-	std::vector<Payload*> payloads;
-	payloads.resize(payloadCount);
+
+void Firework::FireworkRule:: init(unsigned int payloadCount) {
+	FireworkRule::payloadCount = payloadCount;
+	payloads.clear();
+	FireworkRule::payloads.resize(payloadCount);
 }
 
 float Firework::distance2(FireworkNode* node1, FireworkNode* node2) {
@@ -235,4 +236,8 @@ void Firework::initFireworkType(FireworkSizeType type) {
 	default:
 		break;
 	}
+}
+
+Firework::FireworkNode* Firework::getRoot() {
+	return root;
 }
