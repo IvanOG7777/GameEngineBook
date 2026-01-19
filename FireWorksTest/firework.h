@@ -12,7 +12,7 @@
 
 class Firework {
 public:
-	
+
 	enum BurstType {
 		ROCKET,
 		FOUNTAIN,
@@ -44,7 +44,8 @@ public:
 			minAge(0),
 			maxAge(0),
 			damping(1)
-		{}
+		{
+		}
 
 		//constructor with passed parameters
 		FireworkRule(unsigned int type, float minAge, float maxAge, float damping, const Vector3& minVelocity, const Vector3& maxVelocity) :
@@ -54,7 +55,8 @@ public:
 			minAge(minAge),
 			maxAge(maxAge),
 			damping(damping)
-		{}
+		{
+		}
 
 		/*~FireworkRule() {
 			std::cout << "Instance of FireworkRule has been destroyed" << std::endl;
@@ -115,14 +117,14 @@ public:
 private:
 	FireworkNode* root;
 
-	float distance2(FireworkNode* node1, FireworkNode *node2);
-	void findNNHelper(FireworkNode* current, FireworkNode* target, FireworkNode *&bestNode, float &distance, int depth);
+	float distance2(FireworkNode* node1, FireworkNode* node2);
+	void findNNHelper(FireworkNode* current, FireworkNode* target, FireworkNode*& bestNode, float& distance, int depth);
 	void addNode(FireworkNode* node);
-	FireworkNode allocateNode(FireworkParticle* fireworkParticle);
+	FireworkNode* allocateNode(FireworkParticle* fireworkParticle);
 
 public:
 	Firework();
-	FireworkParticle singleFireWork;
+	FireworkParticle singleFireWork; // used for testing
 	FireworkSizeType currentFireworkType;
 	std::vector<FireworkParticle> fireworks;
 	std::vector<FireworkNode> nodepool;
@@ -132,6 +134,15 @@ public:
 	Payload* payloads;*/
 
 	void init(unsigned int payloadCount);
+	void initFireworkType(FireworkSizeType type);
+
+	void addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks);
+
+	void printByDepth();
+
+	FireworkNode* getRoot() {
+		return root;
+	}
 
 	/*~Firework() {
 		delete payloads;

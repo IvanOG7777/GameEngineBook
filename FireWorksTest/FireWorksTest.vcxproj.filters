@@ -29,5 +29,8 @@
     <ClInclude Include="firework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="globalConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -40,7 +40,7 @@ void Ballistic::initializeParticleForAmmoRound(ShotType currentType) { // pass i
         break;
     case(Ballistic::ShotType::PISTOL):
         ammoRound.particle.setMass(2.0f);
-        ammoRound.particle.setVelocity(0.0f, 0.0f, 35.0f);
+        ammoRound.particle.setVelocity(0.0f, 0.0f, 0.0f);
         ammoRound.particle.setAcceleration(0.0f, -1.0f, 0.0f);
         ammoRound.particle.setDamping(0.99f);
         ammoRound.particle.setRadius(2.0f);
@@ -283,7 +283,7 @@ void Ballistic::addNode(BallisticNode* node) {
 
     // Essentially a normal tree addition of nodes only we are switching compareision axis values on different depths
     // Even depths we check the x-axis and odd depths we check the y-axis
-    // While we dont hit a return statment
+    // While we dont hit a return statmentF
     while (true) {
         // x axis check
         if (depth % 2 == 0) {

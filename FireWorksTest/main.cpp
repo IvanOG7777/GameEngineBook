@@ -13,4 +13,19 @@
 int main() {
 	Firework firework;
 
+	firework.initFireworkType(Firework::EXTRALARGE);
+	firework.initFireworkType(Firework::LARGE);
+	firework.initFireworkType(Firework::MEDIUM);
+	firework.initFireworkType(Firework::SMALL);
+	firework.initFireworkType(Firework::SMALL);
+
+	firework.addFireworksFromVectorToTree(firework.fireworks);
+
+	Firework::FireworkNode* root = firework.getRoot();
+
+	std::cout << root->fireworkNode->type << std::endl;
+	std::cout << root->left->fireworkNode->type << std::endl;
+	std::cout << root->right->fireworkNode->type << std::endl;
+
+	firework.printByDepth();
 }
