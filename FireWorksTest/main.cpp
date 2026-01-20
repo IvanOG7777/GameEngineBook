@@ -3,12 +3,14 @@
 //
 
 #include <iostream>
+#include <random>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include "Particle.h"
 #include "firework.h"
+#include "globalConstants.h"
 
 int main() {
 	Firework firework;
@@ -67,5 +69,39 @@ int main() {
 		std::cout << std::endl;
 	}
 
+	srand(time(0));
+
+	Firework::FireworkParticle fireworkParticle;
+
+	fireworkParticle.type = Firework::EXTRALARGE;
+	float minAge = 0, maxAge = 0;
+
+	for (auto& rule : firework.rules) {
+		if (rule.type == fireworkParticle.type) {
+			minAge = rule.minAge;
+			maxAge = rule.maxAge;
+		}
+	}
+
+	std::random_device gen;
+	std::uniform_real_distribution ageDistribution(minAge, maxAge);
+
+	float randAge = ageDistribution(gen);
+
+	fireworkParticle.age = randAge;
+
+	while (fireworkParticle.age >= 0.0f) {
+		std::cout << "Age: " << fireworkParticle.age << std::endl;
+		fireworkParticle.age -= testDT;
+
+		if (fireworkParticle.age <= 0) {
+			std::cout << "EXTRALARGE particle has died" << std::endl;
+			break;
+		}
+	}
+
+
 	/*firework.printByDepth();*/
+
+	return 0;
 }
