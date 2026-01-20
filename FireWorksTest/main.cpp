@@ -69,9 +69,10 @@ int main() {
 		std::cout << std::endl;
 	}
 
-	srand(time(0));
-
 	Firework::FireworkParticle fireworkParticle;
+	std::vector< Firework::FireworkParticle> acticeParticles;
+	acticeParticles.resize(50);
+	acticeParticles.push_back(fireworkParticle);
 
 	fireworkParticle.type = Firework::EXTRALARGE;
 	float minAge = 0, maxAge = 0;
@@ -90,6 +91,7 @@ int main() {
 
 	fireworkParticle.age = randAge;
 
+	
 	while (fireworkParticle.age >= 0.0f) {
 		std::cout << "Age: " << fireworkParticle.age << std::endl;
 		fireworkParticle.age -= testDT;
@@ -99,7 +101,6 @@ int main() {
 			break;
 		}
 	}
-
 
 	/*firework.printByDepth();*/
 
