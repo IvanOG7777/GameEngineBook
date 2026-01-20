@@ -26,6 +26,9 @@ int main() {
 	Firework::Payload mediumPayload;
 	Firework::Payload smallPayload;
 
+	std::vector<Firework::FireworkRule> rules;
+	rules.resize(4); // resize to 4 becasue we have4 different types of rules to set EXLARGE, LARGE, MEDIUM, SMALL
+
 	extraLargePayload.set(Firework::LARGE, 2);
 	largePayload.set(Firework::MEDIUM, 4);
 	mediumPayload.set(Firework::SMALL, 8);
@@ -50,6 +53,19 @@ int main() {
 	std::cout << "Payload for small is: " << std::endl;
 	std::cout << "Type: " << ((smallPayload.type == Firework::UNUSED) ? "UNUSED" : "other type") << std::endl;
 	std::cout << "Count: " << smallPayload.count << std::endl;
+	std::cout << std::endl;
+
+	firework.initFireworkRules();
+
+	for (auto& rule : firework.rules) {
+		std::cout << "Rule type: " << rule.type << std::endl;
+		std::cout << "Payload type: ";
+		for (auto& payload : rule.payloads) {
+			std::cout << payload.type << " ";
+		}
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
 
 	/*firework.printByDepth();*/
 }

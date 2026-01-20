@@ -238,6 +238,51 @@ void Firework::initFireworkType(FireworkSizeType type) {
 	}
 }
 
+// for now particles will expand into a coneish shape, later will implement 
+void Firework::initFireworkRules() {
+	rules.clear();
+	rules.resize(4);
+
+	rules[0].type = EXTRALARGE;
+	rules[0].damping = 0.99f;
+	rules[0].maxAge = 1.5f;
+	rules[0].minAge = 0.5f;
+	rules[0].maxVelocity = { 5.0f, 90.0f, 0.0f };
+	rules[0].minVelocity = { -5.0f, 60.0f, 0.0f };
+	rules[0].init(2);
+	rules[0].payloads[0].set(Firework::LARGE, 2);
+	rules[0].payloads[1].set(Firework::MEDIUM, 4);
+
+	rules[1].type = LARGE;
+	rules[1].damping = 0.99f;
+	rules[1].maxAge = 1.5f;
+	rules[1].minAge = 0.5f;
+	rules[1].maxVelocity = { 40.0f, 75.0f, 0.0f };
+	rules[1].minVelocity = { 40.0f, 20.0f, 0.0f };
+	rules[1].init(2);
+	rules[1].payloads[0].set(Firework::LARGE, 1);
+	rules[1].payloads[1].set(Firework::MEDIUM, 4);
+
+	rules[2].type = MEDIUM;
+	rules[2].damping = 0.99f;
+	rules[2].maxAge = 1.5f;
+	rules[2].minAge = 0.5f;
+	rules[2].maxVelocity = { 80.0f, 50.0f, 0.0f };
+	rules[2].minVelocity = { -80.0f, -10.0f, 0.0f };
+	rules[2].init(2);
+	rules[2].payloads[0].set(Firework::MEDIUM, 3);
+	rules[2].payloads[1].set(Firework::SMALL, 8);
+
+	rules[3].type = SMALL;
+	rules[3].damping = 0.99f;
+	rules[3].maxAge = 1.5f;
+	rules[3].minAge = 0.5f;
+	rules[3].maxVelocity = { 115.0f, 40.0f, 0.0f };
+	rules[3].minVelocity = { -115.0f, -40.0f, 0.0f };
+	rules[3].init(0);
+
+}
+
 Firework::FireworkNode* Firework::getRoot() {
 	return root;
 }

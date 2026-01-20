@@ -15,9 +15,9 @@ public:
 
 	// this enum will eventually handle how the effect will look like
 	enum BurstType {
-		ROCKET,
-		FOUNTAIN,
-		FIREWORK,
+		ROCKET, // shape will me more concetrated vertically
+		FOUNTAIN, // more spread out horizontally, not to much vertically
+		FIREWORK, // shape will maybe be a mix of the two, aybe certian particles goin up high then flowing horizontally
 	};
 
 	// size of firework particle
@@ -52,11 +52,15 @@ public:
 
 	//Defines this firework, the type, min and max age, min/max vel and damping
 	struct FireworkRule {
+		// will give a firework particle a rand age between min and max age
+		// will spawn a payload particle at rand vel between min and max vel
 		Vector3 minVelocity{};
 		Vector3 maxVelocity{};
-		unsigned int type;
 		float minAge;
 		float maxAge;
+		//
+
+		unsigned int type;
 		float damping;
 
 		// declare as static so the same value is used throughout scopes
@@ -133,6 +137,7 @@ public:
 	int poolUsed;
 
 	void initFireworkType(FireworkSizeType type);
+	void initFireworkRules();
 
 	void addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks);
 
