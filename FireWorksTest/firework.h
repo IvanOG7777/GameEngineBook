@@ -13,12 +13,14 @@
 class Firework {
 public:
 
+	// this enum will eventually handle how the effect will look like
 	enum BurstType {
 		ROCKET,
 		FOUNTAIN,
 		FIREWORK,
 	};
 
+	// size of firework particle
 	enum FireworkSizeType {
 		UNUSED = 0,
 		SMALL,
