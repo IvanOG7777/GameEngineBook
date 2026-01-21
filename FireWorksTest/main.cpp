@@ -59,9 +59,24 @@ int main() {
 
 	std::random_device gen;
 
-	for (auto& firework : firework.activeFireworks) {
-		std::cout << "Type: " << firework.type << std::endl;
+	for (auto& fireworkParticle : firework.activeFireworks) {
+		if (fireworkParticle.type == Firework::SMALL) continue;
+		if (fireworkParticle.type == Firework::UNUSED) continue;
+		std::cout << "Parent Type: " << fireworkParticle.type << std::endl;
+		for (size_t i = 0; i < firework.rules[fireworkParticle.type].payloads.size(); i++) {
+			for (size_t j = 0; j < firework.rules[fireworkParticle.type].payloads[i].count; j++) {
+				int currentType = firework.rules[fireworkParticle.type].payloads[i].type;
+				firework.initFireworkType(static_cast<Firework::FireworkSizeType>(currentType));
+			}
+		}
 	}
+
+	for (auto& fireworkParticle : firework.activeFireworks) {
+		if (fireworkParticle.type == Firework::UNUSED) continue;
+		std::cout << "Type: " << fireworkParticle.type << std::endl;
+	}
+
+	return 0;
 
 	bool escWasDown = false;
 	bool fWasDown = false;
@@ -101,15 +116,13 @@ int main() {
 				std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);
 				particle.age = ageDistribution(gen);
 			}
-		}
 
-		for (auto& particle : firework.activeFireworks) {
-			if (particle.type == Firework::UNUSED) continue;
+			particle.age -= testDT;
 
-			std::cout << "Type: " << particle.type << std::endl;
-			std::cout << "Age: " << particle.age << std::endl;
 
-			std::cout << std::endl;
+			if (particle.age <= 0.0f) {
+				firework.rules[particle.type].payloads.size();
+			}
 		}
 
 		glfwSwapBuffers(window);
