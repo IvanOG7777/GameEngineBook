@@ -90,6 +90,28 @@ int main() {
 
 		fWasDown = fDown;
 
+
+		for (auto& particle : firework.activeFireworks) {
+			if (particle.type == Firework::UNUSED) continue;
+
+			float minAge = firework.rules[particle.type].minAge;
+			float maxAge = firework.rules[particle.type].maxAge;
+
+			if (particle.age <= 0.0f) {
+				std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);
+				particle.age = ageDistribution(gen);
+			}
+		}
+
+		for (auto& particle : firework.activeFireworks) {
+			if (particle.type == Firework::UNUSED) continue;
+
+			std::cout << "Type: " << particle.type << std::endl;
+			std::cout << "Age: " << particle.age << std::endl;
+
+			std::cout << std::endl;
+		}
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

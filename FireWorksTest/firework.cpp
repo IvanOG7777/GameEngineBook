@@ -37,7 +37,6 @@ void Firework::initFireworkType(FireworkSizeType type) {
 		break;
 	case Firework::SMALL:
 		activeFireworks[roundIndex].type = SMALL;
-		activeFireworks[roundIndex].age = 12.0f;
 		activeFireworks[roundIndex].particle.setMass(2.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 35.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
@@ -48,7 +47,6 @@ void Firework::initFireworkType(FireworkSizeType type) {
 		break;
 	case Firework::MEDIUM:
 		activeFireworks[roundIndex].type = MEDIUM;
-		activeFireworks[roundIndex].age = 8.0f;
 		activeFireworks[roundIndex].particle.setMass(5.5f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
@@ -59,7 +57,6 @@ void Firework::initFireworkType(FireworkSizeType type) {
 		break;
 	case Firework::LARGE:
 		activeFireworks[roundIndex].type = LARGE;
-		activeFireworks[roundIndex].age = 6.0f;
 		activeFireworks[roundIndex].particle.setMass(11.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
@@ -70,7 +67,6 @@ void Firework::initFireworkType(FireworkSizeType type) {
 		break;
 	case Firework::EXTRALARGE:
 		activeFireworks[roundIndex].type = EXTRALARGE;
-		activeFireworks[roundIndex].age = 4.0f;
 		activeFireworks[roundIndex].particle.setMass(15.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
