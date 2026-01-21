@@ -72,9 +72,9 @@ int main() {
 	Firework::FireworkParticle fireworkParticle;
 	fireworkParticle.type = Firework::EXTRALARGE;
 	std::vector< Firework::FireworkParticle> acticeParticles;
-	acticeParticles.reserve(50);
+	acticeParticles.resize(50);
 
-	acticeParticles.push_back(fireworkParticle);
+	acticeParticles[0] = fireworkParticle;
 
 	/*
 	float minAge = 0, maxAge = 0;
@@ -101,45 +101,54 @@ int main() {
 
 	std::random_device gen;
 
+
+	std::cout << acticeParticles[0].type << std::endl;
+	std::cout << acticeParticles[0].age << std::endl;
+	std::cout << acticeParticles[0].particle.getPosition().x << ", " << acticeParticles[1].particle.getPosition().y << ", " << acticeParticles[1].particle.getPosition().z << std::endl;
+
+	std::cout << acticeParticles[1].type << std::endl;
+	std::cout << acticeParticles[1].age << std::endl;
+	std::cout << acticeParticles[1].particle.getPosition().x << ", " << acticeParticles[1].particle.getPosition().y << ", " << acticeParticles[1].particle.getPosition().z << std::endl;
+
 	
-	while (!acticeParticles.empty()) {
+	//while (!acticeParticles.empty()) {
 
-		for (size_t i = 0; i < acticeParticles.size();) {
-			if (acticeParticles[i].type == Firework::UNUSED) {
-				acticeParticles.erase(acticeParticles.begin() + i);
-				continue;
-			}
+	//	for (size_t i = 0; i < acticeParticles.size();) {
+	//		if (acticeParticles[i].type == Firework::UNUSED) {
+	//			acticeParticles.erase(acticeParticles.begin() + i);
+	//			continue;
+	//		}
 
-			float minAge = firework.rules[acticeParticles[i].type].minAge;
-			float maxAge = firework.rules[acticeParticles[i].type].maxAge;
+	//		float minAge = firework.rules[acticeParticles[i].type].minAge;
+	//		float maxAge = firework.rules[acticeParticles[i].type].maxAge;
 
-			Vector3 minVel = firework.rules[acticeParticles[i].type].minVelocity;
-			Vector3 maxVel = firework.rules[acticeParticles[i].type].maxVelocity;
+	//		Vector3 minVel = firework.rules[acticeParticles[i].type].minVelocity;
+	//		Vector3 maxVel = firework.rules[acticeParticles[i].type].maxVelocity;
 
-			if (acticeParticles[i].age <= 0.0f) {
-				std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);
-				acticeParticles[i].age = ageDistribution(gen);
-			}
-			
-			acticeParticles[i].age -= testDT;
-			std::cout << "Active Age: " << acticeParticles[i].age << std::endl;
+	//		if (acticeParticles[i].age <= 0.0f) {
+	//			std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);
+	//			acticeParticles[i].age = ageDistribution(gen);
+	//		}
+	//		
+	//		acticeParticles[i].age -= testDT;
+	//		std::cout << "Active Age: " << acticeParticles[i].age << std::endl;
 
-			if (acticeParticles[i].age <= 0.0f) {
-				for (size_t j = 0; j < firework.rules[acticeParticles[i].type].payloads.size(); j++) {
+	//		if (acticeParticles[i].age <= 0.0f) {
+	//			for (size_t j = 0; j < firework.rules[acticeParticles[i].type].payloads.size(); j++) {
 
-					Firework::FireworkParticle newParticle;
-					newParticle.type = firework.rules[acticeParticles[i].type].payloads[j].type;
-					acticeParticles.push_back(newParticle);
-				}
-				acticeParticles[i].type = Firework::UNUSED;
-			}
+	//				Firework::FireworkParticle newParticle;
+	//				newParticle.type = firework.rules[acticeParticles[i].type].payloads[j].type;
+	//				acticeParticles.push_back(newParticle);
+	//			}
+	//			acticeParticles[i].type = Firework::UNUSED;
+	//		}
 
-			std::cout << acticeParticles[i].type << std::endl;
-			i++;
-		}
+	//		std::cout << acticeParticles[i].type << std::endl;
+	//		i++;
+	//	}
 
-		if (acticeParticles.empty()) std::cout << "No more active particles" << std::endl;
-	}
+	//	if (acticeParticles.empty()) std::cout << "No more active particles" << std::endl;
+	//}
 
 	/*firework.printByDepth();*/
 

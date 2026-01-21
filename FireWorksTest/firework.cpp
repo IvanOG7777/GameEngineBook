@@ -16,13 +16,177 @@ Firework::Firework() {
 	poolUsed = 0;
 }
 
+void Firework::initFireworkType(FireworkSizeType type) {
+
+	int roundIndex = 0;
+
+	for (; roundIndex < fireworks.size(); roundIndex++) {
+		if (fireworks[roundIndex].type == UNUSED) break;
+	}
+
+	if (roundIndex >= fireworks.size()) {
+		// error logs
+		std::cout << "Firework rounds is full" << std::endl;
+		std::cout << "Cant initalize any more rounds" << std::endl;
+		std::cout << "roundIndex: " << roundIndex << std::endl;
+		return;
+	}
+
+	switch (type) {
+	case Firework::UNUSED:
+		break;
+	case Firework::SMALL:
+		fireworks[roundIndex].type = SMALL;
+		fireworks[roundIndex].age = 12.0f;
+		fireworks[roundIndex].particle.setMass(2.0f);
+		fireworks[roundIndex].particle.setVelocity(0.0f, 35.0f, 0.0f);
+		fireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
+		fireworks[roundIndex].particle.setDamping(0.99f);
+		fireworks[roundIndex].particle.setRadius(2.0f);
+		fireworks[roundIndex].particle.setPosition(540.0f, 960.0f, 0.0f);
+		std::cout << "Fireworks at index " << roundIndex << " has been initalized to SMALL" << std::endl;
+		break;
+	case Firework::MEDIUM:
+		fireworks[roundIndex].type = MEDIUM;
+		fireworks[roundIndex].age = 8.0f;
+		fireworks[roundIndex].particle.setMass(5.5f);
+		fireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
+		fireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
+		fireworks[roundIndex].particle.setDamping(0.99f);
+		fireworks[roundIndex].particle.setRadius(10.0f);
+		fireworks[roundIndex].particle.setPosition(550.0f, 950.0f, 0.0f);
+		std::cout << "Fireworks at index " << roundIndex << " has been initalized to MEDIUM" << std::endl;
+		break;
+	case Firework::LARGE:
+		fireworks[roundIndex].type = LARGE;
+		fireworks[roundIndex].age = 6.0f;
+		fireworks[roundIndex].particle.setMass(11.0f);
+		fireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
+		fireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
+		fireworks[roundIndex].particle.setDamping(0.99f);
+		fireworks[roundIndex].particle.setRadius(10.0f);
+		fireworks[roundIndex].particle.setPosition(533.0f, 910.0f, 0.0f);
+		std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE" << std::endl;
+		break;
+	case Firework::EXTRALARGE:
+		fireworks[roundIndex].type = EXTRALARGE;
+		fireworks[roundIndex].age = 4.0f;
+		fireworks[roundIndex].particle.setMass(15.0f);
+		fireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
+		fireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
+		fireworks[roundIndex].particle.setDamping(0.99f);
+		fireworks[roundIndex].particle.setRadius(12.5f);
+		fireworks[roundIndex].particle.setPosition(542.0f, 912.0f, 0.0f);
+		std::cout << "Fireworks at index " << roundIndex << " has been initalized to EXTRALARGE" << std::endl;
+		break;
+	default:
+		break;
+	}
+}
 
 // since each particle will have its own amount of payloads maybye pass in the node to initlaize its payload amount?
-
-void Firework::FireworkRule:: init(unsigned int payloadCount) {
+void Firework::FireworkRule::init(unsigned int payloadCount) {
 	FireworkRule::payloadCount = payloadCount;
 	payloads.clear();
 	FireworkRule::payloads.resize(payloadCount);
+}
+
+// for now particles will expand into a coneish shape, later will implement 
+void Firework::initFireworkRules() {
+	rules.clear();
+	rules.resize(5);
+
+	rules[0].type = UNUSED;
+	rules[0].damping = 1.0f;
+	rules[0].maxAge = 0.0f;
+	rules[0].minAge = 0.0f;
+	rules[0].maxVelocity = { 0.0f, 0.0f, 0.0f };
+	rules[0].minVelocity = { 0.0f, 00.0f, 0.0f };
+	rules[0].init(0);
+
+	rules[1].type = SMALL;
+	rules[1].damping = 0.99f;
+	rules[1].maxAge = 1.5f;
+	rules[1].minAge = 0.5f;
+	rules[1].maxVelocity = { 115.0f, 40.0f, 0.0f };
+	rules[1].minVelocity = { -115.0f, -40.0f, 0.0f };
+	rules[1].init(0);
+
+	rules[2].type = MEDIUM;
+	rules[2].damping = 0.99f;
+	rules[2].maxAge = 1.5f;
+	rules[2].minAge = 0.5f;
+	rules[2].maxVelocity = { 80.0f, 50.0f, 0.0f };
+	rules[2].minVelocity = { -80.0f, -10.0f, 0.0f };
+	rules[2].init(1);
+	rules[2].payloads[0].set(Firework::SMALL, 8);
+
+	rules[3].type = LARGE;
+	rules[3].damping = 0.99f;
+	rules[3].maxAge = 1.5f;
+	rules[3].minAge = 0.5f;
+	rules[3].maxVelocity = { 40.0f, 75.0f, 0.0f };
+	rules[3].minVelocity = { 40.0f, 20.0f, 0.0f };
+	rules[3].init(1);
+	rules[3].payloads[0].set(Firework::MEDIUM, 4);
+
+	rules[4].type = EXTRALARGE;
+	rules[4].damping = 0.99f;
+	rules[4].maxAge = 1.5f;
+	rules[4].minAge = 0.5f;
+	rules[4].maxVelocity = { 5.0f, 90.0f, 0.0f };
+	rules[4].minVelocity = { -5.0f, 60.0f, 0.0f };
+	rules[4].init(2);
+	rules[4].payloads[0].set(Firework::LARGE, 2);
+	rules[4].payloads[1].set(Firework::MEDIUM, 4);
+
+}
+
+void Firework::spawnFirework() {
+
+}
+
+
+void Firework::addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks) {
+	if (passedFireworks.empty()) return;
+
+	for (auto& val : passedFireworks) {
+		if (val.type == UNUSED) continue;
+		FireworkNode* newNode = allocateNode(&val);
+		if (!newNode) break;
+
+		addNode(newNode);
+	}
+}
+
+void Firework::printByDepth() {
+	if (root == nullptr) {
+		std::cerr << "Tree is empty!" << std::endl;
+		return;
+	}
+
+	int depth = 0;
+	std::queue<FireworkNode*> nodeQueue;
+	nodeQueue.push(root);
+
+	while (!nodeQueue.empty()) {
+		size_t length = nodeQueue.size();
+		std::cout << "Depth: " << depth << std::endl;
+		for (size_t i = 0; i < length; i++) {
+			if (nodeQueue.front()->left != nullptr) {
+				nodeQueue.push(nodeQueue.front()->left);
+			}
+
+			if (nodeQueue.front()->right != nullptr) {
+				nodeQueue.push(nodeQueue.front()->right);
+			};
+			std::cout << "	";
+			nodeQueue.front()->fireworkNode->particle.printPosition();
+			nodeQueue.pop();
+		}
+		depth++;
+		std::cout << std::endl;
+	}
 }
 
 float Firework::distance2(FireworkNode* node1, FireworkNode* node2) {
@@ -116,17 +280,6 @@ void Firework::addNode(FireworkNode* node) {
 	}
 }
 
-void Firework::addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks) {
-	if (passedFireworks.empty()) return;
-	
-	for (auto& val : passedFireworks) {
-		if (val.type == UNUSED) continue;
-		FireworkNode* newNode = allocateNode(&val);
-		if (!newNode) break;
-
-		addNode(newNode);
-	}
-}
 
 Firework::FireworkNode* Firework::allocateNode(FireworkParticle* fireworkParticle) {
 	if (poolUsed >= nodepool.size()) return nullptr;
@@ -138,155 +291,6 @@ Firework::FireworkNode* Firework::allocateNode(FireworkParticle* fireworkParticl
 	newNode->right = nullptr;
 
 	return newNode;
-}
-
-void Firework::printByDepth() {
-	if (root == nullptr) {
-		std::cerr << "Tree is empty!" << std::endl;
-		return;
-	}
-
-	int depth = 0;
-	std::queue<FireworkNode*> nodeQueue;
-	nodeQueue.push(root);
-
-	while (!nodeQueue.empty()) {
-		size_t length = nodeQueue.size();
-		std::cout << "Depth: " << depth << std::endl;
-		for (size_t i = 0; i < length; i++) {
-			if (nodeQueue.front()->left != nullptr) {
-				nodeQueue.push(nodeQueue.front()->left);
-			}
-
-			if (nodeQueue.front()->right != nullptr) {
-				nodeQueue.push(nodeQueue.front()->right);
-			};
-			std::cout << "	";
-			nodeQueue.front()->fireworkNode->particle.printPosition();
-			nodeQueue.pop();
-		}
-		depth++;
-		std::cout << std::endl;
-	}
-}
-
-void Firework::initFireworkType(FireworkSizeType type) {
-
-	int roundIndex = 0;
-
-	for (; roundIndex < fireworks.size(); roundIndex++) {
-		if (fireworks[roundIndex].type == UNUSED) break;
-	}
-
-	if (roundIndex >= fireworks.size()) {
-		// error logs
-		std::cout << "Firework rounds is full" << std::endl;
-		std::cout << "Cant initalize any more rounds" << std::endl;
-		std::cout << "roundIndex: " << roundIndex << std::endl;
-		return;
-	}
-
-	switch (type) {
-	case Firework::UNUSED:
-		break;
-	case Firework::SMALL:
-		fireworks[roundIndex].type = SMALL;
-		fireworks[roundIndex].age = 12.0f;
-		fireworks[roundIndex].particle.setMass(2.0f);
-		fireworks[roundIndex].particle.setVelocity(0.0f, 35.0f, 0.0f);
-		fireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
-		fireworks[roundIndex].particle.setDamping(0.99f);
-		fireworks[roundIndex].particle.setRadius(2.0f);
-		fireworks[roundIndex].particle.setPosition(540.0f, 960.0f, 0.0f);
-		std::cout << "Fireworks at index " << roundIndex << " has been initalized to SMALL" << std::endl;
-		break;
-	case Firework::MEDIUM:
-		fireworks[roundIndex].type = MEDIUM;
-		fireworks[roundIndex].age = 8.0f;
-		fireworks[roundIndex].particle.setMass(5.5f);
-		fireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
-		fireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
-		fireworks[roundIndex].particle.setDamping(0.99f);
-		fireworks[roundIndex].particle.setRadius(10.0f);
-		fireworks[roundIndex].particle.setPosition(550.0f, 950.0f, 0.0f);
-		std::cout << "Fireworks at index " << roundIndex << " has been initalized to MEDIUM" << std::endl;
-		break;
-	case Firework::LARGE:
-		fireworks[roundIndex].type = LARGE;
-		fireworks[roundIndex].age = 6.0f;
-		fireworks[roundIndex].particle.setMass(11.0f);
-		fireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
-		fireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
-		fireworks[roundIndex].particle.setDamping(0.99f);
-		fireworks[roundIndex].particle.setRadius(10.0f);
-		fireworks[roundIndex].particle.setPosition(533.0f, 910.0f, 0.0f);
-		std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE" << std::endl;
-		break;
-	case Firework::EXTRALARGE:
-		fireworks[roundIndex].type = EXTRALARGE;
-		fireworks[roundIndex].age = 4.0f;
-		fireworks[roundIndex].particle.setMass(15.0f);
-		fireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
-		fireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
-		fireworks[roundIndex].particle.setDamping(0.99f);
-		fireworks[roundIndex].particle.setRadius(12.5f);
-		fireworks[roundIndex].particle.setPosition(542.0f, 912.0f, 0.0f);
-		std::cout << "Fireworks at index " << roundIndex << " has been initalized to EXTRALARGE" << std::endl;
-		break;
-	default:
-		break;
-	}
-}
-
-// for now particles will expand into a coneish shape, later will implement 
-void Firework::initFireworkRules() {
-	rules.clear();
-	rules.resize(5);
-
-	rules[0].type = UNUSED;
-	rules[0].damping = 1.0f;
-	rules[0].maxAge = 0.0f;
-	rules[0].minAge = 0.0f;
-	rules[0].maxVelocity = { 0.0f, 0.0f, 0.0f };
-	rules[0].minVelocity = { 0.0f, 00.0f, 0.0f };
-	rules[0].init(0);
-
-	rules[1].type = SMALL;
-	rules[1].damping = 0.99f;
-	rules[1].maxAge = 1.5f;
-	rules[1].minAge = 0.5f;
-	rules[1].maxVelocity = { 115.0f, 40.0f, 0.0f };
-	rules[1].minVelocity = { -115.0f, -40.0f, 0.0f };
-	rules[1].init(0);
-
-	rules[2].type = MEDIUM;
-	rules[2].damping = 0.99f;
-	rules[2].maxAge = 1.5f;
-	rules[2].minAge = 0.5f;
-	rules[2].maxVelocity = { 80.0f, 50.0f, 0.0f };
-	rules[2].minVelocity = { -80.0f, -10.0f, 0.0f };
-	rules[2].init(1);
-	rules[2].payloads[0].set(Firework::SMALL, 8);
-
-	rules[3].type = LARGE;
-	rules[3].damping = 0.99f;
-	rules[3].maxAge = 1.5f;
-	rules[3].minAge = 0.5f;
-	rules[3].maxVelocity = { 40.0f, 75.0f, 0.0f };
-	rules[3].minVelocity = { 40.0f, 20.0f, 0.0f };
-	rules[3].init(1);
-	rules[3].payloads[0].set(Firework::MEDIUM, 4);
-
-	rules[4].type = EXTRALARGE;
-	rules[4].damping = 0.99f;
-	rules[4].maxAge = 1.5f;
-	rules[4].minAge = 0.5f;
-	rules[4].maxVelocity = { 5.0f, 90.0f, 0.0f };
-	rules[4].minVelocity = { -5.0f, 60.0f, 0.0f };
-	rules[4].init(2);
-	rules[4].payloads[0].set(Firework::LARGE, 2);
-	rules[4].payloads[1].set(Firework::MEDIUM, 4);
-
 }
 
 Firework::FireworkNode* Firework::getRoot() {

@@ -72,6 +72,7 @@ void Ballistic::initializeParticleForAmmoRound(ShotType currentType) { // pass i
     ammoRound.type = currentType;
 }
 
+// "Chambers" the shot into the vector
 // function used to initlize a slot within rounds with round types particle parameters
 void Ballistic::fire(double &xPosition, double &yPosition) {
     // initial for loop to loop through the rounds vector
