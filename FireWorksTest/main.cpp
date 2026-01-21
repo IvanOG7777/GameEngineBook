@@ -5,57 +5,45 @@
 #include <iostream>
 #include <random>
 
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include "Particle.h"
 #include "firework.h"
 #include "globalConstants.h"
+#include "windowFunctions.h"
 
 int main() {
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	GLFWwindow *window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, true);
+	glfwMakeContextCurrent(window);
+
+	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
+
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		std::cerr << "Failed to init GLAD\n";
+		return 1;
+	}
+
+
 	Firework firework;
 
-	firework.initFireworkType(Firework::EXTRALARGE);
-	firework.initFireworkType(Firework::LARGE);
-	firework.initFireworkType(Firework::MEDIUM);
-	firework.initFireworkType(Firework::SMALL);
-	firework.initFireworkType(Firework::SMALL);
+	firework.currentFireworkType = firework.EXTRALARGE; firework.initFireworkType(firework.currentFireworkType);
+	firework.currentFireworkType = firework.LARGE; firework.initFireworkType(firework.currentFireworkType);
+	firework.currentFireworkType = firework.MEDIUM; firework.initFireworkType(firework.currentFireworkType);
+	firework.currentFireworkType = firework.SMALL; firework.initFireworkType(firework.currentFireworkType);
 
-	firework.addFireworksFromVectorToTree(firework.fireworks);
+	firework.addFireworksFromVectorToTree(firework.activeFireworks);
 
 	Firework::Payload extraLargePayload;
 	Firework::Payload largePayload;
 	Firework::Payload mediumPayload;
 	Firework::Payload smallPayload;
-
-	//std::vector<Firework::FireworkRule> rules;
-	//rules.resize(4); // resize to 4 becasue we have4 different types of rules to set EXLARGE, LARGE, MEDIUM, SMALL
-
-	//extraLargePayload.set(Firework::LARGE, 2);
-	//largePayload.set(Firework::MEDIUM, 4);
-	//mediumPayload.set(Firework::SMALL, 8);
-	//smallPayload.set(0,0);
-
-	//std::cout << std::endl;
-	//std::cout << "Payload for extra large is: " << std::endl;
-	//std::cout << "Type: " << ((extraLargePayload.type == Firework::LARGE) ? "LARGE" : "other type") << std::endl;
-	//std::cout << "Count: " << extraLargePayload.count << std::endl;
-	//std::cout << std::endl;
-
-	//std::cout << "Payload for large is: " << std::endl;
-	//std::cout << "Type: " << ((largePayload.type == Firework::MEDIUM) ? "MEDIUM" : "other type") << std::endl;
-	//std::cout << "Count: " << largePayload.count << std::endl;
-	//std::cout << std::endl;
-
-	//std::cout << "Payload for medium is: " << std::endl;
-	//std::cout << "Type: " << ((mediumPayload.type == Firework::SMALL) ? "SMALL" : "other type") << std::endl;
-	//std::cout << "Count: " << mediumPayload.count << std::endl;
-	//std::cout << std::endl;
-
-	//std::cout << "Payload for small is: " << std::endl;
-	//std::cout << "Type: " << ((smallPayload.type == Firework::UNUSED) ? "UNUSED" : "other type") << std::endl;
-	//std::cout << "Count: " << smallPayload.count << std::endl;
-	//std::cout << std::endl;
 
 	firework.initFireworkRules();
 
@@ -69,12 +57,42 @@ int main() {
 		std::cout << std::endl;
 	}
 
-	Firework::FireworkParticle fireworkParticle;
-	fireworkParticle.type = Firework::EXTRALARGE;
-	std::vector< Firework::FireworkParticle> acticeParticles;
-	acticeParticles.resize(50);
+	std::random_device gen;
 
-	acticeParticles[0] = fireworkParticle;
+	for (auto& firework : firework.activeFireworks) {
+		std::cout << "Type: " << firework.type << std::endl;
+	}
+
+	bool escWasDown = false;
+	bool fWasDown = false;
+	
+	while (!glfwWindowShouldClose(window)) {
+
+		int w = SCREENWIDTH;
+		int h = SCREENHEIGHT;
+
+		glfwGetFramebufferSize(window, &w, &h);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		bool escDown = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
+		bool fDown = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
+
+		if (fDown && !fWasDown) {
+			std::cout << "F key was hit" << std::endl;
+			firework.spawnFirework(GLFW_KEY_F);
+		}
+
+		if (escDown && !escWasDown) {
+			std::cout << "Program has been killed " << std::endl;
+			glfwTerminate();
+			return 0;
+		}
+
+		fWasDown = fDown;
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
 
 	/*
 	float minAge = 0, maxAge = 0;
@@ -98,17 +116,6 @@ int main() {
 			break;
 		}
 	}*/
-
-	std::random_device gen;
-
-
-	std::cout << acticeParticles[0].type << std::endl;
-	std::cout << acticeParticles[0].age << std::endl;
-	std::cout << acticeParticles[0].particle.getPosition().x << ", " << acticeParticles[1].particle.getPosition().y << ", " << acticeParticles[1].particle.getPosition().z << std::endl;
-
-	std::cout << acticeParticles[1].type << std::endl;
-	std::cout << acticeParticles[1].age << std::endl;
-	std::cout << acticeParticles[1].particle.getPosition().x << ", " << acticeParticles[1].particle.getPosition().y << ", " << acticeParticles[1].particle.getPosition().z << std::endl;
 
 	
 	//while (!acticeParticles.empty()) {

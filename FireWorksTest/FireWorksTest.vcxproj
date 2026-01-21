@@ -139,9 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Downloads\glad\src\glad.c" />
     <ClCompile Include="..\gameLib\Particle.cpp" />
     <ClCompile Include="firework.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="windowFunctions.cpp" />
+    <ClCompile Include="windowFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="firework.h" />

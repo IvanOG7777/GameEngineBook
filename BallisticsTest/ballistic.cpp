@@ -174,42 +174,21 @@ bool Ballistic::allRoundsUnused() {
 }
 
 void Ballistic::spawnRound(int key) {
-    Ballistic::AmmoRound round;
     if (key == 80) { // case for PISTOL
-        round.particle.setMass(2.0f);
-        round.particle.setVelocity(-10.0f, 35.0f, 0.0f);
-        round.particle.setAcceleration(0.0f, -1.0f, 0.0f);
-        round.particle.setDamping(0.99f);
-        round.particle.setRadius(2.0f);
-        round.lifeTime = 8;
         currentShotType = PISTOL;
-        round.type = currentShotType;
         fire(mousePositionX, mousePositionY);
 
         std::cout << "PISTOL has been added" << std::endl;
     }
 
     if (key == 65) { // case for ARTILLERY
-        round.particle.setMass(200.0f);
-        round.particle.setVelocity(-8.0f, 30.0f, 0.0f);
-        round.particle.setAcceleration(0.0f, -20.0f, 0.0f);
-        round.particle.setDamping(0.99f);
-        round.particle.setRadius(10.0f);
-        round.lifeTime = 10;
         currentShotType = ARTILLERY;
-        round.type = currentShotType;
         fire(mousePositionX, mousePositionY);
 
         std::cout << "ARTILLERY has been added" << std::endl;
     }
 
     if (key == 70) { // case for FIREBALL
-        round.particle.setMass(1.0f);
-        round.particle.setVelocity(-10.0f, 10.0f, 0.0f);
-        round.particle.setAcceleration(0.0f, -0.6f, 0.0f);
-        round.particle.setDamping(0.99f);
-        round.particle.setRadius(5.0f);
-        round.lifeTime = 5;
         currentShotType = FIREBALL;
         fire(mousePositionX, mousePositionY);
 
@@ -222,24 +201,12 @@ void Ballistic:: spawnRoundWithMouse(double xPosition, double yPosition) {
     int particleType = mouseCount % 3;
     mouseCount++;
     if (particleType == 0) {
-        round.particle.setMass(2.0f);
-        round.particle.setVelocity(-10.0f, 35.0f, 0.0f);
-        round.particle.setAcceleration(0.0f, -1.0f, 0.0f);
-        round.particle.setDamping(0.99f);
-        round.particle.setRadius(2.0f);
-        round.lifeTime = 8;
         currentShotType = PISTOL;
         fire(xPosition, yPosition);
         std::cout << "PISTOL has been added" << std::endl;
     }
 
     if (particleType == 1) {
-        round.particle.setMass(200.0f);
-        round.particle.setVelocity(-8.0f, 30.0f, 0.0f);
-        round.particle.setAcceleration(0.0f, -20.0f, 0.0f);
-        round.particle.setDamping(0.99f);
-        round.particle.setRadius(10.0f);
-        round.lifeTime = 10;
         currentShotType = Ballistic::ARTILLERY;
         fire(xPosition, yPosition);
 
@@ -247,12 +214,6 @@ void Ballistic:: spawnRoundWithMouse(double xPosition, double yPosition) {
     }
 
     if (particleType == 2) {
-        round.particle.setMass(1.0f);
-        round.particle.setVelocity(-10.0f, 10.0f, 0.0f);
-        round.particle.setAcceleration(0.0f, -0.6f, 0.0f);
-        round.particle.setDamping(0.99f);
-        round.particle.setRadius(5.0f);
-        round.lifeTime = 5;
         currentShotType = FIREBALL;
         fire(xPosition, yPosition);
 

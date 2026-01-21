@@ -116,7 +116,7 @@ public:
 		}*/
 	};
 
-	static constexpr unsigned maxFireworks = 1024;
+	static constexpr unsigned maxFireworks = 10;
 
 
 private:
@@ -130,19 +130,19 @@ private:
 public:
 	Firework();
 
+	FireworkParticle singleFireWork; // used for testing
+	FireworkSizeType currentFireworkType;
+	std::vector<FireworkParticle> activeFireworks;
+	std::vector<FireworkNode> nodepool;
+	std::vector<Firework::FireworkRule> rules;
+	int poolUsed;
+
 	void initFireworkType(FireworkSizeType type);
 	void initFireworkRules();
-	void spawnFirework();
+	void spawnFirework(int key);
 
 	void addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks);
 	void printByDepth();
 	FireworkNode* getRoot();
-
-	FireworkParticle singleFireWork; // used for testing
-	FireworkSizeType currentFireworkType;
-	std::vector<FireworkParticle> fireworks;
-	std::vector<FireworkNode> nodepool;
-	std::vector<Firework::FireworkRule> rules;
-	int poolUsed;
 	
 };
