@@ -140,7 +140,8 @@ public:
 	void initFireworkType(FireworkSizeType type);
 	void initFireworkRules();
 	void spawnFirework(int key);
-
+	
+	void updateFireworks(double dt);
 	void addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks);
 	void printByDepth();
 	FireworkNode* getRoot();

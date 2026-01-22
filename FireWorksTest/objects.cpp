@@ -1,0 +1,83 @@
+#include <cassert>
+#include <iostream>
+#include <thread>
+#include <chrono>
+
+
+#include "objects.h"
+#include "firework.h"
+
+// function used to create verticies for a particle in a cirlce shape
+// Parameters:
+//		The center of the particle, on each frame loop we rerender and pass in the new positions for the particle and use that as center
+//		The radius of the particle
+//		The res, amount of points per circle, if res is more more triangles to make and more computations
+std::vector <Vector3> makeCircleFan(Vector3 center, float radius, int res) {
+	std::vector <Vector3> verticies; // create a vector of Vector3 called verticies
+
+	verticies.reserve(res + 2); // reserve res amount of points plus 2 in memory for vertices
+	verticies.emplace_back(center); // emplace_bakc the first center passed into the function to the vector
+
+	// loop through res
+	for (int i = 0; i <= res; i++) {
+		float progress = static_cast<float>(i) / static_cast<float>(res); // progress is given by the formula (i/res)
+		float theta = progress * 2.0f * PI; // compute the current theta angle with progress (i/res) * 2.0f * PI
+
+		Vector3 position; // create a new Vector3 call position per loop
+
+		// currently only using 2d object so z axis is being ignored
+		position.x = center.x + std::cos(theta) * radius; // pass in the centers.x + the cos(theta) * radius, used for horizontal movement
+		position.y = center.y + std::sin(theta) * radius; // pass in the centers.y + the sin(theta) * radius, used for vertical movement
+		position.z = 0;
+
+		verticies.emplace_back(position); // emplace_bakc the newly built position into the vertices vector
+	}
+
+	// once we finish the loop through res
+	// return the fully built cirlce vertices
+	return verticies;
+}
+
+// Parameters
+// Pass in a particle object by reference
+// Pass in the radis of particle
+// Pass in the window height and width
+void keepCircleInFrame(Particle& particle, int& windowWidth, int& windowHeight) {
+	float radius = particle.getRadius();
+	// Set the min x/y and max x/y values of the particle
+	float minX = radius; // Min x is radius
+	float maxX = static_cast<float>(windowWidth) - radius; // max is is the windowWidth - radius
+	float minY = radius; // Min y is radius
+	float maxY = static_cast<float>(windowHeight) - radius; // max is is the windowHeight - radius
+
+	Vector3 p = particle.getPosition();
+	Vector3 v = particle.getVelocity();
+
+	// Right/Left
+	// if p.x is less than the minX
+	if (p.x < minX) {
+		p.x = minX; // swap current x position with minX
+		v.x = -v.x * e; // reverse the x veclocity
+	}
+	// if p.x is less than the minX
+	if (p.x > maxX) {
+		p.x = maxX; // swap current x position with maxX
+		v.x = -v.x * e; // reverse the x veclocity
+	}
+
+	// Bottom / Top
+	// if p.y is less than the minY
+	if (p.y < minY) {
+		p.y = minY; // swap current y position with minY
+		v.y = -v.y * e; // reverse the y veclocity
+	}
+	// if p.y is more than the maxY
+	if (p.y > maxY) {
+		p.y = maxY; // swap current y position with maxY
+		v.y = -v.y * e; // reverse the y veclocity
+	}
+
+	// set the new position and velocity to the particle
+	particle.setPosition(p.x, p.y, p.z);
+	particle.setVelocity(v.x, v.y, v.z);
+}

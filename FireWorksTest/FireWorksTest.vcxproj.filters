@@ -33,12 +33,18 @@
     <ClCompile Include="..\..\..\..\..\Downloads\glad\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="objects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="firework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="globalConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

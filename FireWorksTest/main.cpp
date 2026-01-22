@@ -13,6 +13,31 @@
 #include "firework.h"
 #include "globalConstants.h"
 #include "windowFunctions.h"
+#include "objects.h"
+
+const char* vertexShader = R"GLSL(
+        #version 330 core
+        layout(location = 0) in vec3 aPos;
+
+        uniform vec2 uResolution;
+
+        void main() {
+            vec2 ndc = aPos.xy / uResolution;
+            ndc = ndc * 2.0 - 1.0;
+            
+
+            gl_Position = vec4(ndc, 0.0, 1.0);
+        }
+    )GLSL";
+
+const char* fragmentShader = R"GLSL(
+        #version 330 core
+        out vec4 FragColor;
+        uniform vec3 uColor;
+        void main() {
+            FragColor = vec4(uColor, 1.0);
+        }
+    )GLSL";
 
 int main() {
 
@@ -36,44 +61,50 @@ int main() {
 	firework.currentFireworkType = firework.EXTRALARGE; firework.initFireworkType(firework.currentFireworkType);
 
 	firework.addFireworksFromVectorToTree(firework.activeFireworks);
-
-	Firework::Payload extraLargePayload;
-	Firework::Payload largePayload;
-	Firework::Payload mediumPayload;
-	Firework::Payload smallPayload;
-
 	firework.initFireworkRules();
 
+	GLuint program = createProgram(vertexShader, fragmentShader);
+	if (!program) return 1;
+	glUseProgram(program);
+
+	GLuint uResolutionLoc = glGetUniformLocation(program, "uResolution");
+	GLuint uColorLoc = glGetUniformLocation(program, "uColor");
+
+	GLuint vao = 0, vbo = 0;
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	int res = 100;
+	float baseRadius = 10.0f;
+	Vector3 basePosition;
+	std::vector<Vector3> particleVerticies = makeCircleFan(basePosition, baseRadius, res);
+
+	glBufferData(
+		GL_ARRAY_BUFFER,
+		particleVerticies.size() * sizeof(Vector3),
+		particleVerticies.data(),
+		GL_DYNAMIC_DRAW
+	);
+
+	glVertexAttribPointer(
+		0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vector3),
+		(void*)0
+	);
+
+
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0);
+
+
 	std::random_device gen;
-
-	/*for (auto& fireworkParticle : firework.activeFireworks) {
-		if (fireworkParticle.type == Firework::SMALL) continue;
-		if (fireworkParticle.type == Firework::UNUSED) continue;
-		std::string parentName = "";
-
-		switch (fireworkParticle.type) {
-			case Firework:: EXTRALARGE:
-				parentName = "EXTRA LARGE";
-				break;
-			case Firework::LARGE:
-				parentName = "LARGE";
-				break;
-			case Firework::MEDIUM:
-				parentName = "MEDIUM";
-				break;
-			default:
-				break;
-		}
-
-		std::cout << "Parent Type: " << parentName << std::endl;
-		for (size_t i = 0; i < firework.rules[fireworkParticle.type].payloads.size(); i++) {
-			for (size_t j = 0; j < firework.rules[fireworkParticle.type].payloads[i].count; j++) {
-				int currentType = firework.rules[fireworkParticle.type].payloads[i].type;
-				firework.initFireworkType(static_cast<Firework::FireworkSizeType>(currentType));
-			}
-		}
-	}*/
-
 	bool escWasDown = false;
 	bool fWasDown = false;
 	
@@ -84,6 +115,11 @@ int main() {
 
 		glfwGetFramebufferSize(window, &w, &h);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glUseProgram(program);
+		glUniform2f(uResolutionLoc, (float)w, (float)h);
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 		bool escDown = glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 		bool fDown = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
@@ -101,27 +137,13 @@ int main() {
 		fWasDown = fDown;
 		escWasDown = escDown;
 
+		firework.updateFireworks(0.016);
 
-		for (auto& particle : firework.activeFireworks) {
+		for (size_t i = 0; i < firework.activeFireworks.size(); i++) {
+			Firework::FireworkParticle &particle = firework.activeFireworks[i];
 			if (particle.type == Firework::UNUSED) continue;
-			std::string parentName = "";
 
-			switch (particle.type) {
-				case Firework::EXTRALARGE:
-					parentName = "EXTRALARGE";
-					break;
-				case Firework::LARGE:
-					parentName = "LARGE";
-					break;
-				case Firework::MEDIUM:
-					parentName = "MEDIUM";
-					break;
-				case Firework::SMALL:
-					parentName = "SMALL";
-					break;
-				default:
-					break;
-			}
+			keepCircleInFrame(particle.particle, w, h);
 
 			float minAge = firework.rules[particle.type].minAge;
 			float maxAge = firework.rules[particle.type].maxAge;
@@ -141,10 +163,29 @@ int main() {
 						firework.initFireworkType(static_cast<Firework::FireworkSizeType>(currentType));
 					}
 				}
-
-				std::cout << "Parent Name: " << parentName << ", Age: " << particle.age << std::endl;
 				particle.type = Firework::UNUSED;
 			}
+
+			float particleRadius = firework.activeFireworks[i].particle.getRadius();
+			Vector3 particlePosition = firework.activeFireworks[i].particle.getPosition();
+			particleVerticies = makeCircleFan(particlePosition, particleRadius, res);
+			switch (firework.activeFireworks[i].type) {
+			case Firework::SMALL: glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); break;
+			case Firework::EXTRALARGE: glUniform3f(uColorLoc, 1.0f, 0.8f, 0.2f); break;
+			case Firework::LARGE:  glUniform3f(uColorLoc, 1.0f, 0.2f, 0.2f); break;
+			case Firework::MEDIUM: glUniform3f(uColorLoc, 0.6f, 0.3f, 0.5f); break;
+			default:                   glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
+			}
+
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBufferSubData(
+				GL_ARRAY_BUFFER,
+				0,
+				particleVerticies.size() * sizeof(Vector3),
+				particleVerticies.data()
+			);
+
+			glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
 		}
 
 		glfwSwapBuffers(window);
