@@ -35,7 +35,7 @@ void Firework::initFireworkType(FireworkSizeType type) {
 	switch (type) {
 	case Firework::UNUSED:
 		break;
-	case Firework::SMALL:
+	case SMALL:
 		activeFireworks[roundIndex].type = SMALL;
 		activeFireworks[roundIndex].particle.setMass(2.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 35.0f, 0.0f);
@@ -45,7 +45,7 @@ void Firework::initFireworkType(FireworkSizeType type) {
 		activeFireworks[roundIndex].particle.setPosition(540.0f, 960.0f, 0.0f);
 		std::cout << "Fireworks at index " << roundIndex << " has been initalized to SMALL" << std::endl;
 		break;
-	case Firework::MEDIUM:
+	case MEDIUM:
 		activeFireworks[roundIndex].type = MEDIUM;
 		activeFireworks[roundIndex].particle.setMass(5.5f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
@@ -55,7 +55,7 @@ void Firework::initFireworkType(FireworkSizeType type) {
 		activeFireworks[roundIndex].particle.setPosition(550.0f, 950.0f, 0.0f);
 		std::cout << "Fireworks at index " << roundIndex << " has been initalized to MEDIUM" << std::endl;
 		break;
-	case Firework::LARGE:
+	case LARGE:
 		activeFireworks[roundIndex].type = LARGE;
 		activeFireworks[roundIndex].particle.setMass(11.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
@@ -65,7 +65,7 @@ void Firework::initFireworkType(FireworkSizeType type) {
 		activeFireworks[roundIndex].particle.setPosition(533.0f, 910.0f, 0.0f);
 		std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE" << std::endl;
 		break;
-	case Firework::EXTRALARGE:
+	case EXTRALARGE:
 		activeFireworks[roundIndex].type = EXTRALARGE;
 		activeFireworks[roundIndex].particle.setMass(15.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);

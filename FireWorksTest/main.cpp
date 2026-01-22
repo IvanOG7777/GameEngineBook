@@ -20,7 +20,7 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow *window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, true);
+	GLFWwindow *window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, false);
 	glfwMakeContextCurrent(window);
 
 	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
@@ -34,9 +34,9 @@ int main() {
 	Firework firework;
 
 	firework.currentFireworkType = firework.EXTRALARGE; firework.initFireworkType(firework.currentFireworkType);
-	firework.currentFireworkType = firework.LARGE; firework.initFireworkType(firework.currentFireworkType);
+	/*firework.currentFireworkType = firework.LARGE; firework.initFireworkType(firework.currentFireworkType);
 	firework.currentFireworkType = firework.MEDIUM; firework.initFireworkType(firework.currentFireworkType);
-	firework.currentFireworkType = firework.SMALL; firework.initFireworkType(firework.currentFireworkType);
+	firework.currentFireworkType = firework.SMALL; firework.initFireworkType(firework.currentFireworkType);*/
 
 	firework.addFireworksFromVectorToTree(firework.activeFireworks);
 
@@ -47,7 +47,7 @@ int main() {
 
 	firework.initFireworkRules();
 
-	for (auto& rule : firework.rules) {
+	/*for (auto& rule : firework.rules) {
 		std::cout << "Rule type: " << rule.type << std::endl;
 		std::cout << "Payload type: ";
 		for (auto& payload : rule.payloads) {
@@ -55,14 +55,30 @@ int main() {
 		}
 		std::cout << std::endl;
 		std::cout << std::endl;
-	}
+	}*/
 
 	std::random_device gen;
 
 	for (auto& fireworkParticle : firework.activeFireworks) {
 		if (fireworkParticle.type == Firework::SMALL) continue;
 		if (fireworkParticle.type == Firework::UNUSED) continue;
-		std::cout << "Parent Type: " << fireworkParticle.type << std::endl;
+		std::string parentName = "";
+
+		switch (fireworkParticle.type) {
+			case Firework:: EXTRALARGE:
+				parentName = "EXTRA LARGE";
+				break;
+			case Firework::LARGE:
+				parentName = "LARGE";
+				break;
+			case Firework::MEDIUM:
+				parentName = "MEDIUM";
+				break;
+			default:
+				break;
+		}
+
+		std::cout << "Parent Type: " << parentName << std::endl;
 		for (size_t i = 0; i < firework.rules[fireworkParticle.type].payloads.size(); i++) {
 			for (size_t j = 0; j < firework.rules[fireworkParticle.type].payloads[i].count; j++) {
 				int currentType = firework.rules[fireworkParticle.type].payloads[i].type;
@@ -71,12 +87,14 @@ int main() {
 		}
 	}
 
+	int count = 0;
 	for (auto& fireworkParticle : firework.activeFireworks) {
 		if (fireworkParticle.type == Firework::UNUSED) continue;
 		std::cout << "Type: " << fireworkParticle.type << std::endl;
+		count++;
 	}
 
-	return 0;
+	std::cout << "Total fireworks in active fireworks: " << count << std::endl;
 
 	bool escWasDown = false;
 	bool fWasDown = false;
@@ -121,7 +139,14 @@ int main() {
 
 
 			if (particle.age <= 0.0f) {
-				firework.rules[particle.type].payloads.size();
+				for (size_t i = 0; i < firework.rules[particle.type].payloads.size(); i++) {
+					for (size_t j = 0; j < firework.rules[particle.type].payloads[i].count; j++) {
+						int currentType = firework.rules[particle.type].payloads[i].type;
+						firework.initFireworkType(static_cast<Firework::FireworkSizeType>(currentType));
+					}
+				}
+
+				particle.type = Firework::UNUSED;
 			}
 		}
 
