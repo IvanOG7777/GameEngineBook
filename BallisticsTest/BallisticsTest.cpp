@@ -164,8 +164,7 @@ int main() {
 			glDeleteVertexArrays(1, &vao);
 			glDeleteProgram(program);
 
-			glfwTerminate();
-			return 0;
+			glfwSetWindowShouldClose(window, true);
 		}
 		
 		pWasDown = pDown;
@@ -246,6 +245,8 @@ int main() {
 	glDeleteVertexArrays(1, &vao);
 	glDeleteProgram(program);
 
+	glfwDestroyWindow(window);
 	glfwTerminate();
+
 	return 0;
 }

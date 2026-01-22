@@ -116,7 +116,7 @@ public:
 		}*/
 	};
 
-	static constexpr unsigned maxFireworks = 200;
+	static constexpr unsigned maxFireworks = 1024;
 
 
 private:

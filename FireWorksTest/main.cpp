@@ -34,9 +34,6 @@ int main() {
 	Firework firework;
 
 	firework.currentFireworkType = firework.EXTRALARGE; firework.initFireworkType(firework.currentFireworkType);
-	/*firework.currentFireworkType = firework.LARGE; firework.initFireworkType(firework.currentFireworkType);
-	firework.currentFireworkType = firework.MEDIUM; firework.initFireworkType(firework.currentFireworkType);
-	firework.currentFireworkType = firework.SMALL; firework.initFireworkType(firework.currentFireworkType);*/
 
 	firework.addFireworksFromVectorToTree(firework.activeFireworks);
 
@@ -47,19 +44,9 @@ int main() {
 
 	firework.initFireworkRules();
 
-	/*for (auto& rule : firework.rules) {
-		std::cout << "Rule type: " << rule.type << std::endl;
-		std::cout << "Payload type: ";
-		for (auto& payload : rule.payloads) {
-			std::cout << payload.type << " ";
-		}
-		std::cout << std::endl;
-		std::cout << std::endl;
-	}*/
-
 	std::random_device gen;
 
-	for (auto& fireworkParticle : firework.activeFireworks) {
+	/*for (auto& fireworkParticle : firework.activeFireworks) {
 		if (fireworkParticle.type == Firework::SMALL) continue;
 		if (fireworkParticle.type == Firework::UNUSED) continue;
 		std::string parentName = "";
@@ -85,16 +72,7 @@ int main() {
 				firework.initFireworkType(static_cast<Firework::FireworkSizeType>(currentType));
 			}
 		}
-	}
-
-	int count = 0;
-	for (auto& fireworkParticle : firework.activeFireworks) {
-		if (fireworkParticle.type == Firework::UNUSED) continue;
-		std::cout << "Type: " << fireworkParticle.type << std::endl;
-		count++;
-	}
-
-	std::cout << "Total fireworks in active fireworks: " << count << std::endl;
+	}*/
 
 	bool escWasDown = false;
 	bool fWasDown = false;
@@ -117,15 +95,33 @@ int main() {
 
 		if (escDown && !escWasDown) {
 			std::cout << "Program has been killed " << std::endl;
-			glfwTerminate();
-			return 0;
+			glfwSetWindowShouldClose(window, true);
 		}
 
 		fWasDown = fDown;
+		escWasDown = escDown;
 
 
 		for (auto& particle : firework.activeFireworks) {
 			if (particle.type == Firework::UNUSED) continue;
+			std::string parentName = "";
+
+			switch (particle.type) {
+				case Firework::EXTRALARGE:
+					parentName = "EXTRALARGE";
+					break;
+				case Firework::LARGE:
+					parentName = "LARGE";
+					break;
+				case Firework::MEDIUM:
+					parentName = "MEDIUM";
+					break;
+				case Firework::SMALL:
+					parentName = "SMALL";
+					break;
+				default:
+					break;
+			}
 
 			float minAge = firework.rules[particle.type].minAge;
 			float maxAge = firework.rules[particle.type].maxAge;
@@ -146,6 +142,7 @@ int main() {
 					}
 				}
 
+				std::cout << "Parent Name: " << parentName << ", Age: " << particle.age << std::endl;
 				particle.type = Firework::UNUSED;
 			}
 		}
@@ -154,70 +151,12 @@ int main() {
 		glfwPollEvents();
 	}
 
-	/*
-	float minAge = 0, maxAge = 0;
-	minAge = firework.rules[fireworkParticle.type].minAge;
-	maxAge = firework.rules[fireworkParticle.type].maxAge;
-		
-	std::random_device gen;
-	std::uniform_real_distribution ageDistribution(minAge, maxAge);
+	glfwDestroyWindow(window);
+	glfwTerminate();
 
-	float randAge = ageDistribution(gen);
-
-	fireworkParticle.age = randAge;
-
-	
-	while (fireworkParticle.age >= 0.0f) {
-		std::cout << "Age: " << fireworkParticle.age << std::endl;
-		fireworkParticle.age -= testDT;
-
-		if (fireworkParticle.age <= 0) {
-			std::cout << "EXTRALARGE particle has died" << std::endl;
-			break;
-		}
-	}*/
-
-	
-	//while (!acticeParticles.empty()) {
-
-	//	for (size_t i = 0; i < acticeParticles.size();) {
-	//		if (acticeParticles[i].type == Firework::UNUSED) {
-	//			acticeParticles.erase(acticeParticles.begin() + i);
-	//			continue;
-	//		}
-
-	//		float minAge = firework.rules[acticeParticles[i].type].minAge;
-	//		float maxAge = firework.rules[acticeParticles[i].type].maxAge;
-
-	//		Vector3 minVel = firework.rules[acticeParticles[i].type].minVelocity;
-	//		Vector3 maxVel = firework.rules[acticeParticles[i].type].maxVelocity;
-
-	//		if (acticeParticles[i].age <= 0.0f) {
-	//			std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);
-	//			acticeParticles[i].age = ageDistribution(gen);
-	//		}
-	//		
-	//		acticeParticles[i].age -= testDT;
-	//		std::cout << "Active Age: " << acticeParticles[i].age << std::endl;
-
-	//		if (acticeParticles[i].age <= 0.0f) {
-	//			for (size_t j = 0; j < firework.rules[acticeParticles[i].type].payloads.size(); j++) {
-
-	//				Firework::FireworkParticle newParticle;
-	//				newParticle.type = firework.rules[acticeParticles[i].type].payloads[j].type;
-	//				acticeParticles.push_back(newParticle);
-	//			}
-	//			acticeParticles[i].type = Firework::UNUSED;
-	//		}
-
-	//		std::cout << acticeParticles[i].type << std::endl;
-	//		i++;
-	//	}
-
-	//	if (acticeParticles.empty()) std::cout << "No more active particles" << std::endl;
-	//}
-
-	/*firework.printByDepth();*/
+	for (auto& particle : firework.activeFireworks) {
+		std::cout << "Particle Type: " << particle.type << std::endl;
+	}
 
 	return 0;
 }
