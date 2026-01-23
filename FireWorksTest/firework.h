@@ -138,7 +138,7 @@ public:
 	int poolUsed;
 	double mousePositionX, mousePositionY;
 
-	void fire(double& xPosition, double& yPosition);
+	void fire(FireworkSizeType type, double& xPosition, double& yPosition);
 	void initFireworkRules();
 	void spawnFirework(int key);
 	

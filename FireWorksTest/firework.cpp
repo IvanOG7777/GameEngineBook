@@ -19,7 +19,7 @@ Firework::Firework() {
 	mousePositionY = 0.0;
 }
 
-void Firework:: fire(double &xPosition, double &yPosition) {
+void Firework:: fire(FireworkSizeType type, double &xPosition, double &yPosition) {
 
 	size_t roundIndex = 0;
 	for (; roundIndex < activeFireworks.size(); roundIndex++) {
@@ -34,11 +34,11 @@ void Firework:: fire(double &xPosition, double &yPosition) {
 		return;
 	}
 
-	switch (currentFireworkType) {
+	switch (type) {
 	case Firework::UNUSED:
 		break;
 	case SMALL:
-		activeFireworks[roundIndex].type = currentFireworkType;
+		activeFireworks[roundIndex].type = type;
 		activeFireworks[roundIndex].particle.setMass(2.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 35.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
@@ -48,7 +48,7 @@ void Firework:: fire(double &xPosition, double &yPosition) {
 		std::cout << "Fireworks at index " << roundIndex << " has been initalized to SMALL\n";
 		break;
 	case MEDIUM:
-		activeFireworks[roundIndex].type = currentFireworkType;
+		activeFireworks[roundIndex].type = type;
 		activeFireworks[roundIndex].particle.setMass(5.5f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
@@ -58,7 +58,7 @@ void Firework:: fire(double &xPosition, double &yPosition) {
 		std::cout << "Fireworks at index " << roundIndex << " has been initalized to MEDIUM\n";
 		break;
 	case LARGE:
-		activeFireworks[roundIndex].type = currentFireworkType;
+		activeFireworks[roundIndex].type = type;
 		activeFireworks[roundIndex].particle.setMass(11.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
@@ -68,7 +68,7 @@ void Firework:: fire(double &xPosition, double &yPosition) {
 		std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE \n";
 		break;
 	case EXTRALARGE:
-		activeFireworks[roundIndex].type = currentFireworkType;
+		activeFireworks[roundIndex].type = type;
 		activeFireworks[roundIndex].particle.setMass(15.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
@@ -156,7 +156,7 @@ void Firework::spawnFirework(int key) {
 	// Spawn Extra large key F
 	if (key == 70) {
 		currentFireworkType = EXTRALARGE;
-		fire(mousePositionX, mousePositionY);
+		fire(currentFireworkType, mousePositionX, mousePositionY);
 	}
 }
 
@@ -270,36 +270,6 @@ float Firework::distance2(FireworkNode* node1, FireworkNode* node2) {
 	float ySumSquared = ySum * ySum;
 
 	return xSumSquared + ySumSquared;
-}
-
-
-
-void Firework::findNNHelper(FireworkNode* current, FireworkNode* target, FireworkNode*& bestNode, float& bestDistance, int depth) {
-	if (current == nullptr) return;
-
-	float currentDistance = distance2(current, target);
-
-	if (currentDistance > 0.0f && currentDistance < bestDistance) {
-		bestDistance = currentDistance;
-		bestNode = current;
-	}
-
-	int axis = depth % 2;
-
-	float targetAxisValue = (axis == 0) ? target->fireworkNode->particle.getPosition().x : target->fireworkNode->particle.getPosition().y;
-	float currentAxisValue = (axis == 0) ? current->fireworkNode->particle.getPosition().x : current->fireworkNode->particle.getPosition().y;
-
-	FireworkNode* nearChild = (targetAxisValue < currentAxisValue) ? current->left : current->right;
-	FireworkNode* farChild = (targetAxisValue < currentAxisValue) ? current->right : current->left;
-
-	findNNHelper(nearChild, target, bestNode, bestDistance, depth+1);
-
-	float difference = targetAxisValue - currentAxisValue;
-	float differenceSquared = difference * difference;
-
-	if (differenceSquared < bestDistance) {
-		findNNHelper(farChild, target, bestNode, bestDistance, depth+1);
-	}
 }
 
 void Firework::addNode(FireworkNode* node) {

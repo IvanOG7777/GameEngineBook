@@ -63,7 +63,7 @@ int main() {
 	Firework firework;
 	glfwSetWindowUserPointer(window, &firework);
 
-	firework.currentFireworkType = firework.EXTRALARGE; firework.initFireworkType(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
+	firework.currentFireworkType = firework.EXTRALARGE; firework.fire(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
 
 	firework.addFireworksFromVectorToTree(firework.activeFireworks);
 	firework.initFireworkRules();
@@ -172,7 +172,7 @@ int main() {
 				for (size_t i = 0; i < firework.rules[particle.type].payloads.size(); i++) {
 					for (size_t j = 0; j < firework.rules[particle.type].payloads[i].count; j++) {
 						int currentType = firework.rules[particle.type].payloads[i].type;
-						firework.initFireworkType(static_cast<Firework::FireworkSizeType>(currentType), firework.mousePositionX, firework.mousePositionY);
+						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), firework.mousePositionX, firework.mousePositionY);
 					}
 				}
 				particle.type = Firework::UNUSED;
