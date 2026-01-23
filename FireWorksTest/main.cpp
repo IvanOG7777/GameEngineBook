@@ -4,7 +4,8 @@
 
 #include <iostream>
 #include <random>
-
+#include <thread>
+#include <chrono>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -45,7 +46,10 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow *window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, false);
+	GLFWwindow *window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, true);
+
+	glfwSetCursorPosCallback(window, cursorPositionCallback);
+
 	glfwMakeContextCurrent(window);
 
 	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
@@ -57,8 +61,9 @@ int main() {
 
 
 	Firework firework;
+	glfwSetWindowUserPointer(window, &firework);
 
-	firework.currentFireworkType = firework.EXTRALARGE; firework.initFireworkType(firework.currentFireworkType);
+	firework.currentFireworkType = firework.EXTRALARGE; firework.initFireworkType(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
 
 	firework.addFireworksFromVectorToTree(firework.activeFireworks);
 	firework.initFireworkRules();
@@ -107,8 +112,15 @@ int main() {
 	std::random_device gen;
 	bool escWasDown = false;
 	bool fWasDown = false;
-	
+
+	auto startTime = std::chrono::high_resolution_clock::now();
 	while (!glfwWindowShouldClose(window)) {
+
+		auto currentTime = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double> deltaTime = currentTime - startTime;
+		startTime = currentTime;
+
+		double dt = deltaTime.count();
 
 		int w = SCREENWIDTH;
 		int h = SCREENHEIGHT;
@@ -137,7 +149,7 @@ int main() {
 		fWasDown = fDown;
 		escWasDown = escDown;
 
-		firework.updateFireworks(0.016);
+		firework.updateFireworks(dt);
 
 		for (size_t i = 0; i < firework.activeFireworks.size(); i++) {
 			Firework::FireworkParticle &particle = firework.activeFireworks[i];
@@ -153,14 +165,14 @@ int main() {
 				particle.age = ageDistribution(gen);
 			}
 
-			particle.age -= testDT;
+			particle.age -= dt;
 
 
 			if (particle.age <= 0.0f) {
 				for (size_t i = 0; i < firework.rules[particle.type].payloads.size(); i++) {
 					for (size_t j = 0; j < firework.rules[particle.type].payloads[i].count; j++) {
 						int currentType = firework.rules[particle.type].payloads[i].type;
-						firework.initFireworkType(static_cast<Firework::FireworkSizeType>(currentType));
+						firework.initFireworkType(static_cast<Firework::FireworkSizeType>(currentType), firework.mousePositionX, firework.mousePositionY);
 					}
 				}
 				particle.type = Firework::UNUSED;

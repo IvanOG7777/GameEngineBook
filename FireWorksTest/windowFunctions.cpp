@@ -111,22 +111,22 @@ GLuint createProgram(const char* vertexShader, const char* fragmentShader) {
 
 // function that gets the current x and y position of the mouse
 // you have you pass this function into glfwSetCursorPosCallback where points to current screen and assigns x and y position
-//void cursorPositionCallback(GLFWwindow* window, double positionX, double positionY) {
-//
-//	// create ballistic class pointer to an instance of the ballistic class from main. when did this: glfwSetWindowUserPointer(window, &ballistic) it stores the address of the ballistic class
-//	auto* ballistic = static_cast<Firework*>(glfwGetWindowUserPointer(window)); // glfwGetWindowUserPointer returns the ballistic class address
-//	if (!ballistic) return; // if no pointer is found return out of the function
-//
-//	int width = 0;
-//	int height = 0;
-//
-//	glfwGetWindowSize(window, &width, &height);
-//
-//	double flippedY = static_cast<float>(height) - positionY;
-//
-//	ballistic->mousePositionX = positionX;
-//	ballistic->mousePositionY = flippedY;
-//}
+void cursorPositionCallback(GLFWwindow* window, double positionX, double positionY) {
+
+	// create ballistic class pointer to an instance of the ballistic class from main. when did this: glfwSetWindowUserPointer(window, &ballistic) it stores the address of the ballistic class
+	auto* firework = static_cast<Firework*>(glfwGetWindowUserPointer(window)); // glfwGetWindowUserPointer returns the ballistic class address
+	if (!firework) return; // if no pointer is found return out of the function
+
+	int width = 0;
+	int height = 0;
+
+	glfwGetWindowSize(window, &width, &height);
+
+	double flippedY = static_cast<float>(height) - positionY;
+
+	firework->mousePositionX = positionX;
+	firework->mousePositionY = flippedY;
+}
 
 // function used to check if the mouse is in the current screen
 // you have to pass the function into glfwSetCursorEnterCallback

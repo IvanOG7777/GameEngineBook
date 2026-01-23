@@ -136,8 +136,9 @@ public:
 	std::vector<FireworkNode> nodepool;
 	std::vector<Firework::FireworkRule> rules;
 	int poolUsed;
+	double mousePositionX, mousePositionY;
 
-	void initFireworkType(FireworkSizeType type);
+	void initFireworkType(FireworkSizeType type, double& xPosition, double& yPosition);
 	void initFireworkRules();
 	void spawnFirework(int key);
 	
