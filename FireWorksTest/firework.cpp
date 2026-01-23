@@ -14,69 +14,67 @@ Firework::Firework() {
 	singleFireWork = FireworkParticle();
 	root = nullptr;
 	poolUsed = 0;
-	mousePositionX;
-	mousePositionY;
+	mousePositionX = 0.0;
+	mousePositionY = 0.0;
 }
 
-void Firework::initFireworkType(FireworkSizeType type, double &xPosition, double &yPosition) {
+void Firework:: fire(double &xPosition, double &yPosition) {
 
-	int roundIndex = 0;
-
+	size_t roundIndex = 0;
 	for (; roundIndex < activeFireworks.size(); roundIndex++) {
 		if (activeFireworks[roundIndex].type == UNUSED) break;
 	}
 
 	if (roundIndex >= activeFireworks.size()) {
 		// error logs
-		std::cout << "Firework rounds is full" << std::endl;
-		std::cout << "Cant initalize any more rounds" << std::endl;
+		std::cout << "Rounds is full" << std::endl;
+		std::cout << "Cant initalize any more fireworks" << std::endl;
 		std::cout << "roundIndex: " << roundIndex << std::endl;
 		return;
 	}
 
-	switch (type) {
+	switch (currentFireworkType) {
 	case Firework::UNUSED:
 		break;
 	case SMALL:
-		activeFireworks[roundIndex].type = SMALL;
+		activeFireworks[roundIndex].type = currentFireworkType;
 		activeFireworks[roundIndex].particle.setMass(2.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 35.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setDamping(0.99f);
 		activeFireworks[roundIndex].particle.setRadius(2.0f);
 		activeFireworks[roundIndex].particle.setPosition(static_cast<float>(xPosition), static_cast<float>(yPosition), 0.0f);
-		std::cout << "Fireworks at index " << roundIndex << " has been initalized to SMALL" << std::endl;
+		std::cout << "Fireworks at index " << roundIndex << " has been initalized to SMALL\n";
 		break;
 	case MEDIUM:
-		activeFireworks[roundIndex].type = MEDIUM;
+		activeFireworks[roundIndex].type = currentFireworkType;
 		activeFireworks[roundIndex].particle.setMass(5.5f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setDamping(0.99f);
 		activeFireworks[roundIndex].particle.setRadius(10.0f);
 		activeFireworks[roundIndex].particle.setPosition(static_cast<float>(xPosition), static_cast<float>(yPosition), 0.0f);
-		std::cout << "Fireworks at index " << roundIndex << " has been initalized to MEDIUM" << std::endl;
+		std::cout << "Fireworks at index " << roundIndex << " has been initalized to MEDIUM\n";
 		break;
 	case LARGE:
-		activeFireworks[roundIndex].type = LARGE;
+		activeFireworks[roundIndex].type = currentFireworkType;
 		activeFireworks[roundIndex].particle.setMass(11.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setDamping(0.99f);
 		activeFireworks[roundIndex].particle.setRadius(10.0f);
 		activeFireworks[roundIndex].particle.setPosition(static_cast<float>(xPosition), static_cast<float>(yPosition), 0.0f);
-		std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE" << std::endl;
+		std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE \n";
 		break;
 	case EXTRALARGE:
-		activeFireworks[roundIndex].type = EXTRALARGE;
+		activeFireworks[roundIndex].type = currentFireworkType;
 		activeFireworks[roundIndex].particle.setMass(15.0f);
 		activeFireworks[roundIndex].particle.setVelocity(0.0f, 30.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setAcceleration(0.0f, 35.0f, 0.0f);
 		activeFireworks[roundIndex].particle.setDamping(0.99f);
 		activeFireworks[roundIndex].particle.setRadius(12.5f);
 		activeFireworks[roundIndex].particle.setPosition(static_cast<float>(xPosition), static_cast<float>(yPosition), 0.0f);
-		std::cout << "Fireworks at index " << roundIndex << " has been initalized to EXTRALARGE" << std::endl;
-		activeFireworks[roundIndex].particle.printPosition();
+		std::cout << "Fireworks at index " << roundIndex << " has been initalized to EXTRALARGE \n";
 		break;
 	default:
 		break;
@@ -90,6 +88,15 @@ void Firework::FireworkRule::init(unsigned int payloadCount) {
 	FireworkRule::payloads.resize(payloadCount);
 }
 
+
+/*
+* initialization of rules for the particles
+* 
+* Parameters: NONE
+* return type void
+* 
+* Function only initalizes the the rules for specific particles values
+*/
 // for now particles will expand into a coneish shape, later will implement 
 void Firework::initFireworkRules() {
 	rules.clear();
@@ -141,16 +148,18 @@ void Firework::initFireworkRules() {
 
 }
 
+
 void Firework::spawnFirework(int key) {
 	FireworkParticle firework;
 
 	// Spawn Extra large key F
 	if (key == 70) {
 		currentFireworkType = EXTRALARGE;
-		initFireworkType(currentFireworkType, mousePositionX, mousePositionY);
+		fire(mousePositionX, mousePositionY);
 	}
 }
 
+// function used to update particles position/velocity/acceleration 
 void Firework:: updateFireworks(double dt) {
 	for (auto& fireworkParticle : activeFireworks) {
 		if (fireworkParticle.type == UNUSED) continue;
@@ -175,6 +184,24 @@ void Firework::addFireworksFromVectorToTree(std::vector<FireworkParticle>& passe
 		addNode(newNode);
 	}
 }
+
+
+void Firework::findBestNodeHelper(FireworkNode* current, FireworkNode* target, FireworkNode*& bestNode, float &bestDistance, int depth) {
+
+	if (current == nullptr) {
+		return;
+	}
+
+	int currentDistance = distance2(current, target);
+
+	if (currentDistance > 0.0f && currentDistance < bestDistance) {
+		bestDistance = currentDistance;
+		bestNode = current;
+	}
+
+
+}
+
 
 void Firework::printByDepth() {
 	if (root == nullptr) {

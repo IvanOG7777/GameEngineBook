@@ -138,12 +138,14 @@ public:
 	int poolUsed;
 	double mousePositionX, mousePositionY;
 
-	void initFireworkType(FireworkSizeType type, double& xPosition, double& yPosition);
+	void fire(double& xPosition, double& yPosition);
 	void initFireworkRules();
 	void spawnFirework(int key);
 	
 	void updateFireworks(double dt);
 	void addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks);
+	void findBestNodeHelper(FireworkNode* current, FireworkNode* target, FireworkNode*& bestNode, float& bestDistance, int depth);
+	FireworkNode findBestNode();
 	void printByDepth();
 	FireworkNode* getRoot();
 	

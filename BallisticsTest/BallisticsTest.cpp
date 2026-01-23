@@ -104,11 +104,6 @@ int main() {
 		return 1;
 	}
 
-	/*ballistic.currentShotType = ballistic.PISTOL; ballistic.fire();
-	ballistic.currentShotType = ballistic.ARTILLERY; ballistic.fire();
-	ballistic.currentShotType = ballistic.FIREBALL; ballistic.fire();
-	ballistic.currentShotType = ballistic.LASER; ballistic.fire();*/
-
 
 	ballistic.addRoundsFromVectorToTree(ballistic.rounds);
 
