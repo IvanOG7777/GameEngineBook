@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <queue>
+#include <limits>
 
 #include "firework.h"
 
@@ -192,14 +193,41 @@ void Firework::findBestNodeHelper(FireworkNode* current, FireworkNode* target, F
 		return;
 	}
 
-	int currentDistance = distance2(current, target);
+	float currentDistance = distance2(current, target);
 
 	if (currentDistance > 0.0f && currentDistance < bestDistance) {
 		bestDistance = currentDistance;
 		bestNode = current;
 	}
 
+	float targetAxisValue = (depth % 2 == 0) ? target->fireworkNode->particle.getPosition().x : target->fireworkNode->particle.getPosition().y;
+	float currentAxisValue = (depth % 2 == 0) ? current->fireworkNode->particle.getPosition().x : current->fireworkNode->particle.getPosition().y;
 
+	FireworkNode *nearChild = (targetAxisValue < currentAxisValue) ? current->left : current->right;
+	FireworkNode *farChild = (targetAxisValue < currentAxisValue) ? current->right : current->left;
+
+	findBestNodeHelper(nearChild, target, bestNode, bestDistance, depth + 1);
+
+	float difference = targetAxisValue - currentAxisValue;
+	float differenceSquared = difference * difference;
+
+	if (differenceSquared < bestDistance) {
+		findBestNodeHelper(farChild, target, bestNode, bestDistance, depth + 1);
+	}
+}
+
+Firework::FireworkNode *Firework::findBestNode(FireworkNode* target) {
+
+	if (root == nullptr) {
+		return target;
+	}
+
+	float bestDistance = std::numeric_limits<float>::infinity();
+	FireworkNode* bestNode = root;
+
+	findBestNodeHelper(root, target, bestNode, bestDistance, 0);
+
+	return bestNode;
 }
 
 

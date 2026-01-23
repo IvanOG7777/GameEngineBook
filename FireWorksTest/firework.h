@@ -123,7 +123,7 @@ private:
 	FireworkNode* root;
 
 	float distance2(FireworkNode* node1, FireworkNode* node2);
-	void findNNHelper(FireworkNode* current, FireworkNode* target, FireworkNode*& bestNode, float& distance, int depth);
+	void findBestNodeHelper(FireworkNode* current, FireworkNode* target, FireworkNode*& bestNode, float& bestDistance, int depth);
 	void addNode(FireworkNode* node);
 	FireworkNode* allocateNode(FireworkParticle* fireworkParticle);
 
@@ -144,8 +144,7 @@ public:
 	
 	void updateFireworks(double dt);
 	void addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks);
-	void findBestNodeHelper(FireworkNode* current, FireworkNode* target, FireworkNode*& bestNode, float& bestDistance, int depth);
-	FireworkNode findBestNode();
+	FireworkNode *findBestNode(FireworkNode *targetNode);
 	void printByDepth();
 	FireworkNode* getRoot();
 	
