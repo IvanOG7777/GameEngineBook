@@ -173,7 +173,7 @@ int main() {
 				for (size_t i = 0; i < firework.rules[particle.type].payloads.size(); i++) {
 					for (size_t j = 0; j < firework.rules[particle.type].payloads[i].count; j++) {
 						int currentType = firework.rules[particle.type].payloads[i].type;
-						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), parentX, parentY);
+						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), firework.mousePositionX, firework.mousePositionY);
 					}
 				}
 				particle.type = Firework::UNUSED;
@@ -201,16 +201,33 @@ int main() {
 			glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
 		}
 
+		firework.resetTree();
+		firework.addFireworksFromVectorToTree(firework.activeFireworks);
+
+		for (auto& node : firework.nodepool) {
+			if (node.fireworkNode == nullptr) continue;
+			Firework::FireworkNode& closestNode = *firework.findBestNode(&node);
+
+			std::cout << "Current node type: " << node.fireworkNode->type << std::endl;
+			std::cout << "Nodes current position: ";
+			node.fireworkNode->particle.printPosition();
+
+			std::cout << "closest node type: " << closestNode.fireworkNode->type << std::endl;
+			std::cout << "Closest nodes current position: ";
+			closestNode.fireworkNode->particle.printPosition();
+			std::cout << std::endl;
+
+			std::cout << std::endl;
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(800));
+		}
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
-
-	for (auto& particle : firework.activeFireworks) {
-		std::cout << "Particle Type: " << particle.type << std::endl;
-	}
 
 	return 0;
 }

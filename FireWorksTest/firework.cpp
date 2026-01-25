@@ -9,7 +9,9 @@
 #include "firework.h"
 
 Firework::Firework() {
+	activeFireworks.reserve(maxFireworks);
 	activeFireworks.resize(maxFireworks);
+	nodepool.reserve(maxFireworks);
 	nodepool.resize(maxFireworks);
 	currentFireworkType = UNUSED;
 	singleFireWork = FireworkParticle();
@@ -224,6 +226,7 @@ void Firework::findBestNodeHelper(FireworkNode* current, FireworkNode* target, F
 Firework::FireworkNode *Firework::findBestNode(FireworkNode* target) {
 
 	if (root == nullptr) {
+		std::cout << "No nodes returning target" << std::endl;
 		return target;
 	}
 
