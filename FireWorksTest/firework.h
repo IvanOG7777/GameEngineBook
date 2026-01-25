@@ -144,6 +144,7 @@ public:
 	
 	void updateFireworks(double dt);
 	void addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks);
+	void resetTree();
 	FireworkNode *findBestNode(FireworkNode *targetNode);
 	void printByDepth();
 	FireworkNode* getRoot();

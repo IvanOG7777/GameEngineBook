@@ -130,8 +130,8 @@ void Firework::initFireworkRules() {
 
 	rules[3].type = LARGE;
 	rules[3].damping = 0.99f;
-	rules[3].maxAge = 1.5f;
-	rules[3].minAge = 0.5f;
+	rules[3].maxAge = 5.5f;
+	rules[3].minAge = 3.5f;
 	rules[3].maxVelocity = { 40.0f, 75.0f, 0.0f };
 	rules[3].minVelocity = { 40.0f, 20.0f, 0.0f };
 	rules[3].init(1);
@@ -184,6 +184,11 @@ void Firework::addFireworksFromVectorToTree(std::vector<FireworkParticle>& passe
 
 		addNode(newNode);
 	}
+}
+
+void Firework::resetTree() {
+	root = nullptr;
+	poolUsed = 0;
 }
 
 

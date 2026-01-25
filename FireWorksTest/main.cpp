@@ -46,7 +46,7 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow *window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, true);
+	GLFWwindow *window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, false);
 
 	glfwSetCursorPosCallback(window, cursorPositionCallback);
 
@@ -63,10 +63,9 @@ int main() {
 	Firework firework;
 	glfwSetWindowUserPointer(window, &firework);
 
-	firework.currentFireworkType = firework.EXTRALARGE; firework.fire(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
-
-	firework.addFireworksFromVectorToTree(firework.activeFireworks);
 	firework.initFireworkRules();
+	firework.currentFireworkType = firework.EXTRALARGE; firework.fire(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
+	firework.addFireworksFromVectorToTree(firework.activeFireworks);
 
 	GLuint program = createProgram(vertexShader, fragmentShader);
 	if (!program) return 1;
@@ -109,10 +108,10 @@ int main() {
 	glBindVertexArray(0);
 
 
-	std::random_device gen;
 	bool escWasDown = false;
 	bool fWasDown = false;
 
+	std::random_device gen;
 	auto startTime = std::chrono::high_resolution_clock::now();
 	while (!glfwWindowShouldClose(window)) {
 
@@ -150,7 +149,7 @@ int main() {
 		escWasDown = escDown;
 
 		firework.updateFireworks(dt);
-
+		
 		for (size_t i = 0; i < firework.activeFireworks.size(); i++) {
 			Firework::FireworkParticle &particle = firework.activeFireworks[i];
 			if (particle.type == Firework::UNUSED) continue;
@@ -169,10 +168,12 @@ int main() {
 
 
 			if (particle.age <= 0.0f) {
+				double parentX = static_cast<double>(particle.particle.getPosition().x);
+				double parentY = static_cast<double>(particle.particle.getPosition().y);
 				for (size_t i = 0; i < firework.rules[particle.type].payloads.size(); i++) {
 					for (size_t j = 0; j < firework.rules[particle.type].payloads[i].count; j++) {
 						int currentType = firework.rules[particle.type].payloads[i].type;
-						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), firework.mousePositionX, firework.mousePositionY);
+						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), parentX, parentY);
 					}
 				}
 				particle.type = Firework::UNUSED;
@@ -182,11 +183,11 @@ int main() {
 			Vector3 particlePosition = firework.activeFireworks[i].particle.getPosition();
 			particleVerticies = makeCircleFan(particlePosition, particleRadius, res);
 			switch (firework.activeFireworks[i].type) {
+			case Firework::EXTRALARGE: glUniform3f(uColorLoc, 1.0f, 1.0f, 0.0f); break;
+			case Firework::LARGE:  glUniform3f(uColorLoc, 0.0f, 1.0f, 0.0f); break;
+			case Firework::MEDIUM: glUniform3f(uColorLoc, 0.0f, 0.0f, 1.0f); break;
 			case Firework::SMALL: glUniform3f(uColorLoc, 1.0f, 1.0f, 1.0f); break;
-			case Firework::EXTRALARGE: glUniform3f(uColorLoc, 1.0f, 0.8f, 0.2f); break;
-			case Firework::LARGE:  glUniform3f(uColorLoc, 1.0f, 0.2f, 0.2f); break;
-			case Firework::MEDIUM: glUniform3f(uColorLoc, 0.6f, 0.3f, 0.5f); break;
-			default:                   glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
+			default:			  glUniform3f(uColorLoc, 0.6f, 0.6f, 0.6f); break;
 			}
 
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
