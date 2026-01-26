@@ -184,11 +184,11 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 	particle.setVelocity(v.x, v.y, v.z);
 }
 
-bool circleCollison(Firework::FireworkParticle& round1, Firework::FireworkParticle& round2) {
-	float distanceX = round1.particle.getPosition().x - round2.particle.getPosition().x;
-	float distanceY = round1.particle.getPosition().y - round2.particle.getPosition().y;
+bool circleCollison(Firework::FireworkNode& round1, Firework::FireworkNode& round2) {
+	float distanceX = round1.fireworkNode->particle.getPosition().x - round2.fireworkNode->particle.getPosition().x;
+	float distanceY = round1.fireworkNode->particle.getPosition().y - round2.fireworkNode->particle.getPosition().y;
 
-	float radiusSum = round1.particle.getRadius() + round2.particle.getRadius();
+	float radiusSum = round1.fireworkNode->particle.getRadius() + round2.fireworkNode->particle.getRadius();
 
 	float distance = sqrtf((distanceX * distanceX) + (distanceY * distanceY));
 

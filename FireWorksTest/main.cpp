@@ -168,8 +168,6 @@ int main() {
 
 
 			if (particle.age <= 0.0f) {
-				double parentX = static_cast<double>(particle.particle.getPosition().x);
-				double parentY = static_cast<double>(particle.particle.getPosition().y);
 				for (size_t i = 0; i < firework.rules[particle.type].payloads.size(); i++) {
 					for (size_t j = 0; j < firework.rules[particle.type].payloads[i].count; j++) {
 						int currentType = firework.rules[particle.type].payloads[i].type;
@@ -206,20 +204,14 @@ int main() {
 
 		for (auto& node : firework.nodepool) {
 			if (node.fireworkNode == nullptr) continue;
+			if (node.fireworkNode->type == Firework:: UNUSED) continue;
 			Firework::FireworkNode& closestNode = *firework.findBestNode(&node);
 
-			std::cout << "Current node type: " << node.fireworkNode->type << std::endl;
-			std::cout << "Nodes current position: ";
-			node.fireworkNode->particle.printPosition();
+			if (circleCollison(node, closestNode)) {
+				std::cout << "Node " << node.fireworkNode->type << " and " << " closest node: " << closestNode.fireworkNode->type << " have collided" << std::endl;
+			}
 
-			std::cout << "closest node type: " << closestNode.fireworkNode->type << std::endl;
-			std::cout << "Closest nodes current position: ";
-			closestNode.fireworkNode->particle.printPosition();
-			std::cout << std::endl;
-
-			std::cout << std::endl;
-
-			std::this_thread::sleep_for(std::chrono::milliseconds(800));
+			std::this_thread::sleep_for(std::chrono::milliseconds(300));
 		}
 
 		glfwSwapBuffers(window);
