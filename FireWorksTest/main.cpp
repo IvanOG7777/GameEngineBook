@@ -175,7 +175,6 @@ int main() {
 						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), firework.mousePositionX, firework.mousePositionY);
 					}
 				}
-				firework.actveNodeCount--;
 			}
 
 			float particleRadius = node->particle.getRadius();
