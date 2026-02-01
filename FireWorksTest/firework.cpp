@@ -103,7 +103,27 @@ void Firework:: fire(FireworkSizeType type, double &xPosition, double &yPosition
 	}
 
 	if (activeFireworks[roundIndex] == nullptr) {
+		std::string name;
+
+		switch (type) {
+		case SMALL:
+			name = "SMALL";
+			break;
+		case MEDIUM:
+			name = "MEDIUM";
+			break;
+		case LARGE:
+			name = "LARGE";
+			break;
+		case EXTRALARGE:
+			name = "EXTRALARGE";
+			break;
+		default:
+			name = "UNKNOWN";
+			break;
+		}
 		activeFireworks[roundIndex] = std::make_shared<FireworkNode>();
+		activeFireworks[roundIndex]->name = name;
 	}
 
 	switch (type) {
