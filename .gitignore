@@ -20,3 +20,26 @@ build/
 *.log
 *.tlog
 *.idb
+
+
+# =========================
+# JetBrains / CLion
+# =========================
+.idea/
+**/.idea/
+*.iml
+
+# =========================
+# CMake
+# =========================
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+
+# =========================
+# Ninja
+# =========================
+.ninja_*
+build.ninja
