@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "core.h"
 #include "Particle.h"
@@ -72,81 +73,68 @@ public:
 		//default constructor
 		FireworkRule() : minVelocity{}, maxVelocity{}, type(UNUSED), minAge(0), maxAge(0), damping(1), payloadCount(0){}
 
-		//constructor with passed parameters
-		FireworkRule(unsigned int type, float minAge, float maxAge, float damping, const Vector3& minVelocity, const Vector3& maxVelocity, unsigned int payloadCount) :
-			minVelocity(minVelocity), maxVelocity(maxVelocity),
-			type(type), minAge(minAge), maxAge(maxAge),
-			damping(damping), payloadCount(payloadCount){}
 
 		/*~FireworkRule() {
 			std::cout << "Instance of FireworkRule has been destroyed" << std::endl;
 		}*/
 	};
 
-
-
-	// struct to define a single firework particle
-	struct FireworkParticle {
+	struct FireworkNode {
+		std::shared_ptr<FireworkNode> left;
+		std::shared_ptr<FireworkNode> right;
 		Particle particle;
 		float age;
 		unsigned int type;
+		std::string name;
 
-		FireworkParticle() : age(0), type(UNUSED) {}
+		FireworkNode() : left(nullptr), right(nullptr), age(0), type(UNUSED) {}
 
-		FireworkParticle(float age, unsigned int type) : age(age), type(type) {}
+		FireworkNode(std::string& name) : left(nullptr), right(nullptr), age(0), type(UNUSED), name(name) {
+			std::cout << name << " has been created" << '\n';
+		}
 
-		/*~FireworkParticle() {
-			std::cout << "Instance of FireworkParticle has been destroyed" << std::endl;
-		}*/
-	};
+		~FireworkNode() {
+			std::cout << name << " has been destroyed" << '\n';
+		}
 
-	struct FireworkNode {
-		FireworkParticle* fireworkNode = nullptr;
-
-		FireworkNode* left = nullptr;
-		FireworkNode* right = nullptr;
-
-		FireworkNode() : fireworkNode(nullptr), left(nullptr), right(nullptr) {}
-		FireworkNode(FireworkParticle* fireworkParticle) : fireworkNode(fireworkParticle) {}
-
-		/*~FireworkNode() {
-			delete left;
-			delete right;
-			std::cout << "Instance of fireworkNode has been destroyed" << std::endl;
-		}*/
 	};
 
 	static constexpr unsigned maxFireworks = 1024;
 
 
 private:
-	FireworkNode* root;
+	std::shared_ptr<FireworkNode> root;
 
-	float distance2(FireworkNode* node1, FireworkNode* node2);
-	void findBestNodeHelper(FireworkNode* current, FireworkNode* target, FireworkNode*& bestNode, float& bestDistance, int depth);
-	void addNode(FireworkNode* node);
-	FireworkNode* allocateNode(FireworkParticle* fireworkParticle);
+	void findNearestNeighborHelper(std::weak_ptr<FireworkNode>& current, std::weak_ptr<FireworkNode>& target,
+		std::weak_ptr<FireworkNode>& bestNode, float& bestDistance, int depth);
+
+	float distance2(std::weak_ptr<FireworkNode>& node1, std::weak_ptr<FireworkNode>& node2);
 
 public:
 	Firework();
+	~Firework() {
+		std::cout << "Instance of firework class has been destroyed" << '\n';
+	}
 
-	FireworkParticle singleFireWork; // used for testing
-	FireworkSizeType currentFireworkType;
-	std::vector<FireworkParticle> activeFireworks;
-	std::vector<FireworkNode> nodepool;
-	std::vector<Firework::FireworkRule> rules;
-	int poolUsed;
-	double mousePositionX, mousePositionY;
-
-	void fire(FireworkSizeType type, double& xPosition, double& yPosition);
 	void initFireworkRules();
 	void spawnFirework(int key);
-	
+	void fire(FireworkSizeType type, double& xPosition, double& yPosition);
 	void updateFireworks(double dt);
-	void addFireworksFromVectorToTree(std::vector<FireworkParticle>& passedFireworks);
-	void resetTree();
-	FireworkNode *findBestNode(FireworkNode *targetNode);
-	void printByDepth();
+
+	void allocateNode(std::string name, FireworkSizeType type);
+	void addNode(std:: shared_ptr<FireworkNode> &node);
+	void addFireworksFromVectorToTree();
+	std:: weak_ptr<FireworkNode> findBestNode(std::shared_ptr<FireworkNode> &targetNode);
 	FireworkNode* getRoot();
-	
+
+	void printByDepth();
+
+
+	FireworkSizeType currentFireworkType;
+	std::vector<std::shared_ptr<FireworkNode>> activeFireworks;
+	std::vector<Firework::FireworkRule> rules;
+	int nodeCount;
+	int actveNodeCount;
+	FireworkNode singleFireWork; // used for testing
+	double mousePositionX, mousePositionY;	
 };
