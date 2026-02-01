@@ -64,8 +64,8 @@ int main() {
 	glfwSetWindowUserPointer(window, &firework);
 
 	firework.initFireworkRules();
-	firework.currentFireworkType = firework.EXTRALARGE; firework.fire(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
-	firework.addFireworksFromVectorToTree(firework.activeFireworks);
+	firework.currentFireworkType = firework.EXTRALARGE;
+	firework.fire(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
 
 	GLuint program = createProgram(vertexShader, fragmentShader);
 	if (!program) return 1;
@@ -151,36 +151,38 @@ int main() {
 		firework.updateFireworks(dt);
 		
 		for (size_t i = 0; i < firework.activeFireworks.size(); i++) {
-			Firework::FireworkParticle &particle = firework.activeFireworks[i];
-			if (particle.type == Firework::UNUSED) continue;
+			auto& node = firework.activeFireworks[i];
+			if (node == nullptr) continue;
+			if (node->type == Firework::UNUSED) continue;
 
-			keepCircleInFrame(particle.particle, w, h);
+			keepCircleInFrame(node->particle, w, h);
 
-			float minAge = firework.rules[particle.type].minAge;
-			float maxAge = firework.rules[particle.type].maxAge;
+			float minAge = firework.rules[node->type].minAge;
+			float maxAge = firework.rules[node->type].maxAge;
 
-			if (particle.age <= 0.0f) {
+			if (node->age <= 0.0f) {
 				std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);
-				particle.age = ageDistribution(gen);
+				node->age = ageDistribution(gen);
 			}
 
-			particle.age -= dt;
+			node->age -= dt;
 
 
-			if (particle.age <= 0.0f) {
-				for (size_t i = 0; i < firework.rules[particle.type].payloads.size(); i++) {
-					for (size_t j = 0; j < firework.rules[particle.type].payloads[i].count; j++) {
-						int currentType = firework.rules[particle.type].payloads[i].type;
+			if (node->age <= 0.0f) {
+				for (size_t i = 0; i < firework.rules[node->type].payloads.size(); i++) {
+					for (size_t j = 0; j < firework.rules[node->type].payloads[i].count; j++) {
+						int currentType = firework.rules[node->type].payloads[i].type;
 						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), firework.mousePositionX, firework.mousePositionY);
 					}
 				}
-				particle.type = Firework::UNUSED;
+				node.reset();
+				firework.actveNodeCount--;
 			}
 
-			float particleRadius = firework.activeFireworks[i].particle.getRadius();
-			Vector3 particlePosition = firework.activeFireworks[i].particle.getPosition();
+			float particleRadius = node->particle.getRadius();
+			Vector3 particlePosition = node->particle.getPosition();
 			particleVerticies = makeCircleFan(particlePosition, particleRadius, res);
-			switch (firework.activeFireworks[i].type) {
+			switch (node->type) {
 			case Firework::EXTRALARGE: glUniform3f(uColorLoc, 1.0f, 1.0f, 0.0f); break;
 			case Firework::LARGE:  glUniform3f(uColorLoc, 0.0f, 1.0f, 0.0f); break;
 			case Firework::MEDIUM: glUniform3f(uColorLoc, 0.0f, 0.0f, 1.0f); break;
@@ -199,16 +201,20 @@ int main() {
 			glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
 		}
 
-		firework.resetTree();
-		firework.addFireworksFromVectorToTree(firework.activeFireworks);
+		firework.addFireworksFromVectorToTree();
 
-		for (auto& node : firework.nodepool) {
-			if (node.fireworkNode == nullptr) continue;
-			if (node.fireworkNode->type == Firework:: UNUSED) continue;
-			Firework::FireworkNode& closestNode = *firework.findBestNode(&node);
+		for (auto &node : firework.activeFireworks) {
+			if (node == nullptr) continue;
+			if (node->type == Firework:: UNUSED) continue;
 
-			if (circleCollison(node, closestNode)) {
-				std::cout << "Node " << node.fireworkNode->type << " and " << " closest node: " << closestNode.fireworkNode->type << " have collided" << std::endl;
+			auto closestNode = firework.findBestNode(node);
+			auto sharedClosetNode = closestNode.lock();
+
+			if (sharedClosetNode == nullptr) continue;
+			if (sharedClosetNode->type == Firework::UNUSED) continue;
+
+			if (circleCollison(node, sharedClosetNode)) {
+				std::cout << "Node " << node->type << " and " << " closest node: " << sharedClosetNode->type << " have collided" << std::endl;
 			}
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(300));

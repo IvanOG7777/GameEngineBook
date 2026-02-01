@@ -89,7 +89,7 @@ public:
 
 		FireworkNode() : left(nullptr), right(nullptr), age(0), type(UNUSED) {}
 
-		FireworkNode(std::string& name) : left(nullptr), right(nullptr), age(0), type(UNUSED), name(name) {
+		FireworkNode(std::string &name) : left(nullptr), right(nullptr), age(0), type(UNUSED), name(name) {
 			std::cout << name << " has been created" << '\n';
 		}
 
@@ -99,7 +99,7 @@ public:
 
 	};
 
-	static constexpr unsigned maxFireworks = 1024;
+	static constexpr unsigned maxFireworks = 10;
 
 
 private:
@@ -121,7 +121,7 @@ public:
 	void fire(FireworkSizeType type, double& xPosition, double& yPosition);
 	void updateFireworks(double dt);
 
-	void allocateNode(std::string name, FireworkSizeType type);
+	void allocateNode(std::string name, unsigned int type);
 	void addNode(std:: shared_ptr<FireworkNode> &node);
 	void addFireworksFromVectorToTree();
 	std:: weak_ptr<FireworkNode> findBestNode(std::shared_ptr<FireworkNode> &targetNode);
@@ -135,6 +135,6 @@ public:
 	std::vector<Firework::FireworkRule> rules;
 	int nodeCount;
 	int actveNodeCount;
-	FireworkNode singleFireWork; // used for testing
+	//FireworkNode singleFireWork; // used for testing
 	double mousePositionX, mousePositionY;	
 };

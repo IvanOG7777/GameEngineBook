@@ -9,4 +9,4 @@
 std::vector<Vector3> makeCircleFan(Vector3 center, float radius, int res);
 void keepCircleInFrame(Particle& particle, int& windowWidth, int& windowHeight);
 void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHeight);
-bool circleCollison(Firework::FireworkNode& round1, Firework::FireworkNode& round2);
+bool circleCollison(std::shared_ptr<Firework::FireworkNode> &node1, std::shared_ptr<Firework::FireworkNode>& node2);

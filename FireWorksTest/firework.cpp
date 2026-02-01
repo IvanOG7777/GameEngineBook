@@ -13,7 +13,8 @@ Firework::Firework() {
 	activeFireworks.resize(maxFireworks);
 	
 	currentFireworkType = UNUSED;
-	singleFireWork = FireworkNode();
+	/*std::string name = "Single firework node";
+	singleFireWork = FireworkNode(name);*/
 	root = nullptr;
 	nodeCount = 0;
 	actveNodeCount = 0;
@@ -89,6 +90,7 @@ void Firework:: fire(FireworkSizeType type, double &xPosition, double &yPosition
 
 	size_t roundIndex = 0;
 	for (; roundIndex < activeFireworks.size(); roundIndex++) {
+		if (activeFireworks[roundIndex] == nullptr) break;
 		if (activeFireworks[roundIndex]->type == UNUSED) break;
 	}
 
@@ -98,6 +100,10 @@ void Firework:: fire(FireworkSizeType type, double &xPosition, double &yPosition
 		std::cout << "Cant initalize any more fireworks" << std::endl;
 		std::cout << "roundIndex: " << roundIndex << std::endl;
 		return;
+	}
+
+	if (activeFireworks[roundIndex] == nullptr) {
+		activeFireworks[roundIndex] = std::make_shared<FireworkNode>();
 	}
 
 	switch (type) {
@@ -157,19 +163,22 @@ void Firework::FireworkRule::init(unsigned int payloadCount) {
 
 // function used to update particles position/velocity/acceleration 
 void Firework::updateFireworks(double dt) {
-	for (auto& fireworkParticle : activeFireworks) {
-		if (fireworkParticle->type == UNUSED) continue;
+	for (auto& node : activeFireworks) {
 
-		fireworkParticle->particle.update(dt);
-		if (fireworkParticle->particle.getPosition().y <= 0.0f) {
-			fireworkParticle->particle.clearAccumulator();
-			fireworkParticle->particle.clearAllValues();
-			fireworkParticle->type = UNUSED;
+		if (node == nullptr) continue;
+		if (node->type == Firework::UNUSED) continue;
+
+		node->particle.update(dt);
+		if (node->particle.getPosition().y <= 0.0f) {
+			node->particle.clearAccumulator();
+			node->particle.clearAllValues();
+			node->type = UNUSED;
+			node.reset();
 		}
 	}
 }
 
-void Firework::allocateNode(std::string name, FireworkSizeType type) {
+void Firework::allocateNode(std::string name, unsigned int type) {
 	if (nodeCount >= activeFireworks.size()) {
 		std::cout << "Nodes is full no space for new node. Returning" << std::endl;
 		return;
@@ -197,7 +206,7 @@ void Firework::addNode(std::shared_ptr<FireworkNode>& node) {
 
 	if (root == nullptr) {
 		root = node;
-		std::cout << "Root was null node is now root" << '\n';
+		std::cout << "Root was null " << node->name << " is now root" << '\n';
 		return;
 	}
 
@@ -209,7 +218,7 @@ void Firework::addNode(std::shared_ptr<FireworkNode>& node) {
 			if (node->particle.getPosition().x >= current->particle.getPosition().x) {
 				if (current->right == nullptr) {
 					current->right = node;
-					std::cout << node->name << " has been added" << std::endl;
+					std::cout << node->name << " has been added to tree" << std::endl;
 					return;
 				}
 				current = current->right;
@@ -217,7 +226,7 @@ void Firework::addNode(std::shared_ptr<FireworkNode>& node) {
 			else if (node->particle.getPosition().x <= current->particle.getPosition().x) {
 				if (current->left == nullptr) {
 					current->left = node;
-					std::cout << node->name << " has been added" << std::endl;
+					std::cout << node->name << " has been added to tree" << std::endl;
 					return;
 				}
 				current = current->left;
@@ -227,7 +236,7 @@ void Firework::addNode(std::shared_ptr<FireworkNode>& node) {
 			if (node->particle.getPosition().y >= current->particle.getPosition().y) {
 				if (current->right == nullptr) {
 					current->right = node;
-					std::cout << node->name << " has been added" << std::endl;
+					std::cout << node->name << " has been added to tree" << std::endl;
 					return;
 				}
 				current = current->right;
@@ -235,7 +244,7 @@ void Firework::addNode(std::shared_ptr<FireworkNode>& node) {
 			else if (node->particle.getPosition().y <= current->particle.getPosition().y) {
 				if (current->left == nullptr) {
 					current->left = node;
-					std::cout << node->name << " has been added" << std::endl;
+					std::cout << node->name << " has been added to tree" << std::endl;
 					return;
 				}
 				current = current->left;
@@ -306,6 +315,39 @@ void Firework::printByDepth() {
 		}
 		depth++;
 		std::cout << '\n';
+	}
+}
+
+void Firework::findNearestNeighborHelper(std::weak_ptr<FireworkNode>& current, std::weak_ptr<FireworkNode>& target,
+	std::weak_ptr<FireworkNode>& bestNode, float& bestDistance, int depth) {
+
+	auto sharedPtrCurrent = current.lock();
+	auto sharedPtrTarget = target.lock();
+	auto sharedPtrBestNode = bestNode.lock();
+
+	if (sharedPtrCurrent == nullptr) return;
+
+	int axis = depth % 2;
+	float currentDistance = distance2(current, target);
+
+	if (currentDistance > 0.0f && currentDistance < bestDistance) {
+		bestDistance = currentDistance;
+		bestNode = current;
+	}
+
+	float targetValueAxis = (axis % 2 == 0) ? sharedPtrTarget->particle.getPosition().x : sharedPtrTarget->particle.getPosition().y;
+	float currentValueAxis = (axis % 2 == 0) ? sharedPtrCurrent->particle.getPosition().x : sharedPtrCurrent->particle.getPosition().y;
+
+	std::weak_ptr<FireworkNode> nearChild = (targetValueAxis < currentValueAxis) ? sharedPtrCurrent->left : sharedPtrCurrent->right;
+	std::weak_ptr<FireworkNode> farChild = (targetValueAxis < currentValueAxis) ? sharedPtrCurrent->right : sharedPtrCurrent->left;
+
+	findNearestNeighborHelper(nearChild, target, bestNode, bestDistance, depth + 1);
+
+	float difference = targetValueAxis - currentValueAxis;
+	float differenceSquared = difference * difference;
+
+	if (differenceSquared < bestDistance) {
+		findNearestNeighborHelper(farChild, target, bestNode, bestDistance, depth + 1);
 	}
 }
 
