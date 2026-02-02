@@ -125,6 +125,7 @@ public:
 	void addNode(std:: shared_ptr<FireworkNode> &node);
 	void treeReset();
 	void addFireworksFromVectorToTree();
+
 	std:: weak_ptr<FireworkNode> findBestNode(std::shared_ptr<FireworkNode> &targetNode);
 	FireworkNode* getRoot();
 

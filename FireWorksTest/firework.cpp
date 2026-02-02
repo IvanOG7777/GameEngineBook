@@ -41,25 +41,25 @@ void Firework::initFireworkRules() {
 
     rules[1].type = SMALL;
     rules[1].damping = 0.99f;
-    rules[1].maxAge = 1.5f;
-    rules[1].minAge = 0.5f;
+    rules[1].maxAge = 10.5f;
+    rules[1].minAge = 10.5f;
     rules[1].maxVelocity = {115.0f, 40.0f, 0.0f};
     rules[1].minVelocity = {-115.0f, -40.0f, 0.0f};
     rules[1].init(0);
 
     rules[2].type = MEDIUM;
     rules[2].damping = 0.99f;
-    rules[2].maxAge = 1.5f;
-    rules[2].minAge = 0.5f;
+    rules[2].maxAge = 10.5f;
+    rules[2].minAge = 10.5f;
     rules[2].maxVelocity = {80.0f, 50.0f, 0.0f};
     rules[2].minVelocity = {-80.0f, -10.0f, 0.0f};
     rules[2].init(1);
-    rules[2].payloads[0].set(Firework::SMALL, 2);
+    rules[2].payloads[0].set(Firework::SMALL, 8);
 
     rules[3].type = LARGE;
     rules[3].damping = 0.99f;
-    rules[3].maxAge = 1.5f;
-    rules[3].minAge = 0.5f;
+    rules[3].maxAge = 10.5f;
+    rules[3].minAge = 10.5f;
     rules[3].maxVelocity = {40.0f, 75.0f, 0.0f};
     rules[3].minVelocity = {40.0f, 20.0f, 0.0f};
     rules[3].init(1);
@@ -67,8 +67,8 @@ void Firework::initFireworkRules() {
 
     rules[4].type = EXTRALARGE;
     rules[4].damping = 0.99f;
-    rules[4].maxAge = 1.5f;
-    rules[4].minAge = 0.5f;
+    rules[4].maxAge = 10.5f;
+    rules[4].minAge = 10.5f;
     rules[4].maxVelocity = {5.0f, 90.0f, 0.0f};
     rules[4].minVelocity = {-5.0f, 60.0f, 0.0f};
     rules[4].init(2);
