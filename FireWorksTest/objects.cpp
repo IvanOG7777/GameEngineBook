@@ -184,7 +184,7 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 	particle.setVelocity(v.x, v.y, v.z);
 }
 
-bool circleCollison(std::shared_ptr<Firework::FireworkNode>& node1, std::shared_ptr<Firework::FireworkNode>& node2) {
+bool circleCollision(std::shared_ptr<Firework::FireworkNode>& node1, std::shared_ptr<Firework::FireworkNode>& node2) {
 	float distanceX = node1->particle.getPosition().x - node2->particle.getPosition().x;
 	float distanceY = node1->particle.getPosition().y - node2->particle.getPosition().y;
 
@@ -195,5 +195,23 @@ bool circleCollison(std::shared_ptr<Firework::FireworkNode>& node1, std::shared_
 	if (distance <= radiusSum) return true;
 
 	return false;
+}
 
+void resolveAllCollisionsKDTree(Firework &firework) {
+	if (firework.activeFireworks.empty()) return;
+
+	for (auto &node : firework.activeFireworks) {
+		auto closestNode = firework.findBestNode(node);
+		auto lockedClosestNode = closestNode.lock();
+
+		if (lockedClosestNode == nullptr) return;
+
+		resolvePairCollision(node, lockedClosestNode);
+	}
+}
+
+void resolvePairCollision(std::shared_ptr<Firework::FireworkNode> &node1, std::shared_ptr<Firework::FireworkNode> &node2) {
+	if (!circleCollision(node1, node2)) return;
+
+	
 }

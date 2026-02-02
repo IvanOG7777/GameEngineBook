@@ -199,21 +199,21 @@ void Firework::updateFireworks(double dt) {
     }
 }
 
-void Firework::allocateNode(std::string name, unsigned int type) {
-    if (nodeCount >= activeFireworks.size()) {
-        std::cout << "Nodes is full no space for new node. Returning" << std::endl;
-        return;
-    }
-
-    auto newNode = std::make_shared<FireworkNode>();
-    newNode->name = name;
-    newNode->type = type;
-
-    std::cout << "Adding: " << newNode->name << " to the vector of active nodes" << '\n';
-
-    activeFireworks[nodeCount++] = newNode;
-    activeNodeCount++;
-}
+// void Firework::allocateNode(std::string name, unsigned int type) {
+//     if (nodeCount >= activeFireworks.size()) {
+//         std::cout << "Nodes is full no space for new node. Returning" << std::endl;
+//         return;
+//     }
+//
+//     auto newNode = std::make_shared<FireworkNode>();
+//     newNode->name = name;
+//     newNode->type = type;
+//
+//     std::cout << "Adding: " << newNode->name << " to the vector of active nodes" << '\n';
+//
+//     activeFireworks[nodeCount++] = newNode;
+//     activeNodeCount++;
+// }
 
 void Firework::addNode(std::shared_ptr<FireworkNode> &node) {
     if (node == nullptr) {

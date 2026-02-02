@@ -193,7 +193,7 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 // Its ok for now since our test cases are small but with more particles we will be doing many uncessacery collision checks
 // Tested with about 1000 particles and frames droped from around 160 to 30
 // we need to change this to a sweep and prune algorithim or kd-trees or something similar
-void resolveCollision(std::vector<Ballistic::AmmoRound>& rounds) {
+void resolveCollisionBruteForce(std::vector<Ballistic::AmmoRound>& rounds) {
 
 	// Doing a nested for loop
 	// Each object needs to check all other objects within the vector
@@ -289,7 +289,7 @@ void resolveCollisionKDTree(Ballistic &ballistic, std::vector<Ballistic::AmmoRou
 
 		if (closestNode == nullptr) return;
 
-		resolveCollision2(&newNode, closestNode);
+		resolvePairCollision(&newNode, closestNode);
 	}
 }
 
@@ -307,7 +307,7 @@ void resolveCollisionKDTree(Ballistic &ballistic, std::vector<Ballistic::AmmoRou
 //	}
 //}
 
-void resolveCollision2(Ballistic:: BallisticNode *node1, Ballistic::BallisticNode *node2) {
+void resolvePairCollision(Ballistic:: BallisticNode *node1, Ballistic::BallisticNode *node2) {
 	Ballistic::AmmoRound& round1 = *node1->roundNode;
 	Ballistic::AmmoRound& round2 = *node2->roundNode;
 
