@@ -172,9 +172,9 @@ int main() {
 
 
 			if (node->age <= 0.0f) {
-				for (size_t i = 0; i < firework.rules[node->type].payloads.size(); i++) {
-					for (size_t j = 0; j < firework.rules[node->type].payloads[i].count; j++) {
-						unsigned int currentType = firework.rules[node->type].payloads[i].type;
+				for (size_t j = 0; j < firework.rules[node->type].payloads.size(); j++) {
+					for (size_t k = 0; k < firework.rules[node->type].payloads[j].count; k++) {
+						unsigned int currentType = firework.rules[node->type].payloads[j].type;
 						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), firework.mousePositionX, firework.mousePositionY);
 					}
 				}

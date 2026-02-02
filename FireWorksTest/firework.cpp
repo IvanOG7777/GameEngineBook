@@ -28,7 +28,7 @@ Firework::Firework() {
 * Parameters: NONE
 * return type void
 *
-* Function only initalizes the the rules for specific particles values
+* Function only initalizes the rules for specific particles values
 */
 // for now particles will expand into a coneish shape, later will implement
 void Firework::initFireworkRules() {
@@ -137,7 +137,6 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
             activeFireworks[roundIndex]->particle.setRadius(2.0f);
             activeFireworks[roundIndex]->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
-            addNode(activeFireworks[roundIndex]);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to SMALL\n";
             break;
         case MEDIUM:
@@ -149,7 +148,6 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
             activeFireworks[roundIndex]->particle.setRadius(10.0f);
             activeFireworks[roundIndex]->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
-            addNode(activeFireworks[roundIndex]);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to MEDIUM\n";
             break;
         case LARGE:
@@ -161,7 +159,6 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
             activeFireworks[roundIndex]->particle.setRadius(10.0f);
             activeFireworks[roundIndex]->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
-            addNode(activeFireworks[roundIndex]);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE \n";
             break;
         case EXTRALARGE:
@@ -173,7 +170,6 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
             activeFireworks[roundIndex]->particle.setRadius(12.5f);
             activeFireworks[roundIndex]->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
-            addNode(activeFireworks[roundIndex]);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to EXTRALARGE \n";
             break;
         default:
