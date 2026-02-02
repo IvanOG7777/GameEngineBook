@@ -147,16 +147,11 @@ int main() {
 
 		fWasDown = fDown;
 		escWasDown = escDown;
-
-		firework.updateFireworks(dt);
 		
 		for (size_t i = 0; i < firework.activeFireworks.size(); i++) {
 			auto& node = firework.activeFireworks[i];
 			if (node == nullptr) continue;
 			if (node->type == Firework::UNUSED) continue;
-
-
-			std:: cout << "Address of: " << node->name << " " << node.get() << '\n';
 
 			keepCircleInFrame(node->particle, w, h);
 
@@ -180,10 +175,25 @@ int main() {
 				}
 				node->type = Firework::UNUSED;
 			}
+		}
+
+		firework.updateFireworks(dt);
+		firework.treeReset();
+		firework.addFireworksFromVectorToTree();
+		resolveAllCollisionsKDTree(firework);
+
+		for (auto & activeFirework : firework.activeFireworks) {
+			if (activeFirework == nullptr) continue;
+			if (activeFirework->type == Firework::UNUSED) continue;
+
+			auto &node = activeFirework;
 
 			float particleRadius = node->particle.getRadius();
+			sweptBounds(node->particle, dt, w, h);
+
 			Vector3 particlePosition = node->particle.getPosition();
 			particleVerticies = makeCircleFan(particlePosition, particleRadius, res);
+
 			switch (node->type) {
 			case Firework::EXTRALARGE: glUniform3f(uColorLoc, 1.0f, 1.0f, 0.0f); break;
 			case Firework::LARGE:  glUniform3f(uColorLoc, 0.0f, 1.0f, 0.0f); break;
@@ -203,32 +213,14 @@ int main() {
 			glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
 		}
 
-		firework.treeReset();
-		firework.addFireworksFromVectorToTree();
-
-		for (auto &node : firework.activeFireworks) {
-			if (node == nullptr) continue;
-			if (node->type == Firework:: UNUSED) continue;
-
-			auto closestNode = firework.findBestNode(node);
-			auto sharedClosetNode = closestNode.lock();
-
-			if (sharedClosetNode == nullptr) continue;
-			if (sharedClosetNode->type == Firework::UNUSED) continue;
-
-			if (circleCollison(node, sharedClosetNode)) {
-				std::cout << "Node " << node->type << " and " << " closest node: " << sharedClosetNode->type << " have collided" << std::endl;
-			}
-
-			// std::this_thread::sleep_for(std::chrono::milliseconds(300));
-		}
-
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
+
+	std:: cout << "Total added particles: " << firework.activeNodeCount << '\n';
 
 	return 0;
 }

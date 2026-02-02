@@ -201,6 +201,7 @@ void resolveAllCollisionsKDTree(Firework &firework) {
 	if (firework.activeFireworks.empty()) return;
 
 	for (auto &node : firework.activeFireworks) {
+		if (node == nullptr) continue;
 		auto closestNode = firework.findBestNode(node);
 		auto lockedClosestNode = closestNode.lock();
 
@@ -213,5 +214,44 @@ void resolveAllCollisionsKDTree(Firework &firework) {
 void resolvePairCollision(std::shared_ptr<Firework::FireworkNode> &node1, std::shared_ptr<Firework::FireworkNode> &node2) {
 	if (!circleCollision(node1, node2)) return;
 
-	
+	Vector3 directionalVector = node2->particle.getPosition() - node1->particle.getPosition();
+	float directionalVectorLength = directionalVector.magnitude();
+
+	if (directionalVectorLength == 0.0f) return;
+
+	Vector3 unitNormal = directionalVector / directionalVectorLength;
+
+	float radius1 = node1->particle.getRadius();
+	float radius2 = node2->particle.getRadius();
+
+	float overlap = (radius1 + radius2) - directionalVectorLength;
+
+	float correction = overlap * 0.5f;
+
+	if (overlap <= 0.0f) return;
+
+	Vector3 position1 = node1->particle.getPosition();
+	Vector3 position2 = node2->particle.getPosition();
+
+	position1 -= unitNormal * correction;
+	position2 += unitNormal * correction;
+
+	node1->particle.setPosition(position1);
+	node2->particle.setPosition(position2);
+
+	Vector3 velocity1 = node1->particle.getVelocity();
+	Vector3 velocity2 = node2->particle.getVelocity();
+
+	Vector3 relativeVelocity = velocity2 - velocity1;
+
+	float velocityNormal = relativeVelocity.scalarProduct(unitNormal);
+
+	if (velocityNormal > 0.0f) return;
+
+	float jImpulse = -(1 + e) * velocityNormal / (node1->particle.getInverseMass() + node2->particle.getInverseMass());
+
+	Vector3 impulse = unitNormal * jImpulse;
+
+	node1->particle.setVelocity(velocity1 - (impulse * node1->particle.getInverseMass()));
+	node2->particle.setVelocity(velocity2 + (impulse * node2->particle.getInverseMass()));
 }

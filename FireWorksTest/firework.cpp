@@ -96,10 +96,12 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
     if (roundIndex >= activeFireworks.size()) {
         // error logs
         std::cout << "Rounds is full" << std::endl;
-        std::cout << "Cant initalize any more fireworks" << std::endl;
+        std::cout << "Cant initialize any more fireworks" << std::endl;
         std::cout << "roundIndex: " << roundIndex << std::endl;
         return;
     }
+
+    bool isNewAllocation = false;
 
     if (activeFireworks[roundIndex] == nullptr) {
         std::string name;
@@ -123,10 +125,11 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
         }
         activeFireworks[roundIndex] = std::make_shared<FireworkNode>();
         activeFireworks[roundIndex]->name = name;
+        isNewAllocation = true;
     }
 
     switch (type) {
-        case Firework::UNUSED:
+        case UNUSED:
             break;
         case SMALL:
             activeFireworks[roundIndex]->type = type;
@@ -138,6 +141,7 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
             activeFireworks[roundIndex]->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to SMALL\n";
+            if (isNewAllocation) activeNodeCount++;
             break;
         case MEDIUM:
             activeFireworks[roundIndex]->type = type;
@@ -149,6 +153,7 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
             activeFireworks[roundIndex]->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to MEDIUM\n";
+            if (isNewAllocation) activeNodeCount++;
             break;
         case LARGE:
             activeFireworks[roundIndex]->type = type;
@@ -160,6 +165,7 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
             activeFireworks[roundIndex]->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE \n";
+            if (isNewAllocation) activeNodeCount++;
             break;
         case EXTRALARGE:
             activeFireworks[roundIndex]->type = type;
@@ -171,6 +177,7 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
             activeFireworks[roundIndex]->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to EXTRALARGE \n";
+            if (isNewAllocation) activeNodeCount++;
             break;
         default:
             break;
@@ -279,7 +286,7 @@ void Firework::treeReset() {
         std::cout << "Root is already null" << '\n';
     }
     root = nullptr;
-    std:: cout << "Set root back to null" << '\n';
+    std:: cout << "Root is null" << '\n';
 }
 
 void Firework::addFireworksFromVectorToTree() {
@@ -351,6 +358,7 @@ void Firework::findNearestNeighborHelper(std::weak_ptr<FireworkNode> &current, s
     auto sharedPtrTarget = target.lock();
     auto sharedPtrBestNode = bestNode.lock();
 
+    if (sharedPtrTarget == nullptr) return;;
     if (sharedPtrCurrent == nullptr) return;
 
     int axis = depth % 2;
