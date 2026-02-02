@@ -99,7 +99,7 @@ public:
 
 	};
 
-	static constexpr unsigned maxFireworks = 10;
+	static constexpr unsigned maxFireworks = 1024;
 
 
 private:
@@ -123,6 +123,7 @@ public:
 
 	void allocateNode(std::string name, unsigned int type);
 	void addNode(std:: shared_ptr<FireworkNode> &node);
+	void treeReset();
 	void addFireworksFromVectorToTree();
 	std:: weak_ptr<FireworkNode> findBestNode(std::shared_ptr<FireworkNode> &targetNode);
 	FireworkNode* getRoot();
@@ -134,7 +135,7 @@ public:
 	std::vector<std::shared_ptr<FireworkNode>> activeFireworks;
 	std::vector<Firework::FireworkRule> rules;
 	int nodeCount;
-	int actveNodeCount;
+	int activeNodeCount;
 	//FireworkNode singleFireWork; // used for testing
 	double mousePositionX, mousePositionY;	
 };

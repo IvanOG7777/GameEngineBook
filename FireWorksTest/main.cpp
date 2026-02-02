@@ -64,7 +64,7 @@ int main() {
 	glfwSetWindowUserPointer(window, &firework);
 
 	firework.initFireworkRules();
-	firework.currentFireworkType = firework.EXTRALARGE;
+	firework.currentFireworkType = Firework::MEDIUM;
 	firework.fire(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
 
 	GLuint program = createProgram(vertexShader, fragmentShader);
@@ -128,7 +128,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glUseProgram(program);
-		glUniform2f(uResolutionLoc, (float)w, (float)h);
+		glUniform2f(uResolutionLoc, static_cast<float>(w), static_cast<float>(h));
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
@@ -165,16 +165,17 @@ int main() {
 				node->age = ageDistribution(gen);
 			}
 
-			node->age -= dt;
+			node->age -= static_cast<float>(dt);
 
 
 			if (node->age <= 0.0f) {
 				for (size_t i = 0; i < firework.rules[node->type].payloads.size(); i++) {
 					for (size_t j = 0; j < firework.rules[node->type].payloads[i].count; j++) {
-						int currentType = firework.rules[node->type].payloads[i].type;
+						unsigned int currentType = firework.rules[node->type].payloads[i].type;
 						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), firework.mousePositionX, firework.mousePositionY);
 					}
 				}
+				node->type = Firework::UNUSED;
 			}
 
 			float particleRadius = node->particle.getRadius();
@@ -199,6 +200,7 @@ int main() {
 			glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
 		}
 
+		firework.treeReset();
 		firework.addFireworksFromVectorToTree();
 
 		for (auto &node : firework.activeFireworks) {
@@ -215,7 +217,7 @@ int main() {
 				std::cout << "Node " << node->type << " and " << " closest node: " << sharedClosetNode->type << " have collided" << std::endl;
 			}
 
-			std::this_thread::sleep_for(std::chrono::milliseconds(300));
+			// std::this_thread::sleep_for(std::chrono::milliseconds(300));
 		}
 
 		glfwSwapBuffers(window);
