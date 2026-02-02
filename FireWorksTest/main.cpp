@@ -155,6 +155,9 @@ int main() {
 			if (node == nullptr) continue;
 			if (node->type == Firework::UNUSED) continue;
 
+
+			std:: cout << "Address of: " << node->name << " " << node.get() << '\n';
+
 			keepCircleInFrame(node->particle, w, h);
 
 			float minAge = firework.rules[node->type].minAge;

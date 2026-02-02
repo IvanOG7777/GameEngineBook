@@ -199,7 +199,6 @@ void Firework::updateFireworks(double dt) {
             node->particle.clearAccumulator();
             node->particle.clearAllValues();
             node->type = UNUSED;
-            node.reset();
         }
     }
 }
@@ -277,7 +276,14 @@ void Firework::addNode(std::shared_ptr<FireworkNode> &node) {
 }
 
 void Firework::treeReset() {
+    if (root != nullptr) {
+        std::cout << "Address of root: " << root->name << " " << root.get() << '\n';
+    }
+    else {
+        std::cout << "Root is already null" << '\n';
+    }
     root = nullptr;
+    std:: cout << "Set root back to null" << '\n';
 }
 
 void Firework::addFireworksFromVectorToTree() {
