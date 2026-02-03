@@ -111,7 +111,6 @@ int main() {
 	bool escWasDown = false;
 	bool fWasDown = false;
 
-	std::random_device ageGen;
 	std::random_device velGen;
 	auto startTime = std::chrono::high_resolution_clock::now();
 	while (!glfwWindowShouldClose(window)) {
@@ -148,36 +147,16 @@ int main() {
 
 		fWasDown = fDown;
 		escWasDown = escDown;
-		
+
 		for (size_t i = 0; i < firework.activeFireworks.size(); i++) {
 			auto& node = firework.activeFireworks[i];
 			if (node == nullptr) continue;
 			if (node->type == Firework::UNUSED) continue;
 
-			float minAge = firework.rules[node->type].minAge;
-			float maxAge = firework.rules[node->type].maxAge;
-			Vector3 minSpawnVelocity = firework.rules[node->type].minVelocity;
-			Vector3 maxSpawnVelocity = firework.rules[node->type].maxVelocity;
-
-			std::uniform_real_distribution<float> velocityXDistribution(minSpawnVelocity.x, maxSpawnVelocity.x);
-			std::uniform_real_distribution<float> velocityYDistribution(minSpawnVelocity.y, maxSpawnVelocity.y);
-
-
-			std:: cout << "Current node: " << node->name << " velocity: " << node->particle.getVelocity().x << " " << node->particle.getVelocity().y << '\n';
-			float randXVelocity = velocityXDistribution(velGen);
-			float randYVelocity = velocityYDistribution(velGen);
-
-
-
-			if (node->age <= 0.0f) {
-				std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);
-				node->age = ageDistribution(ageGen);
-			}
-
 			node->age -= dt;
 
 
-			if (node->age <= 0.0f || (node->particle.getVelocity().x == randXVelocity || node->particle.getVelocity().y == randYVelocity)) {
+			if (node->age <= 0.0f) {
 				for (size_t j = 0; j < firework.rules[node->type].payloads.size(); j++) {
 					for (size_t k = 0; k < firework.rules[node->type].payloads[j].count; k++) {
 						unsigned int currentType = firework.rules[node->type].payloads[j].type;

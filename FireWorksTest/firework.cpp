@@ -143,6 +143,8 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
             break;
         case MEDIUM:
             newNode->name = "MEDIUM";
+            newNode->age = randAge;
+            newNode->age = randAge;
             newNode->particle.setMass(5.5f);
             newNode->particle.setVelocity(randXVelocity, randYVelocity, 0.0f);
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
@@ -157,6 +159,7 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
         case LARGE:
             newNode->name = "LARGE";
             newNode->type = type;
+            newNode->age = randAge;
             newNode->particle.setMass(11.0f);
             newNode->particle.setVelocity(randXVelocity, randYVelocity, 0.0f);
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
@@ -166,10 +169,12 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
                                                               static_cast<float>(yPosition), 0.0f);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE \n";
             if (isNewAllocation) activeNodeCount++;
+            activeFireworks[roundIndex] = newNode;
             break;
         case EXTRALARGE:
             newNode->name = "EXTRALARGE";
             newNode->type = type;
+            newNode->age = randAge;
             newNode->particle.setMass(15.0f);
             newNode->particle.setVelocity(randXVelocity, randYVelocity, 0.0f);
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
@@ -190,7 +195,7 @@ void Firework::fire(FireworkSizeType type, double &xPosition, double &yPosition)
 void Firework::FireworkRule::init(unsigned int payloadCount) {
     FireworkRule::payloadCount = payloadCount;
     payloads.clear();
-    FireworkRule::payloads.resize(payloadCount);
+    payloads.resize(payloadCount);
 }
 
 // function used to update particles position/velocity/acceleration
