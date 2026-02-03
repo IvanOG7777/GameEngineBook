@@ -120,7 +120,7 @@ int main() {
 		std::chrono::duration<double> deltaTime = currentTime - startTime;
 		startTime = currentTime;
 
-		double dt = deltaTime.count();
+		float dt = static_cast<float>(deltaTime.count());
 
 		int w = SCREENWIDTH;
 		int h = SCREENHEIGHT;
@@ -174,7 +174,7 @@ int main() {
 				node->age = ageDistribution(ageGen);
 			}
 
-			node->age -= static_cast<float>(dt);
+			node->age -= dt;
 
 
 			if (node->age <= 0.0f || (node->particle.getVelocity().x == randXVelocity || node->particle.getVelocity().y == randYVelocity)) {
