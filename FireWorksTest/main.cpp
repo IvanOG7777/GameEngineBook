@@ -157,13 +157,17 @@ int main() {
 			float minAge = firework.rules[node->type].minAge;
 			float maxAge = firework.rules[node->type].maxAge;
 			Vector3 minSpawnVelocity = firework.rules[node->type].minVelocity;
-			Vector3 maxSpawnVelocity = firework.rules[node->type].minVelocity;
+			Vector3 maxSpawnVelocity = firework.rules[node->type].maxVelocity;
 
 			std::uniform_real_distribution<float> velocityXDistribution(minSpawnVelocity.x, maxSpawnVelocity.x);
 			std::uniform_real_distribution<float> velocityYDistribution(minSpawnVelocity.y, maxSpawnVelocity.y);
 
+
+			std:: cout << "Current node: " << node->name << " velocity: " << node->particle.getVelocity().x << " " << node->particle.getVelocity().y << '\n';
 			float randXVelocity = velocityXDistribution(velGen);
 			float randYVelocity = velocityYDistribution(velGen);
+
+
 
 			if (node->age <= 0.0f) {
 				std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);

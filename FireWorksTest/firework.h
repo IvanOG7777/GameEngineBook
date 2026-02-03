@@ -121,7 +121,7 @@ public:
 	void fire(FireworkSizeType type, double& xPosition, double& yPosition);
 	void updateFireworks(double dt);
 
-	void allocateNode(std::string name, unsigned int type);
+	// void allocateNode(std::string name, unsigned int type);
 	void addNode(std:: shared_ptr<FireworkNode> &node);
 	void treeReset();
 	void addFireworksFromVectorToTree();
