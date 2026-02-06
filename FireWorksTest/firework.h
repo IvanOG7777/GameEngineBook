@@ -118,7 +118,7 @@ public:
 
 	void initFireworkRules();
 	void spawnFirework(int key);
-	void fire(FireworkSizeType type, double& xPosition, double& yPosition);
+	void fire(FireworkSizeType type, const float& xPosition, const float& yPosition);
 	void updateFireworks(double dt);
 
 	std::shared_ptr<FireworkNode> allocateNode(unsigned int type);

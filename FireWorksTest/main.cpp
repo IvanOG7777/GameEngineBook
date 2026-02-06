@@ -160,7 +160,7 @@ int main() {
 				for (size_t j = 0; j < firework.rules[node->type].payloads.size(); j++) {
 					for (size_t k = 0; k < firework.rules[node->type].payloads[j].count; k++) {
 						unsigned int currentType = firework.rules[node->type].payloads[j].type;
-						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), firework.mousePositionX, firework.mousePositionY);
+						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), node->particle.getPosition().x, node->particle.getPosition().y);
 					}
 				}
 				node->type = Firework::UNUSED;
