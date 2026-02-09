@@ -111,14 +111,14 @@ public:
 	}
 
 	void initFireworkRules(); // default use case for fireworks
-	void rocketBurst();
+	void rocketBurstRules();
 	void fountainBurst();
 	void fireworkBurst();
 	void sphereBurst();
 	void commetBurst();
 	void spawnFirework(int key);
 	void fire(FireworkSizeType type, const float& xPosition, const float& yPosition);
-	void fireRocket(FireworkSizeType type, const float &xPosition, float &yPosition);
+	void fireRocket(FireworkSizeType type, const float &xPosition,const float &yPosition);
 	void updateFireworks(double dt);
 
 	std::shared_ptr<FireworkNode> allocateNode(unsigned int type);
@@ -138,5 +138,5 @@ public:
 	int nodeCount;
 	int activeNodeCount;
 	//FireworkNode singleFireWork; // used for testing
-	double mousePositionX, mousePositionY;	
+	float mousePositionX, mousePositionY;
 };

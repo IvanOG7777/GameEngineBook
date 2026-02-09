@@ -86,7 +86,7 @@ void Firework::fountainBurst() {
 
 }
 
-void Firework::rocketBurst() {
+void Firework::rocketBurstRules() {
     rules.clear();
     rules.resize(5);
 
@@ -151,9 +151,11 @@ void Firework::spawnFirework(int key) {
     // Spawn Extra large key F
     if (key == 70) {
         currentFireworkType = EXTRALARGE;
-        for (size_t i = 0; i < static_cast<size_t>(randParticles); i++) {
-            fire(currentFireworkType, mousePositionX, mousePositionY);
-        }
+        fireRocket(currentFireworkType, mousePositionX, mousePositionY);
+
+        // for (size_t i = 0; i < static_cast<size_t>(randParticles); i++) {
+        //     fire(currentFireworkType, mousePositionX, mousePositionY);
+        // }
     }
 }
 
@@ -252,7 +254,7 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
     }
 }
 
-void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, float &yPosition) {
+void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const float &yPosition) {
     size_t roundIndex = 0;
     for (; roundIndex < activeFireworks.size(); roundIndex++) {
         if (activeFireworks[roundIndex] == nullptr) break;
@@ -267,11 +269,9 @@ void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, float 
         return;
     }
 
-    bool isNewAllocation = false;
     auto newNode = allocateNode(type);
     assert(newNode != nullptr);
     std:: cout << newNode->type << std:: endl;
-    isNewAllocation = true;
 
     std::random_device ageGen;
     std::random_device velGen;

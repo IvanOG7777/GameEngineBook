@@ -63,9 +63,9 @@ int main() {
 	Firework firework;
 	glfwSetWindowUserPointer(window, &firework);
 
-	firework.initFireworkRules();
-	firework.currentFireworkType = Firework::MEDIUM;
-	firework.fire(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
+	firework.rocketBurstRules();
+	firework.currentFireworkType = Firework::EXTRALARGE;
+	firework.fireRocket(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
 
 	GLuint program = createProgram(vertexShader, fragmentShader);
 	if (!program) return 1;
