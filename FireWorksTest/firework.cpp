@@ -6,7 +6,7 @@
 #include <queue>
 #include <limits>
 #include <random>
-#include <assert.h>
+#include <cassert>
 
 #include "firework.h"
 
@@ -76,6 +76,26 @@ void Firework::initFireworkRules() {
     rules[4].init(2);
     rules[4].payloads[0].set(Firework::LARGE, 2);
     rules[4].payloads[1].set(Firework::MEDIUM, 4);
+}
+
+void Firework::fireworkBurst() {
+
+}
+
+void Firework::fountainBurst() {
+
+}
+
+void Firework::rocketBurst() {
+
+}
+
+void Firework::sphereBurst() {
+
+}
+
+void Firework::commetBurst() {
+
 }
 
 void Firework::spawnFirework(int key) {

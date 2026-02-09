@@ -15,13 +15,16 @@ class Firework {
 public:
 
 	// this enum will eventually handle how the effect will look like
-	enum BurstType {
-		ROCKET, // shape will me more concetrated vertically
-		FOUNTAIN, // more spread out horizontally, not to much vertically
-		FIREWORK, // shape will maybe be a mix of the two, aybe certian particles goin up high then flowing horizontally
-	};
 
 	// size of firework particle
+	enum BurstType {
+		ROCKET = 0, // shape will be more concetrated vertically
+		FOUNTAIN, // more spread out horizontally, not too much vertically
+		FIREWORK, // shape will maybe be a mix of the two, maybe certian particles goin up high then flowing horizontally
+		SPHERE, // first works spawn in a circle around init firework
+		COMMET, // inital particle will move acros the screen with small particles trailing behind then finally exploding
+	};
+
 	enum FireworkSizeType {
 		UNUSED = 0,
 		SMALL,
@@ -45,10 +48,6 @@ public:
 
 		//constructor with passed parameters
 		Payload(unsigned int type, unsigned int count) : type(type), count(count) {}
-
-		/*~Payload() {
-			std::cout << "Instance of Payload has been destroyed" << std::endl;
-		}*/
 	};
 
 	//Defines this firework, the type, min and max age, min/max vel and damping
@@ -72,11 +71,6 @@ public:
 
 		//default constructor
 		FireworkRule() : minVelocity{}, maxVelocity{}, type(UNUSED), minAge(0), maxAge(0), damping(1), payloadCount(0){}
-
-
-		/*~FireworkRule() {
-			std::cout << "Instance of FireworkRule has been destroyed" << std::endl;
-		}*/
 	};
 
 	struct FireworkNode {
@@ -116,7 +110,12 @@ public:
 		std::cout << "Instance of firework class has been destroyed" << '\n';
 	}
 
-	void initFireworkRules();
+	void initFireworkRules(); // default use case for fireworks
+	void rocketBurst();
+	void fountainBurst();
+	void fireworkBurst();
+	void sphereBurst();
+	void commetBurst();
 	void spawnFirework(int key);
 	void fire(FireworkSizeType type, const float& xPosition, const float& yPosition);
 	void updateFireworks(double dt);
