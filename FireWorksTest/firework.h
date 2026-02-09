@@ -118,6 +118,7 @@ public:
 	void commetBurst();
 	void spawnFirework(int key);
 	void fire(FireworkSizeType type, const float& xPosition, const float& yPosition);
+	void fireRocket(FireworkSizeType type, const float &xPosition, float &yPosition);
 	void updateFireworks(double dt);
 
 	std::shared_ptr<FireworkNode> allocateNode(unsigned int type);

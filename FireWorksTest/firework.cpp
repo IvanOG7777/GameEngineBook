@@ -87,7 +87,47 @@ void Firework::fountainBurst() {
 }
 
 void Firework::rocketBurst() {
+    rules.clear();
+    rules.resize(5);
 
+    rules[0].type = UNUSED;
+    rules[0].damping = 1.0f;
+    rules[0].init(0);
+
+    rules[1].type = SMALL;
+    rules[1].damping = 0.80f;
+    rules[1].maxAge = 1.0f;
+    rules[1].minAge = 0.5f;
+    rules[1].minVelocity = {-300.0f, -200.0f, 0.0f};
+    rules[1].maxVelocity = {300.0f, -100.0f, 0.0f};
+    rules[1].init(0);
+
+    rules[2].type = MEDIUM;
+    rules[2].damping = 0.85f;
+    rules[2].maxAge = 2.5f;
+    rules[2].minAge = 0.5f;
+    rules[2].minVelocity = {-200.0f, -100.0f, 0.0f};
+    rules[2].maxVelocity = {200.0f, -50.0f, 0.0f};
+    rules[2].init(1);
+    rules[2].payloads[0].set(Firework::SMALL, 10);
+
+    rules[3].type = LARGE;
+    rules[3].damping = 0.95f;
+    rules[3].maxAge = 5.5f;
+    rules[3].minAge = 2.5f;
+    rules[3].minVelocity = {-100.0f, -120.0f, 0.0f};
+    rules[3].maxVelocity = {100.0f, -75.0f, 0.0f};
+    rules[3].init(1);
+    rules[3].payloads[0].set(Firework::MEDIUM, 5);
+
+    rules[4].type = EXTRALARGE;
+    rules[4].damping = 0.99f;
+    rules[4].maxAge = 10.5f;
+    rules[4].minAge = 5.5f;
+    rules[4].minVelocity = {-5.0f, 90.0f, 0.0f};
+    rules[4].maxVelocity = {5.0f, 120.0f, 0.0f};
+    rules[4].init(2);
+    rules[4].payloads[0].set(Firework::LARGE, 3);
 }
 
 void Firework::sphereBurst() {
@@ -132,11 +172,9 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
         return;
     }
 
-    bool isNewAllocation = false;
     auto newNode = allocateNode(type);
     assert(newNode != nullptr);
     std:: cout << newNode->type << std:: endl;
-    isNewAllocation = true;
 
     std::random_device ageGen;
     std::random_device velGen;
@@ -165,10 +203,8 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
             newNode->particle.setDamping(0.99f);
             newNode->particle.setRadius(2.0f);
-            newNode->particle.setPosition(static_cast<float>(xPosition),
-                                                              static_cast<float>(yPosition), 0.0f);
+            newNode->particle.setPosition(xPosition, yPosition, 0.0f);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to SMALL\n";
-            if (isNewAllocation) activeNodeCount++;
             activeFireworks[roundIndex] = newNode;
             break;
         case MEDIUM:
@@ -179,11 +215,10 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setVelocity(randXVelocity, randYVelocity, 0.0f);
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
             newNode->particle.setDamping(0.99f);
-            newNode->particle.setRadius(10.0f);
+            newNode->particle.setRadius(5.0f);
             newNode->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to MEDIUM\n";
-            if (isNewAllocation) activeNodeCount++;
             activeFireworks[roundIndex] = newNode;
             break;
         case LARGE:
@@ -197,7 +232,6 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE \n";
-            if (isNewAllocation) activeNodeCount++;
             activeFireworks[roundIndex] = newNode;
             break;
         case EXTRALARGE:
@@ -211,7 +245,100 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setPosition(static_cast<float>(xPosition),
                                                               static_cast<float>(yPosition), 0.0f);
             std::cout << "Fireworks at index " << roundIndex << " has been initalized to EXTRALARGE \n";
-            if (isNewAllocation) activeNodeCount++;
+            activeFireworks[roundIndex] = newNode;
+            break;
+        default:
+            break;
+    }
+}
+
+void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, float &yPosition) {
+    size_t roundIndex = 0;
+    for (; roundIndex < activeFireworks.size(); roundIndex++) {
+        if (activeFireworks[roundIndex] == nullptr) break;
+        if (activeFireworks[roundIndex]->type == UNUSED) break;
+    }
+
+    if (roundIndex >= activeFireworks.size()) {
+        // error logs
+        std::cout << "Rounds is full" << std::endl;
+        std::cout << "Cant initialize any more fireworks" << std::endl;
+        std::cout << "roundIndex: " << roundIndex << std::endl;
+        return;
+    }
+
+    bool isNewAllocation = false;
+    auto newNode = allocateNode(type);
+    assert(newNode != nullptr);
+    std:: cout << newNode->type << std:: endl;
+    isNewAllocation = true;
+
+    std::random_device ageGen;
+    std::random_device velGen;
+
+    float minAge = rules[newNode->type].minAge;
+    float maxAge = rules[newNode->type].maxAge;
+    Vector3 minVel = rules[newNode->type].minVelocity;
+    Vector3 maxVel = rules[newNode->type].maxVelocity;
+    float damping = rules[newNode->type].damping;
+
+    std::uniform_real_distribution<float> velocityXDistribution(minVel.x, maxVel.x);
+    std::uniform_real_distribution<float> velocityYDistribution(minVel.y, maxVel.y);
+    std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);
+
+    float randAge = ageDistribution(ageGen);
+    float randXVelocity = velocityXDistribution(velGen);
+    float randYVelocity = velocityYDistribution(velGen);
+
+    switch (type) {
+        case UNUSED:
+            break;
+
+        case SMALL:
+            newNode->name = "SMALL";
+            newNode->age = randAge;
+            newNode->particle.setMass(2.0f);
+            newNode->particle.setVelocity(randXVelocity, randYVelocity, 0);
+            newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
+            newNode->particle.setDamping(damping);
+            newNode->particle.setRadius(2.0f);
+            newNode->particle.setPosition(xPosition, yPosition, 0.0f);
+            activeFireworks[roundIndex] = newNode;
+            break;
+
+        case MEDIUM:
+            newNode->name = "MEDIUM";
+            newNode->age = randAge;
+            newNode->particle.setMass(5.5f);
+            newNode->particle.setVelocity(randXVelocity, randYVelocity, 0);
+            newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
+            newNode->particle.setDamping(damping);
+            newNode->particle.setRadius(5.0f);
+            newNode->particle.setPosition(xPosition, yPosition, 0.0f);
+            activeFireworks[roundIndex] = newNode;
+            break;
+
+        case LARGE:
+            newNode->name = "LARGE";
+            newNode->age = randAge;
+            newNode->particle.setMass(11.0f);
+            newNode->particle.setVelocity(randXVelocity, randYVelocity, 0);
+            newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
+            newNode->particle.setDamping(damping);
+            newNode->particle.setRadius(10.0f);
+            newNode->particle.setPosition(xPosition, yPosition, 0.0f);
+            activeFireworks[roundIndex] = newNode;
+            break;
+
+        case EXTRALARGE:
+            newNode->name = "EXTRALARGE";
+            newNode->age = randAge;
+            newNode->particle.setMass(15.0f);
+            newNode->particle.setVelocity(randXVelocity, randYVelocity, 0);
+            newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
+            newNode->particle.setDamping(damping);
+            newNode->particle.setRadius(12.5f);
+            newNode->particle.setPosition(xPosition, yPosition, 0.0f);
             activeFireworks[roundIndex] = newNode;
             break;
         default:
