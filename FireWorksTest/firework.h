@@ -58,10 +58,11 @@ public:
 		Vector3 maxVelocity{};
 		float minAge;
 		float maxAge;
-		//
 
 		unsigned int type;
 		float damping;
+
+		float spawnBudget;
 
 		// declare as static so the same value is used throughout scopes
 		unsigned int payloadCount;
@@ -70,7 +71,7 @@ public:
 		void init(unsigned int payloadCount);
 
 		//default constructor
-		FireworkRule() : minVelocity{}, maxVelocity{}, type(UNUSED), minAge(0), maxAge(0), damping(1), payloadCount(0){}
+		FireworkRule() : minAge(0), maxAge(0), type(UNUSED), damping(1), spawnBudget(0), payloadCount(0){}
 	};
 
 	struct FireworkNode {
@@ -81,9 +82,15 @@ public:
 		unsigned int type;
 		std::string name;
 
-		FireworkNode() : left(nullptr), right(nullptr), age(0), type(UNUSED) {}
+		float emissionRate;
+		float emissionInterval;
+		float emitAccumulator;
+		int spawnedSoFar;
+		bool hasBurst;
 
-		FireworkNode(std::string &name) : left(nullptr), right(nullptr), age(0), type(UNUSED), name(name) {
+		FireworkNode() : left(nullptr), right(nullptr), age(0), type(UNUSED), emissionRate(0), emissionInterval(0), emitAccumulator(0), spawnedSoFar(0), hasBurst(false) {}
+
+		FireworkNode(const std::string &name) : left(nullptr), right(nullptr), age(0), type(UNUSED), name(name), emissionRate(0), emissionInterval(0), emitAccumulator(0), spawnedSoFar(0), hasBurst(false) {
 			std::cout << name << " has been created" << '\n';
 		}
 

@@ -97,6 +97,7 @@ void Firework::rocketBurstRules() {
     rules[1].minVelocity = {-300.0f, -200.0f, 0.0f};
     rules[1].maxVelocity = {300.0f, -100.0f, 0.0f};
     rules[1].init(0);
+    rules[1].spawnBudget = 0;
 
     rules[2].type = MEDIUM;
     rules[2].damping = 0.85f;
@@ -106,6 +107,7 @@ void Firework::rocketBurstRules() {
     rules[2].maxVelocity = {200.0f, -50.0f, 0.0f};
     rules[2].init(1);
     rules[2].payloads[0].set(Firework::SMALL, 10);
+    rules[2].spawnBudget = 0;
 
     rules[3].type = LARGE;
     rules[3].damping = 0.95f;
@@ -115,6 +117,7 @@ void Firework::rocketBurstRules() {
     rules[3].maxVelocity = {100.0f, -75.0f, 0.0f};
     rules[3].init(1);
     rules[3].payloads[0].set(Firework::MEDIUM, 5);
+    rules[3].spawnBudget = 0;
 
     rules[4].type = EXTRALARGE;
     rules[4].damping = 0.99f;
@@ -124,6 +127,7 @@ void Firework::rocketBurstRules() {
     rules[4].maxVelocity = {5.0f, 120.0f, 0.0f};
     rules[4].init(2);
     rules[4].payloads[0].set(Firework::LARGE, 3);
+    rules[4].spawnBudget = 0;
 }
 
 void Firework::sphereBurst() {
@@ -135,8 +139,7 @@ void Firework::commetBurst() {
 }
 
 void Firework::fireworkLoop(const float &dt) {
-    for (size_t i = 0; i < activeFireworks.size(); i++) {
-        auto& node = activeFireworks[i];
+    for (auto &node : activeFireworks) {
         if (node == nullptr) continue;
         if (node->type == UNUSED) continue;
 
@@ -223,7 +226,8 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setDamping(0.99f);
             newNode->particle.setRadius(2.0f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
-            std::cout << "Fireworks at index " << roundIndex << " has been initalized to SMALL\n";
+            newNode->emissionRate = rules[4].payloads.size() / randAge;
+            newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
         case MEDIUM:
@@ -235,9 +239,9 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
             newNode->particle.setDamping(0.99f);
             newNode->particle.setRadius(5.0f);
-            newNode->particle.setPosition(static_cast<float>(xPosition),
-                                                              static_cast<float>(yPosition), 0.0f);
-            std::cout << "Fireworks at index " << roundIndex << " has been initalized to MEDIUM\n";
+            newNode->particle.setPosition(xPosition, yPosition, 0.0f);
+            newNode->emissionRate = rules[4].payloads.size() / randAge;
+            newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
         case LARGE:
@@ -248,9 +252,9 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
             newNode->particle.setDamping(0.99f);
             newNode->particle.setRadius(10.0f);
-            newNode->particle.setPosition(static_cast<float>(xPosition),
-                                                              static_cast<float>(yPosition), 0.0f);
-            std::cout << "Fireworks at index " << roundIndex << " has been initalized to LARGE \n";
+            newNode->particle.setPosition(xPosition, yPosition, 0.0f);
+            newNode->emissionRate = rules[4].payloads.size() / randAge;
+            newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
         case EXTRALARGE:
@@ -261,9 +265,9 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
             newNode->particle.setDamping(0.99f);
             newNode->particle.setRadius(12.5f);
-            newNode->particle.setPosition(static_cast<float>(xPosition),
-                                                              static_cast<float>(yPosition), 0.0f);
-            std::cout << "Fireworks at index " << roundIndex << " has been initalized to EXTRALARGE \n";
+            newNode->particle.setPosition(xPosition, yPosition, 0.0f);
+            newNode->emissionRate = rules[4].payloads.size() / randAge;
+            newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
         default:

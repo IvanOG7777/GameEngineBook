@@ -137,7 +137,7 @@ int main() {
 			firework.spawnFirework(GLFW_KEY_F);
 		}
 
-		firework.fireworkLoop(dt);
+		firework.fireworkLoop(dt); // TODO figure out how to only call this function when f was pressed. Right now we press then enter the loop, but if i put it inside of the if conditional it doesn't update.
 
 		if (escDown && !escWasDown) {
 			std::cout << "Program has been killed " << std::endl;
