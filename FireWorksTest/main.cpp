@@ -63,10 +63,6 @@ int main() {
 	Firework firework;
 	glfwSetWindowUserPointer(window, &firework);
 
-	firework.rocketBurstRules();
-	firework.currentFireworkType = Firework::EXTRALARGE;
-	firework.fireRocket(firework.currentFireworkType, firework.mousePositionX, firework.mousePositionY);
-
 	GLuint program = createProgram(vertexShader, fragmentShader);
 	if (!program) return 1;
 	glUseProgram(program);
@@ -84,12 +80,12 @@ int main() {
 	int res = 100;
 	float baseRadius = 10.0f;
 	Vector3 basePosition;
-	std::vector<Vector3> particleVerticies = makeCircleFan(basePosition, baseRadius, res);
+	std::vector<Vector3> particleVertices = makeCircleFan(basePosition, baseRadius, res);
 
 	glBufferData(
 		GL_ARRAY_BUFFER,
-		particleVerticies.size() * sizeof(Vector3),
-		particleVerticies.data(),
+		particleVertices.size() * sizeof(Vector3),
+		particleVertices.data(),
 		GL_DYNAMIC_DRAW
 	);
 
@@ -119,7 +115,7 @@ int main() {
 		std::chrono::duration<double> deltaTime = currentTime - startTime;
 		startTime = currentTime;
 
-		float dt = static_cast<float>(deltaTime.count());
+		const auto dt = static_cast<float>(deltaTime.count());
 
 		int w = SCREENWIDTH;
 		int h = SCREENHEIGHT;
@@ -137,8 +133,11 @@ int main() {
 
 		if (fDown && !fWasDown) {
 			std::cout << "F key was hit" << std::endl;
+			firework.fireworkBurstRules();
 			firework.spawnFirework(GLFW_KEY_F);
 		}
+
+		firework.fireworkLoop(dt);
 
 		if (escDown && !escWasDown) {
 			std::cout << "Program has been killed " << std::endl;
@@ -148,24 +147,6 @@ int main() {
 		fWasDown = fDown;
 		escWasDown = escDown;
 
-		for (size_t i = 0; i < firework.activeFireworks.size(); i++) {
-			auto& node = firework.activeFireworks[i];
-			if (node == nullptr) continue;
-			if (node->type == Firework::UNUSED) continue;
-
-			node->age -= dt;
-
-
-			if (node->age <= 0.0f) {
-				for (size_t j = 0; j < firework.rules[node->type].payloads.size(); j++) {
-					for (size_t k = 0; k < firework.rules[node->type].payloads[j].count; k++) {
-						unsigned int currentType = firework.rules[node->type].payloads[j].type;
-						firework.fire(static_cast<Firework::FireworkSizeType>(currentType), node->particle.getPosition().x, node->particle.getPosition().y);
-					}
-				}
-				node->type = Firework::UNUSED;
-			}
-		}
 
 		firework.updateFireworks(dt);
 		firework.treeReset();
@@ -182,7 +163,7 @@ int main() {
 			sweptBounds(node->particle, dt, w, h);
 
 			Vector3 particlePosition = node->particle.getPosition();
-			particleVerticies = makeCircleFan(particlePosition, particleRadius, res);
+			particleVertices = makeCircleFan(particlePosition, particleRadius, res);
 
 			switch (node->type) {
 			case Firework::EXTRALARGE: glUniform3f(uColorLoc, 1.0f, 1.0f, 0.0f); break;
@@ -196,11 +177,11 @@ int main() {
 			glBufferSubData(
 				GL_ARRAY_BUFFER,
 				0,
-				particleVerticies.size() * sizeof(Vector3),
-				particleVerticies.data()
+				particleVertices.size() * sizeof(Vector3),
+				particleVertices.data()
 			);
 
-			glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei)particleVerticies.size());
+			glDrawArrays(GL_TRIANGLE_FAN, 0, static_cast<GLsizei>(particleVertices.size()));
 		}
 
 		glfwSwapBuffers(window);

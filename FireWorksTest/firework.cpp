@@ -33,7 +33,7 @@ Firework::Firework() {
 * Function only initalizes the rules for specific particles values
 */
 // for now particles will expand into a coneish shape, later will implement
-void Firework::initFireworkRules() {
+void Firework::fireworkBurstRules() {
     rules.clear();
     rules.resize(5);
 
@@ -76,10 +76,6 @@ void Firework::initFireworkRules() {
     rules[4].init(2);
     rules[4].payloads[0].set(Firework::LARGE, 2);
     rules[4].payloads[1].set(Firework::MEDIUM, 4);
-}
-
-void Firework::fireworkBurst() {
-
 }
 
 void Firework::fountainBurst() {
@@ -138,6 +134,27 @@ void Firework::commetBurst() {
 
 }
 
+void Firework::fireworkLoop(const float &dt) {
+    for (size_t i = 0; i < activeFireworks.size(); i++) {
+        auto& node = activeFireworks[i];
+        if (node == nullptr) continue;
+        if (node->type == UNUSED) continue;
+
+        node->age -= dt;
+
+
+        if (node->age <= 0.0f) {
+            for (size_t j = 0; j < rules[node->type].payloads.size(); j++) {
+                for (size_t k = 0; k < rules[node->type].payloads[j].count; k++) {
+                    unsigned int currentType = rules[node->type].payloads[j].type;
+                    fire(static_cast<FireworkSizeType>(currentType), node->particle.getPosition().x, node->particle.getPosition().y);
+                }
+            }
+            node->type = Firework::UNUSED;
+        }
+    }
+}
+
 void Firework::spawnFirework(int key) {
     FireworkNode firework;
     std::random_device particleGen;
@@ -151,11 +168,11 @@ void Firework::spawnFirework(int key) {
     // Spawn Extra large key F
     if (key == 70) {
         currentFireworkType = EXTRALARGE;
-        fireRocket(currentFireworkType, mousePositionX, mousePositionY);
+        fire(currentFireworkType, mousePositionX, mousePositionY);
 
-        // for (size_t i = 0; i < static_cast<size_t>(randParticles); i++) {
-        //     fire(currentFireworkType, mousePositionX, mousePositionY);
-        // }
+        for (size_t i = 0; i < static_cast<size_t>(randParticles); i++) {
+            fire(currentFireworkType, mousePositionX, mousePositionY);
+        }
     }
 }
 

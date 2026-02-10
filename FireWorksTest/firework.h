@@ -110,12 +110,15 @@ public:
 		std::cout << "Instance of firework class has been destroyed" << '\n';
 	}
 
-	void initFireworkRules(); // default use case for fireworks
+	void fireworkBurstRules(); // default use case for fireworks
 	void rocketBurstRules();
 	void fountainBurst();
-	void fireworkBurst();
 	void sphereBurst();
 	void commetBurst();
+
+
+	void fireworkLoop(const float &dt);
+
 	void spawnFirework(int key);
 	void fire(FireworkSizeType type, const float& xPosition, const float& yPosition);
 	void fireRocket(FireworkSizeType type, const float &xPosition,const float &yPosition);
