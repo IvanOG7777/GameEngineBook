@@ -145,16 +145,20 @@ void Firework::fireworkLoop(const float &dt) {
 
         node->age -= dt;
 
-
-        if (node->age <= 0.0f) {
-            for (size_t j = 0; j < rules[node->type].payloads.size(); j++) {
-                for (size_t k = 0; k < rules[node->type].payloads[j].count; k++) {
-                    unsigned int currentType = rules[node->type].payloads[j].type;
-                    fire(static_cast<FireworkSizeType>(currentType), node->particle.getPosition().x, node->particle.getPosition().y);
-                }
-            }
-            node->type = Firework::UNUSED;
+        if (node->emissionAccumulator >= node->emissionInterval) {
+            
         }
+
+
+        // if (node->age <= 0.0f) {
+        //     for (size_t j = 0; j < rules[node->type].payloads.size(); j++) {
+        //         for (size_t k = 0; k < rules[node->type].payloads[j].count; k++) {
+        //             unsigned int currentType = rules[node->type].payloads[j].type;
+        //             fire(static_cast<FireworkSizeType>(currentType), node->particle.getPosition().x, node->particle.getPosition().y);
+        //         }
+        //     }
+        //     node->type = Firework::UNUSED;
+        // }
     }
 }
 
@@ -266,7 +270,7 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setDamping(0.99f);
             newNode->particle.setRadius(12.5f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
-            newNode->emissionRate = rules[4].payloads.size() / randAge;
+            newNode->emissionRate = (rules[4].payloads[0].count + rules[4].payloads[1].count) / randAge;
             newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;

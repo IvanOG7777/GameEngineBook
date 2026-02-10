@@ -84,13 +84,13 @@ public:
 
 		float emissionRate;
 		float emissionInterval;
-		float emitAccumulator;
+		float emissionAccumulator;
 		int spawnedSoFar;
 		bool hasBurst;
 
-		FireworkNode() : left(nullptr), right(nullptr), age(0), type(UNUSED), emissionRate(0), emissionInterval(0), emitAccumulator(0), spawnedSoFar(0), hasBurst(false) {}
+		FireworkNode() : left(nullptr), right(nullptr), age(0), type(UNUSED), emissionRate(0), emissionInterval(0), emissionAccumulator(0), spawnedSoFar(0), hasBurst(false) {}
 
-		FireworkNode(const std::string &name) : left(nullptr), right(nullptr), age(0), type(UNUSED), name(name), emissionRate(0), emissionInterval(0), emitAccumulator(0), spawnedSoFar(0), hasBurst(false) {
+		FireworkNode(const std::string &name) : left(nullptr), right(nullptr), age(0), type(UNUSED), name(name), emissionRate(0), emissionInterval(0), emissionAccumulator(0), spawnedSoFar(0), hasBurst(false) {
 			std::cout << name << " has been created" << '\n';
 		}
 
