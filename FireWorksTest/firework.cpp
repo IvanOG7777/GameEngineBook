@@ -109,8 +109,8 @@ void Firework::rocketBurstRules() {
 
     rules[3].type = LARGE;
     rules[3].damping = 0.95f;
-    rules[3].maxAge = 5.5f;
-    rules[3].minAge = 2.5f;
+    rules[3].maxAge = 3.5f;
+    rules[3].minAge = 1.5f;
     rules[3].minVelocity = {-100.0f, -120.0f, 0.0f};
     rules[3].maxVelocity = {100.0f, -75.0f, 0.0f};
     rules[3].init(1);
@@ -118,8 +118,8 @@ void Firework::rocketBurstRules() {
 
     rules[4].type = EXTRALARGE;
     rules[4].damping = 0.99f;
-    rules[4].maxAge = 10.5f;
-    rules[4].minAge = 5.5f;
+    rules[4].maxAge = 5.5f;
+    rules[4].minAge = 4.5f;
     rules[4].minVelocity = {-5.0f, 90.0f, 0.0f};
     rules[4].maxVelocity = {5.0f, 120.0f, 0.0f};
     rules[4].init(2);
