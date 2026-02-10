@@ -145,20 +145,39 @@ void Firework::fireworkLoop(const float &dt) {
 
         node->age -= dt;
 
+        if (node->age <= 0.0f) {
+            for (size_t j = 0; j < rules[node->type].payloads.size(); j++) {
+                for (size_t k = 0; k < rules[node->type].payloads[j].count; k++) {
+                    unsigned int currentType = rules[node->type].payloads[j].type;
+                    fire(static_cast<FireworkSizeType>(currentType), node->particle.getPosition().x, node->particle.getPosition().y);
+                }
+            }
+            node->type = Firework::UNUSED;
+        }
+    }
+}
+
+void Firework::rocketBurstLoop(const float &dt) {
+    for (auto &node : activeFireworks) {
+        if (node == nullptr) continue;
+        if (node->type == UNUSED) continue;
+
+        node->age -= dt;
+        node->emissionAccumulator += dt;
+
         if (node->emissionAccumulator >= node->emissionInterval) {
-            
+            for (size_t j = 0; j < rules[node->type].payloads.size(); j++) {
+                for (size_t k = 0; k < rules[node->type].payloads[j].count; k++) {
+                    unsigned int currentType = rules[node->type].payloads[j].type;
+                    fireRocket(static_cast<FireworkSizeType>(currentType), node->particle.getPosition().x, node->particle.getPosition().y);
+                }
+            }
+            node->emissionAccumulator -= node->emissionInterval;
         }
 
-
-        // if (node->age <= 0.0f) {
-        //     for (size_t j = 0; j < rules[node->type].payloads.size(); j++) {
-        //         for (size_t k = 0; k < rules[node->type].payloads[j].count; k++) {
-        //             unsigned int currentType = rules[node->type].payloads[j].type;
-        //             fire(static_cast<FireworkSizeType>(currentType), node->particle.getPosition().x, node->particle.getPosition().y);
-        //         }
-        //     }
-        //     node->type = Firework::UNUSED;
-        // }
+        if (node->age <= 0.0f) {
+            node->type = Firework::UNUSED;
+        }
     }
 }
 
@@ -175,11 +194,11 @@ void Firework::spawnFirework(int key) {
     // Spawn Extra large key F
     if (key == 70) {
         currentFireworkType = EXTRALARGE;
-        fire(currentFireworkType, mousePositionX, mousePositionY);
+        fireRocket(currentFireworkType, mousePositionX, mousePositionY);
 
-        for (size_t i = 0; i < static_cast<size_t>(randParticles); i++) {
-            fire(currentFireworkType, mousePositionX, mousePositionY);
-        }
+        // for (size_t i = 0; i < static_cast<size_t>(randParticles); i++) {
+        //     fire(currentFireworkType, mousePositionX, mousePositionY);
+        // }
     }
 }
 
@@ -340,6 +359,8 @@ void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const 
             newNode->particle.setDamping(damping);
             newNode->particle.setRadius(5.0f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
+            newNode->emissionRate = rules[4].payloads[0].count / randAge;
+            newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
 
@@ -352,6 +373,8 @@ void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const 
             newNode->particle.setDamping(damping);
             newNode->particle.setRadius(10.0f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
+            newNode->emissionRate = rules[4].payloads[0].count / randAge;
+            newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
 
@@ -364,6 +387,8 @@ void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const 
             newNode->particle.setDamping(damping);
             newNode->particle.setRadius(12.5f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
+            newNode->emissionRate = rules[4].payloads[0].count / randAge;
+            newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
         default:

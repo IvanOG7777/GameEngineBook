@@ -125,6 +125,7 @@ public:
 
 
 	void fireworkLoop(const float &dt);
+	void rocketBurstLoop(const float &dt);
 
 	void spawnFirework(int key);
 	void fire(FireworkSizeType type, const float& xPosition, const float& yPosition);

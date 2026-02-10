@@ -133,11 +133,11 @@ int main() {
 
 		if (fDown && !fWasDown) {
 			std::cout << "F key was hit" << std::endl;
-			firework.fireworkBurstRules();
+			firework.rocketBurstRules();
 			firework.spawnFirework(GLFW_KEY_F);
 		}
 
-		firework.fireworkLoop(dt); // TODO figure out how to only call this function when f was pressed. Right now we press then enter the loop, but if i put it inside of the if conditional it doesn't update.
+		firework.rocketBurstLoop(dt); // TODO figure out how to only call this function when f was pressed. Right now we press then enter the loop, but if i put it inside of the if conditional it doesn't update.
 
 		if (escDown && !escWasDown) {
 			std::cout << "Program has been killed " << std::endl;
