@@ -3,9 +3,9 @@
 #include <sstream>
 
 
-#include "windowFunctions.h"
-#include "firework.h"
-#include "globalConstants.h"
+#include "../Header/windowFunctions.h"
+#include "../Header/firework.h"
+#include "../Header/globalConstants.h"
 
 GLFWwindow* startGLFWwindow(int height, int width, bool fullscreen) {
 	if (!glfwInit()) {

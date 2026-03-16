@@ -4,8 +4,8 @@
 #include <chrono>
 
 
-#include "objects.h"
-#include "firework.h"
+#include "../Header/objects.h"
+#include "../Header/firework.h"
 
 // function used to create verticies for a particle in a cirlce shape
 // Parameters:

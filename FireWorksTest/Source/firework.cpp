@@ -8,7 +8,7 @@
 #include <random>
 #include <cassert>
 
-#include "firework.h"
+#include "../Header/firework.h"
 
 Firework::Firework() {
     activeFireworks.reserve(maxFireworks);

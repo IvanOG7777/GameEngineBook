@@ -11,10 +11,10 @@
 #include <GLFW/glfw3.h>
 
 #include "Particle.h"
-#include "firework.h"
-#include "globalConstants.h"
-#include "windowFunctions.h"
-#include "objects.h"
+#include "Header/firework.h"
+#include "Header/globalConstants.h"
+#include "Header/windowFunctions.h"
+#include "Header/objects.h"
 
 const char* vertexShader = R"GLSL(
         #version 330 core

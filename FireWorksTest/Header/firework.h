@@ -18,11 +18,11 @@ public:
 
 	// size of firework particle
 	enum BurstType {
-		ROCKET = 0, // shape will be more concetrated vertically
+		ROCKET = 0, // shape will be more concentrated vertically
 		FOUNTAIN, // more spread out horizontally, not too much vertically
-		FIREWORK, // shape will maybe be a mix of the two, maybe certian particles goin up high then flowing horizontally
+		FIREWORK, // shape will maybe be a mix of the two, maybe certain particles going up high then flowing horizontally
 		SPHERE, // first works spawn in a circle around init firework
-		COMMET, // inital particle will move acros the screen with small particles trailing behind then finally exploding
+		COMMET, // initial particle will move acros the screen with small particles trailing behind then finally exploding
 	};
 
 	enum FireworkSizeType {
@@ -145,9 +145,8 @@ public:
 
 	FireworkSizeType currentFireworkType;
 	std::vector<std::shared_ptr<FireworkNode>> activeFireworks;
-	std::vector<Firework::FireworkRule> rules;
+	std::vector<FireworkRule> rules;
 	int nodeCount;
 	int activeNodeCount;
-	//FireworkNode singleFireWork; // used for testing
 	float mousePositionX, mousePositionY;
 };

@@ -9,9 +9,9 @@ set(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 # --- Your executable ---
 add_executable(FireWorksTest
         main.cpp
-        firework.cpp
-        objects.cpp
-        windowFunctions.cpp
+        Source/firework.cpp
+        Source/objects.cpp
+        Source/windowFunctions.cpp
 
         # Your shared engine files
         ${ROOT_DIR}/gameLib/Particle.cpp
