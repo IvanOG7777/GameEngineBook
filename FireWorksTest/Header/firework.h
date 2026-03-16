@@ -117,7 +117,7 @@ public:
 		std::cout << "Instance of firework class has been destroyed" << '\n';
 	}
 
-	void fireworkBurstRules(); // default use case for fireworks
+	void fireworkBurstRules(); // default use case for fireworks, returns nothing
 	void rocketBurstRules();
 	void fountainBurst();
 	void sphereBurst();
@@ -127,20 +127,18 @@ public:
 	void fireworkLoop(const float &dt);
 	void rocketBurstLoop(const float &dt);
 
-	void spawnFirework(int key);
-	void fire(FireworkSizeType type, const float& xPosition, const float& yPosition);
-	void fireRocket(FireworkSizeType type, const float &xPosition,const float &yPosition);
-	void updateFireworks(double dt);
+	void spawnFirework(int key); // function that spawns firework,  returns nothing
+	void fire(FireworkSizeType type, const float& xPosition, const float& yPosition); // function to fire generic firework,  returns nothing
+	void fireRocket(FireworkSizeType type, const float &xPosition,const float &yPosition); // function to fire a rocket burst,  returns nothing
+	void updateFireworks(double dt); // function to update the firework particles, returns nothing
 
-	std::shared_ptr<FireworkNode> allocateNode(unsigned int type);
-	void addNode(std:: shared_ptr<FireworkNode> &node);
-	void treeReset();
-	void addFireworksFromVectorToTree();
+	std::shared_ptr<FireworkNode> allocateNode(unsigned int type); // function to allocate a firework node,  returns a shared pointer to the newly allocated node
+	void addNode(std:: shared_ptr<FireworkNode> &node); // function to add node to tree, returns nothing
+	void treeReset(); // function to reset the tree,  returns nothing
+	void addFireworksFromVectorToTree(); // function to add fireworks from vector to the tree, returns nothing
 
-	std:: weak_ptr<FireworkNode> findBestNode(std::shared_ptr<FireworkNode> &targetNode);
-	FireworkNode* getRoot();
-
-	void printByDepth();
+	std:: weak_ptr<FireworkNode> findBestNode(std::shared_ptr<FireworkNode> &targetNode); // function used to find nearest node to target node,  returns weak pointer to best node
+	FireworkNode* getRoot(); // function used to get root of the tree,  returns a pointer to a FireworkNode
 
 
 	FireworkSizeType currentFireworkType;

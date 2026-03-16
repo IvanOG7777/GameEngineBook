@@ -42,31 +42,38 @@ const char* fragmentShader = R"GLSL(
 
 int main() {
 
+	//GLFW hints
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+	// Created Window object
 	GLFWwindow *window = startGLFWwindow(SCREENWIDTH, SCREENHEIGHT, false);
 
+	// Use the cursor call back function to set the cursor on the window
 	glfwSetCursorPosCallback(window, cursorPositionCallback);
 
+	// Make the window object the current window
 	glfwMakeContextCurrent(window);
 
+	// Get the size of the window using the bufferSize call back function
 	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
 
+	// Checks to se if we can load glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cerr << "Failed to init GLAD\n";
 		return 1;
 	}
 
 
-	Firework firework;
-	glfwSetWindowUserPointer(window, &firework);
+	Firework firework; // Firework object instance
+	glfwSetWindowUserPointer(window, &firework); // Attaches a pointer to a firework object to the current window, we can retrieve with callbacks later
 
-	GLuint program = createProgram(vertexShader, fragmentShader);
-	if (!program) return 1;
-	glUseProgram(program);
+	GLuint program = createProgram(vertexShader, fragmentShader); // create program with vertex and fragment shaders
+	if (!program) return 1; // if not created return 1 (failure)
+	glUseProgram(program); // tell glfw to use this program
 
+	// Tell glfw where to find "uResolution" and "uColor" from the program and store them
 	GLuint uResolutionLoc = glGetUniformLocation(program, "uResolution");
 	GLuint uColorLoc = glGetUniformLocation(program, "uColor");
 
@@ -107,7 +114,6 @@ int main() {
 	bool escWasDown = false;
 	bool fWasDown = false;
 
-	std::random_device velGen;
 	auto startTime = std::chrono::high_resolution_clock::now();
 	while (!glfwWindowShouldClose(window)) {
 
@@ -117,8 +123,8 @@ int main() {
 
 		const auto dt = static_cast<float>(deltaTime.count());
 
-		int w = SCREENWIDTH;
-		int h = SCREENHEIGHT;
+		int w = static_cast<int>(SCREENWIDTH);
+		int h = static_cast<int>(SCREENHEIGHT);
 
 		glfwGetFramebufferSize(window, &w, &h);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -132,7 +138,6 @@ int main() {
 		bool fDown = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
 
 		if (fDown && !fWasDown) {
-			std::cout << "F key was hit" << std::endl;
 			firework.rocketBurstRules();
 			firework.spawnFirework(GLFW_KEY_F);
 		}

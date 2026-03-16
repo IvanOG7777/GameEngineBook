@@ -521,36 +521,6 @@ Firework::FireworkNode *Firework::getRoot() {
     return root.get();
 }
 
-void Firework::printByDepth() {
-    if (root == nullptr) {
-        std::cerr << "Tree is empty!" << std::endl;
-        return;
-    }
-
-    std::weak_ptr<FireworkNode> current = root;
-    int depth = 0;
-    std::queue<std::weak_ptr<FireworkNode> > nodeQueue;
-    nodeQueue.push(root);
-
-    while (!nodeQueue.empty()) {
-        size_t length = nodeQueue.size();
-        std::cout << "Depth: " << depth << std::endl;
-        auto node = nodeQueue.front().lock();
-        for (size_t i = 0; i < length; i++) {
-            if (node->left != nullptr) {
-                nodeQueue.push(node->left);
-            }
-            if (node->right != nullptr) {
-                nodeQueue.push(node->right);
-            }
-            std::cout << " " << node->name << " ";
-            nodeQueue.pop();
-        }
-        depth++;
-        std::cout << '\n';
-    }
-}
-
 void Firework::findNearestNeighborHelper(std::weak_ptr<FireworkNode> &current, std::weak_ptr<FireworkNode> &target,
                                          std::weak_ptr<FireworkNode> &bestNode, float &bestDistance, int depth) {
     auto sharedPtrCurrent = current.lock();
