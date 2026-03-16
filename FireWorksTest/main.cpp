@@ -3,8 +3,6 @@
 //
 
 #include <iostream>
-#include <random>
-#include <thread>
 #include <chrono>
 
 #include <glad/glad.h>

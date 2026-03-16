@@ -30,7 +30,7 @@ Firework::Firework() {
 * Parameters: NONE
 * return type void
 *
-* Function only initalizes the rules for specific particles values
+* Function only initializes the rules for specific particles values
 */
 // for now particles will expand into a coneish shape, later will implement
 void Firework::fireworkBurstRules() {
@@ -181,9 +181,9 @@ void Firework::rocketBurstLoop(const float &dt) {
     }
 }
 
-void Firework::spawnFirework(int key) {
+void Firework::spawnFirework(const int key) {
     FireworkNode firework;
-    std::random_device particleGen;
+    std::mt19937 particleGen(time(nullptr));
 
     constexpr float maxSpawn = 10;
     constexpr float minSpawn = 3;
@@ -196,9 +196,9 @@ void Firework::spawnFirework(int key) {
         currentFireworkType = EXTRALARGE;
         fireRocket(currentFireworkType, mousePositionX, mousePositionY);
 
-        // for (size_t i = 0; i < static_cast<size_t>(randParticles); i++) {
-        //     fire(currentFireworkType, mousePositionX, mousePositionY);
-        // }
+
+        // fire(currentFireworkType, mousePositionX, mousePositionY);
+
     }
 }
 
@@ -221,11 +221,12 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
     assert(newNode != nullptr);
     std:: cout << newNode->type << std:: endl;
 
-    std::random_device ageGen;
-    std::random_device velGen;
+    std::mt19937 ageGen(time(nullptr));
+    std::mt19937 velGen(time(nullptr));
 
     float minAge = rules[newNode->type].minAge;
     float maxAge = rules[newNode->type].maxAge;
+    float damping = rules[newNode->type].damping;
     Vector3 minSpawnVelocity = rules[newNode->type].minVelocity;
     Vector3 maxSpawnVelocity = rules[newNode->type].maxVelocity;
 
@@ -246,24 +247,23 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setMass(2.0f);
             newNode->particle.setVelocity(randXVelocity, randYVelocity, 0.0f);
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
-            newNode->particle.setDamping(0.99f);
+            newNode->particle.setDamping(damping);
             newNode->particle.setRadius(2.0f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
-            newNode->emissionRate = rules[4].payloads.size() / randAge;
+            newNode->emissionRate = static_cast<float>(rules[4].payloads.size()) / randAge;
             newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
         case MEDIUM:
             newNode->name = "MEDIUM";
             newNode->age = randAge;
-            newNode->age = randAge;
             newNode->particle.setMass(5.5f);
             newNode->particle.setVelocity(randXVelocity, randYVelocity, 0.0f);
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
-            newNode->particle.setDamping(0.99f);
+            newNode->particle.setDamping(damping);
             newNode->particle.setRadius(5.0f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
-            newNode->emissionRate = rules[4].payloads.size() / randAge;
+            newNode->emissionRate = static_cast<float>(rules[4].payloads.size()) / randAge;
             newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
@@ -273,10 +273,10 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setMass(11.0f);
             newNode->particle.setVelocity(randXVelocity, randYVelocity, 0.0f);
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
-            newNode->particle.setDamping(0.99f);
+            newNode->particle.setDamping(damping);
             newNode->particle.setRadius(10.0f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
-            newNode->emissionRate = rules[4].payloads.size() / randAge;
+            newNode->emissionRate = static_cast<float>(rules[4].payloads.size()) / randAge;
             newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
@@ -286,10 +286,10 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
             newNode->particle.setMass(15.0f);
             newNode->particle.setVelocity(randXVelocity, randYVelocity, 0.0f);
             newNode->particle.setAcceleration(0.0f, 35.0f, 0.0f);
-            newNode->particle.setDamping(0.99f);
+            newNode->particle.setDamping(damping);
             newNode->particle.setRadius(12.5f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
-            newNode->emissionRate = (rules[4].payloads[0].count + rules[4].payloads[1].count) / randAge;
+            newNode->emissionRate = static_cast<float>(rules[4].payloads[0].count + rules[4].payloads[1].count) / randAge;
             newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
@@ -317,8 +317,8 @@ void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const 
     assert(newNode != nullptr);
     std:: cout << newNode->type << std:: endl;
 
-    std::random_device ageGen;
-    std::random_device velGen;
+    std::mt19937 ageGen(time(nullptr));
+    std::mt19937 velGen(time(nullptr));
 
     float minAge = rules[newNode->type].minAge;
     float maxAge = rules[newNode->type].maxAge;
@@ -359,7 +359,7 @@ void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const 
             newNode->particle.setDamping(damping);
             newNode->particle.setRadius(5.0f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
-            newNode->emissionRate = rules[4].payloads[0].count / randAge;
+            newNode->emissionRate = static_cast<float>(rules[2].payloads[0].count) / randAge;
             newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
@@ -373,7 +373,7 @@ void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const 
             newNode->particle.setDamping(damping);
             newNode->particle.setRadius(10.0f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
-            newNode->emissionRate = rules[4].payloads[0].count / randAge;
+            newNode->emissionRate = static_cast<float>(rules[3].payloads[0].count) / randAge;
             newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
@@ -387,7 +387,7 @@ void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const 
             newNode->particle.setDamping(damping);
             newNode->particle.setRadius(12.5f);
             newNode->particle.setPosition(xPosition, yPosition, 0.0f);
-            newNode->emissionRate = rules[4].payloads[0].count / randAge;
+            newNode->emissionRate = static_cast<float>(rules[4].payloads[0].count) / randAge;
             newNode->emissionInterval = 1 / newNode->emissionRate;
             activeFireworks[roundIndex] = newNode;
             break;
@@ -404,12 +404,12 @@ void Firework::FireworkRule::init(unsigned int payloadCount) {
 }
 
 // function used to update particles position/velocity/acceleration
-void Firework::updateFireworks(double dt) {
+void Firework::updateFireworks(const double dt) {
     for (auto &node: activeFireworks) {
         if (node == nullptr) continue;
         if (node->type == Firework::UNUSED) continue;
 
-        node->particle.update(dt);
+        node->particle.update(static_cast<float>(dt));
         if (node->particle.getPosition().y <= 0.0f) {
             node->particle.clearAccumulator();
             node->particle.clearAllValues();
@@ -484,6 +484,11 @@ void Firework::addNode(std::shared_ptr<FireworkNode> &node) {
 }
 
 void Firework::treeReset() {
+    for (auto &node : activeFireworks) {
+        if (node == nullptr) continue;
+        node->left = nullptr;
+        node->right = nullptr;
+    }
     root = nullptr;
     std:: cout << "Root is null" << '\n';
 }

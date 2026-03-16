@@ -90,14 +90,7 @@ public:
 
 		FireworkNode() : left(nullptr), right(nullptr), age(0), type(UNUSED), emissionRate(0), emissionInterval(0), emissionAccumulator(0), spawnedSoFar(0), hasBurst(false) {}
 
-		FireworkNode(const std::string &name) : left(nullptr), right(nullptr), age(0), type(UNUSED), name(name), emissionRate(0), emissionInterval(0), emissionAccumulator(0), spawnedSoFar(0), hasBurst(false) {
-			std::cout << name << " has been created" << '\n';
-		}
-
-		~FireworkNode() {
-			std::cout << name << " has been destroyed" << '\n';
-		}
-
+		FireworkNode(const std::string &name) : left(nullptr), right(nullptr), age(0), type(UNUSED), name(name), emissionRate(0), emissionInterval(0), emissionAccumulator(0), spawnedSoFar(0), hasBurst(false) {}
 	};
 
 	static constexpr unsigned maxFireworks = 1024;
