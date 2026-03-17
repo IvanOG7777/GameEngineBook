@@ -43,7 +43,7 @@ public:
 
     ////////////////////////////////////////////////////////////
     // operator overload to allow use to multiply bty scalr "value" to all values of a Vector3
-    // Essentailly sclaing the vector by value
+    // Essentially scaling the vector by value
     // this modifies the actual values of the object
     void operator*=(const float value) {
         x *= value;
@@ -52,7 +52,7 @@ public:
     }
 
     // Operator overload to allow us to mutiply by scalar "value"
-    // Essentailly sclaing the vector by value
+    // Essentially scaling  the vector by value
     // this promises not to modify current object but return a new Vector3 object
     Vector3 operator*(const float value) const {
         return { x * value, y * value, z * value };

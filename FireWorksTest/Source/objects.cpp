@@ -7,7 +7,7 @@
 #include "../Header/objects.h"
 #include "../Header/firework.h"
 
-// function used to create verticies for a particle in a cirlce shape
+// function used to create verticies for a particle in a circle shape
 // Parameters:
 //		The center of the particle, on each frame loop we rerender and pass in the new positions for the particle and use that as center
 //		The radius of the particle
@@ -16,7 +16,7 @@ std::vector <Vector3> makeCircleFan(Vector3 center, float radius, int res) {
 	std::vector <Vector3> verticies; // create a vector of Vector3 called verticies
 
 	verticies.reserve(res + 2); // reserve res amount of points plus 2 in memory for vertices
-	verticies.emplace_back(center); // emplace_bakc the first center passed into the function to the vector
+	verticies.emplace_back(center); // emplace_back the first center passed into the function to the vector
 
 	// loop through res
 	for (int i = 0; i <= res; i++) {
@@ -46,9 +46,9 @@ void keepCircleInFrame(Particle& particle, int& windowWidth, int& windowHeight) 
 	float radius = particle.getRadius();
 	// Set the min x/y and max x/y values of the particle
 	float minX = radius; // Min x is radius
-	float maxX = static_cast<float>(windowWidth) - radius; // max is is the windowWidth - radius
+	float maxX = static_cast<float>(windowWidth) - radius; // max is the windowWidth - radius
 	float minY = radius; // Min y is radius
-	float maxY = static_cast<float>(windowHeight) - radius; // max is is the windowHeight - radius
+	float maxY = static_cast<float>(windowHeight) - radius; // max is the windowHeight - radius
 
 	Vector3 p = particle.getPosition();
 	Vector3 v = particle.getVelocity();
@@ -57,24 +57,24 @@ void keepCircleInFrame(Particle& particle, int& windowWidth, int& windowHeight) 
 	// if p.x is less than the minX
 	if (p.x < minX) {
 		p.x = minX; // swap current x position with minX
-		v.x = -v.x * e; // reverse the x veclocity
+		v.x = -v.x * e; // reverse the x velocity
 	}
 	// if p.x is less than the minX
 	if (p.x > maxX) {
 		p.x = maxX; // swap current x position with maxX
-		v.x = -v.x * e; // reverse the x veclocity
+		v.x = -v.x * e; // reverse the x velocity
 	}
 
 	// Bottom / Top
 	// if p.y is less than the minY
 	if (p.y < minY) {
 		p.y = minY; // swap current y position with minY
-		v.y = -v.y * e; // reverse the y veclocity
+		v.y = -v.y * e; // reverse the y velocity
 	}
 	// if p.y is more than the maxY
 	if (p.y > maxY) {
 		p.y = maxY; // swap current y position with maxY
-		v.y = -v.y * e; // reverse the y veclocity
+		v.y = -v.y * e; // reverse the y velocity
 	}
 
 	// set the new position and velocity to the particle
@@ -99,7 +99,7 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 		// checks 0.0 < tHit < dt
 		if (tHit >= 0.0 && tHit <= dt) {
 
-			p.x += v.x * static_cast<float>(tHit); // moves to the actual imact point in this case the wall
+			p.x += v.x * static_cast<float>(tHit); // moves to the actual impact point in this case the wall
 
 			v.x = -v.x * e; // inverse and take away a small amount of the velocity
 
@@ -160,24 +160,24 @@ void sweptBounds(Particle& particle, double dt, int& windowWidth, int& windowHei
 
 	if (p.x < minX) {
 		p.x = minX; // swap current x position with minX
-		v.x = -v.x * e; // reverse the x veclocity
+		v.x = -v.x * e; // reverse the x velocity
 	}
 	// if p.x is less than the minX
 	if (p.x > maxX) {
 		p.x = maxX; // swap current x position with maxX
-		v.x = -v.x * e; // reverse the x veclocity
+		v.x = -v.x * e; // reverse the x velocity
 	}
 
 	// Bottom / Top
 	// if p.y is less than the minY
 	if (p.y < minY) {
 		p.y = minY; // swap current y position with minY
-		v.y = -v.y * e; // reverse the y veclocity
+		v.y = -v.y * e; // reverse the y velocity
 	}
 	// if p.y is more than the maxY
 	if (p.y > maxY) {
 		p.y = maxY; // swap current y position with maxY
-		v.y = -v.y * e; // reverse the y veclocity
+		v.y = -v.y * e; // reverse the y velocity
 	}
 
 	particle.setPosition(p.x, p.y, p.z);
