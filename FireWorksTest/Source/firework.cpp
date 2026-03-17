@@ -10,7 +10,7 @@
 
 #include "../Header/firework.h"
 
-Firework::Firework() {
+Firework::Firework() : mtSeed(time(nullptr)) {
     activeFireworks.reserve(maxFireworks);
     activeFireworks.resize(maxFireworks);
 
@@ -183,13 +183,12 @@ void Firework::rocketBurstLoop(const float &dt) {
 
 void Firework::spawnFirework(const int key) {
     FireworkNode firework;
-    std::mt19937 particleGen(time(nullptr));
 
     constexpr float maxSpawn = 10;
     constexpr float minSpawn = 3;
 
     std::uniform_real_distribution<float> particleDistribution(minSpawn, maxSpawn);
-    float randParticles = particleDistribution(particleGen);
+    float randParticles = particleDistribution(mtSeed);
 
     // Spawn Extra large key F
     if (key == 70) {
@@ -221,9 +220,6 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
     assert(newNode != nullptr);
     std:: cout << newNode->type << std:: endl;
 
-    std::mt19937 ageGen(time(nullptr));
-    std::mt19937 velGen(time(nullptr));
-
     float minAge = rules[newNode->type].minAge;
     float maxAge = rules[newNode->type].maxAge;
     float damping = rules[newNode->type].damping;
@@ -234,9 +230,9 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
     std::uniform_real_distribution<float> velocityYDistribution(minSpawnVelocity.y, maxSpawnVelocity.y);
     std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);
 
-    float randAge = ageDistribution(ageGen);
-    float randXVelocity = velocityXDistribution(velGen);
-    float randYVelocity = velocityYDistribution(velGen);
+    float randAge = ageDistribution(mtSeed);
+    float randXVelocity = velocityXDistribution(mtSeed);
+    float randYVelocity = velocityYDistribution(mtSeed);
 
     switch (type) {
         case UNUSED:
@@ -317,8 +313,8 @@ void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const 
     assert(newNode != nullptr);
     std:: cout << newNode->type << std:: endl;
 
-    std::mt19937 ageGen(time(nullptr));
-    std::mt19937 velGen(time(nullptr));
+    // std::mt19937 ageGen(time(nullptr));
+    // std::mt19937 velGen(time(nullptr));
 
     float minAge = rules[newNode->type].minAge;
     float maxAge = rules[newNode->type].maxAge;
@@ -330,9 +326,9 @@ void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const 
     std::uniform_real_distribution<float> velocityYDistribution(minVel.y, maxVel.y);
     std::uniform_real_distribution<float> ageDistribution(minAge, maxAge);
 
-    float randAge = ageDistribution(ageGen);
-    float randXVelocity = velocityXDistribution(velGen);
-    float randYVelocity = velocityYDistribution(velGen);
+    float randAge = ageDistribution(mtSeed);
+    float randXVelocity = velocityXDistribution(mtSeed);
+    float randYVelocity = velocityYDistribution(mtSeed);
 
     switch (type) {
         case UNUSED:

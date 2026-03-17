@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <random>
 
 #include "core.h"
 #include "Particle.h"
@@ -140,4 +141,5 @@ public:
 	int nodeCount;
 	int activeNodeCount;
 	float mousePositionX, mousePositionY;
+	std:: mt19937 mtSeed;
 };

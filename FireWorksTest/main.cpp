@@ -136,7 +136,7 @@ int main() {
 		bool fDown = glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS;
 
 		if (fDown && !fWasDown) {
-			firework.rocketBurstRules();
+			firework.fireworkBurstRules();
 			firework.spawnFirework(GLFW_KEY_F);
 		}
 
