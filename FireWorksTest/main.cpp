@@ -16,28 +16,28 @@
 
 const char *vertexShader = R"GLSL(
         #version 330 core
-        layout(location = 0) in vec3 aPos;
+        layout(location = 0) in vec3 aPos; // Current vertex we are handling from the vector of vertices
 
-        uniform vec2 uResolution;
-        uniform vec2 uOffset;
-        uniform float uScale;
+        uniform vec2 uResolution; //holds screen W/H
+        uniform vec2 uOffset; // current position of the particle
+        uniform float uScale; //  particles radius
 
         void main() {
-            vec2 worldPos = aPos.xy * uScale + uOffset;
+            vec2 worldPos = aPos.xy * uScale + uOffset; // only use the xy values of the vertices, scale it and add the current position to get real new position
 
-            vec2 ndc = worldPos / uResolution;
-            ndc = ndc * 2.0 - 1.0;
+            vec2 ndc = worldPos / uResolution; // convert from pixel coordinated to normalized range [0,1]
+            ndc = ndc * 2.0 - 1.0; // convert from normalized range to normalized device coordinates [-1,1]
 
-            gl_Position = vec4(ndc, 0.0, 1.0);
+            gl_Position = vec4(ndc.x, ndc.y, 0.0, 1.0); // Final position in clip space (OpenGL expects vec4 in NDC range)
         }
     )GLSL";
 
 const char *fragmentShader = R"GLSL(
         #version 330 core
-        out vec4 FragColor;
-        uniform vec3 uColor;
+        out vec4 FragColor; // color that will be sent out to screen
+        uniform vec3 uColor; // RGB
         void main() {
-            FragColor = vec4(uColor, 1.0);
+            FragColor = vec4(uColor, 1.0); // pass in the RBG plus alpha
         }
     )GLSL";
 
