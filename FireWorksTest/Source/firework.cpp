@@ -22,6 +22,7 @@ Firework::Firework() : mtSeed(time(nullptr)) {
     activeNodeCount = 0;
     mousePositionX = 0.0;
     mousePositionY = 0.0;
+    rebuildTree = false;
 }
 
 /*
@@ -106,7 +107,7 @@ void Firework::rocketBurstRules() {
     rules[2].minVelocity = {-200.0f, -100.0f, 0.0f};
     rules[2].maxVelocity = {200.0f, -50.0f, 0.0f};
     rules[2].init(1);
-    rules[2].payloads[0].set(Firework::SMALL, 10);
+    rules[2].payloads[0].set(Firework::SMALL, 5);
     rules[2].spawnBudget = 0;
 
     rules[3].type = LARGE;
@@ -116,7 +117,7 @@ void Firework::rocketBurstRules() {
     rules[3].minVelocity = {-100.0f, -120.0f, 0.0f};
     rules[3].maxVelocity = {100.0f, -75.0f, 0.0f};
     rules[3].init(1);
-    rules[3].payloads[0].set(Firework::MEDIUM, 5);
+    rules[3].payloads[0].set(Firework::MEDIUM, 3);
     rules[3].spawnBudget = 0;
 
     rules[4].type = EXTRALARGE;
@@ -153,6 +154,7 @@ void Firework::fireworkLoop(const float &dt) {
                 }
             }
             node->type = Firework::UNUSED;
+            rebuildTree = true;
         }
     }
 }
@@ -177,6 +179,7 @@ void Firework::rocketBurstLoop(const float &dt) {
 
         if (node->age <= 0.0f) {
             node->type = Firework::UNUSED;
+            rebuildTree = true;
         }
     }
 }
@@ -202,6 +205,7 @@ void Firework::spawnFirework(const int key) {
 }
 
 void Firework::fire(FireworkSizeType type, const float &xPosition, const float &yPosition) {
+    rebuildTree = true;
     size_t roundIndex = 0;
     for (; roundIndex < activeFireworks.size(); roundIndex++) {
         if (activeFireworks[roundIndex] == nullptr) break;
@@ -295,6 +299,7 @@ void Firework::fire(FireworkSizeType type, const float &xPosition, const float &
 }
 
 void Firework:: fireRocket(FireworkSizeType type, const float &xPosition, const float &yPosition) {
+    rebuildTree = true;
     size_t roundIndex = 0;
     for (; roundIndex < activeFireworks.size(); roundIndex++) {
         if (activeFireworks[roundIndex] == nullptr) break;

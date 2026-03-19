@@ -157,8 +157,11 @@ int main() {
 
 
         firework.updateFireworks(dt);
-        firework.treeReset();
-        firework.addFireworksFromVectorToTree();
+        if (firework.rebuildTree == true) {
+            firework.treeReset();
+            firework.addFireworksFromVectorToTree();
+            firework.rebuildTree = false;
+        }
         resolveAllCollisionsKDTree(firework);
 
         for (auto &activeFirework: firework.activeFireworks) {

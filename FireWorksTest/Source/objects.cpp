@@ -11,7 +11,7 @@
 // Parameters:
 //		The center of the particle, on each frame loop we rerender and pass in the new positions for the particle and use that as center
 //		The radius of the particle
-//		The res, amount of points per circle, if res is more more triangles to make and more computations
+//		The res, amount of points per circle, if res is more triangles to make and more computations
 std::vector <Vector3> makeCircleFan(Vector3 center, float radius, int res) {
 	std::vector <Vector3> verticies; // create a vector of Vector3 called verticies
 
@@ -197,20 +197,6 @@ bool circleCollision(std::shared_ptr<Firework::FireworkNode>& node1, std::shared
 	return false;
 }
 
-void resolveAllCollisionsKDTree(Firework &firework) {
-	if (firework.activeFireworks.empty()) return;
-
-	for (auto &node : firework.activeFireworks) {
-		if (node == nullptr) continue;
-		auto closestNode = firework.findBestNode(node);
-		auto lockedClosestNode = closestNode.lock();
-
-		if (lockedClosestNode == nullptr) return;
-
-		resolvePairCollision(node, lockedClosestNode);
-	}
-}
-
 void resolvePairCollision(std::shared_ptr<Firework::FireworkNode> &node1, std::shared_ptr<Firework::FireworkNode> &node2) {
 	if (!circleCollision(node1, node2)) return;
 
@@ -254,4 +240,18 @@ void resolvePairCollision(std::shared_ptr<Firework::FireworkNode> &node1, std::s
 
 	node1->particle.setVelocity(velocity1 - (impulse * node1->particle.getInverseMass()));
 	node2->particle.setVelocity(velocity2 + (impulse * node2->particle.getInverseMass()));
+}
+
+void resolveAllCollisionsKDTree(Firework &firework) {
+	if (firework.activeFireworks.empty()) return;
+
+	for (auto &node : firework.activeFireworks) {
+		if (node == nullptr) continue;
+		auto closestNode = firework.findBestNode(node);
+		auto lockedClosestNode = closestNode.lock();
+
+		if (lockedClosestNode == nullptr) return;
+
+		resolvePairCollision(node, lockedClosestNode);
+	}
 }

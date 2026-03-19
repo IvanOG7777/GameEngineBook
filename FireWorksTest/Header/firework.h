@@ -142,4 +142,5 @@ public:
 	int activeNodeCount;
 	float mousePositionX, mousePositionY;
 	std:: mt19937 mtSeed;
+	bool rebuildTree;
 };
