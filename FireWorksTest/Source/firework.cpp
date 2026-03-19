@@ -451,14 +451,12 @@ void Firework::addNode(std::shared_ptr<FireworkNode> &node) {
             if (node->particle.getPosition().x >= current->particle.getPosition().x) {
                 if (current->right == nullptr) {
                     current->right = node;
-                    std::cout << node->name << " has been added to tree" << std::endl;
                     return;
                 }
                 current = current->right;
             } else if (node->particle.getPosition().x <= current->particle.getPosition().x) {
                 if (current->left == nullptr) {
                     current->left = node;
-                    std::cout << node->name << " has been added to tree" << std::endl;
                     return;
                 }
                 current = current->left;
@@ -467,14 +465,12 @@ void Firework::addNode(std::shared_ptr<FireworkNode> &node) {
             if (node->particle.getPosition().y >= current->particle.getPosition().y) {
                 if (current->right == nullptr) {
                     current->right = node;
-                    std::cout << node->name << " has been added to tree" << std::endl;
                     return;
                 }
                 current = current->right;
             } else if (node->particle.getPosition().y <= current->particle.getPosition().y) {
                 if (current->left == nullptr) {
                     current->left = node;
-                    std::cout << node->name << " has been added to tree" << std::endl;
                     return;
                 }
                 current = current->left;
@@ -537,7 +533,7 @@ void Firework::findNearestNeighborHelper(std::weak_ptr<FireworkNode> &current, s
     if (sharedPtrCurrent == nullptr) return;
 
     int axis = depth % 2;
-    float currentDistance = distance2(current, target);
+    float currentDistance = distanceSquared(current, target);
 
     if (currentDistance > 0.0f && currentDistance < bestDistance) {
         bestDistance = currentDistance;
@@ -568,7 +564,7 @@ void Firework::findNearestNeighborHelper(std::weak_ptr<FireworkNode> &current, s
     }
 }
 
-float Firework::distance2(std::weak_ptr<FireworkNode> &node1, std::weak_ptr<FireworkNode> &node2) {
+float Firework::distanceSquared(std::weak_ptr<FireworkNode> &node1, std::weak_ptr<FireworkNode> &node2) {
     auto nodePtr1 = node1.lock();
     auto nodePtr2 = node2.lock();
 
@@ -576,11 +572,11 @@ float Firework::distance2(std::weak_ptr<FireworkNode> &node1, std::weak_ptr<Fire
         return 0.0f;
     }
 
-    float xSum = nodePtr1->particle.getPosition().x - nodePtr2->particle.getPosition().x;
-    float ySum = nodePtr1->particle.getPosition().y - nodePtr2->particle.getPosition().y;
+    float distanceX = nodePtr1->particle.getPosition().x - nodePtr2->particle.getPosition().x;
+    float distanceY = nodePtr1->particle.getPosition().y - nodePtr2->particle.getPosition().y;
 
-    float xSquared = xSum * xSum;
-    float ySquared = ySum * ySum;
+    float distanceXSquared = distanceX * distanceX;
+    float distanceYSquared = distanceY * distanceY;
 
-    return xSquared + ySquared;
+    return distanceXSquared + distanceYSquared;
 }

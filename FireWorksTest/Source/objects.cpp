@@ -30,11 +30,11 @@ std::vector <Vector3> makeCircleFan(Vector3 center, float radius, int res) {
 		position.y = center.y + std::sin(theta) * radius; // pass in the centers.y + the sin(theta) * radius, used for vertical movement
 		position.z = 0;
 
-		verticies.emplace_back(position); // emplace_bakc the newly built position into the vertices vector
+		verticies.emplace_back(position); // emplace_back the newly built position into the vertices vector
 	}
 
 	// once we finish the loop through res
-	// return the fully built cirlce vertices
+	// return the fully built circle vertices
 	return verticies;
 }
 
@@ -188,9 +188,14 @@ bool circleCollision(std::shared_ptr<Firework::FireworkNode>& node1, std::shared
 	float distanceX = node1->particle.getPosition().x - node2->particle.getPosition().x;
 	float distanceY = node1->particle.getPosition().y - node2->particle.getPosition().y;
 
-	float radiusSum = node1->particle.getRadius() + node2->particle.getRadius();
+	float distanceXSquared = distanceX * distanceX;
+	float distanceYSquared = distanceY * distanceY;
 
-	float distance = sqrtf((distanceX * distanceX) + (distanceY * distanceY));
+
+	float radiusSum = node1->particle.getRadius() + node2->particle.getRadius();
+	float radiusSumSquared = radiusSum * radiusSum;
+
+	float distance = distanceXSquared + distanceYSquared;
 
 	if (distance <= radiusSum) return true;
 

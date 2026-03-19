@@ -103,7 +103,7 @@ private:
 	void findNearestNeighborHelper(std::weak_ptr<FireworkNode>& current, std::weak_ptr<FireworkNode>& target,
 		std::weak_ptr<FireworkNode>& bestNode, float& bestDistance, int depth);
 
-	float distance2(std::weak_ptr<FireworkNode>& node1, std::weak_ptr<FireworkNode>& node2);
+	float distanceSquared(std::weak_ptr<FireworkNode>& node1, std::weak_ptr<FireworkNode>& node2);
 
 public:
 	Firework();
