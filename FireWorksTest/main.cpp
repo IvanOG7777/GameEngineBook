@@ -66,6 +66,7 @@ int main() {
     }
 
 
+
     Firework firework; // Firework object instance
     glfwSetWindowUserPointer(window, &firework);
     // Attaches a pointer to a firework object to the current window, we can retrieve with callbacks later
@@ -145,7 +146,7 @@ int main() {
         }
 
         firework.rocketBurstLoop(dt);
-        // TODO figure out how to only call this function when f was pressed. Right now we press then enter the loop, but if i put it inside of the if conditional it doesn't update.
+        // firework.fireworkLoop(dt);
 
         if (escDown && !escWasDown) {
             std::cout << "Program has been killed " << std::endl;

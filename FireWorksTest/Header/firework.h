@@ -100,10 +100,10 @@ public:
 private:
 	std::shared_ptr<FireworkNode> root;
 
-	void findNearestNeighborHelper(std::weak_ptr<FireworkNode>& current, std::weak_ptr<FireworkNode>& target,
-		std::weak_ptr<FireworkNode>& bestNode, float& bestDistance, int depth);
+	static void findNearestNeighborHelper(std::shared_ptr<FireworkNode>& current, std::shared_ptr<FireworkNode>& target,
+	                                      std::shared_ptr<FireworkNode>& bestNode, float& bestDistance, int depth);
 
-	float distanceSquared(std::weak_ptr<FireworkNode>& node1, std::weak_ptr<FireworkNode>& node2);
+	static inline float distanceSquared(std::shared_ptr<FireworkNode>& node1, std::shared_ptr<FireworkNode>& node2);
 
 public:
 	Firework();
@@ -132,7 +132,7 @@ public:
 	void addFireworksFromVectorToTree(); // function to add fireworks from vector to the tree, returns nothing
 
 	std:: weak_ptr<FireworkNode> findBestNode(std::shared_ptr<FireworkNode> &targetNode); // function used to find nearest node to target node,  returns weak pointer to best node
-	FireworkNode* getRoot(); // function used to get root of the tree,  returns a pointer to a FireworkNode
+	inline FireworkNode* getRoot() const; // function used to get root of the tree,  returns a pointer to a FireworkNode
 
 
 	FireworkSizeType currentFireworkType;

@@ -23,6 +23,7 @@ public:
         z = -z;
     }
 
+    //nodiscard to warn if you called function but never used the value
     [[nodiscard]] float magnitude() const {
         return sqrtf(x * x + y * y + z * z);
     }

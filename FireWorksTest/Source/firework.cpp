@@ -107,7 +107,7 @@ void Firework::rocketBurstRules() {
     rules[2].minVelocity = {-200.0f, -100.0f, 0.0f};
     rules[2].maxVelocity = {200.0f, -50.0f, 0.0f};
     rules[2].init(1);
-    rules[2].payloads[0].set(Firework::SMALL, 5);
+    rules[2].payloads[0].set(Firework::SMALL, 10);
     rules[2].spawnBudget = 0;
 
     rules[3].type = LARGE;
@@ -117,7 +117,7 @@ void Firework::rocketBurstRules() {
     rules[3].minVelocity = {-100.0f, -120.0f, 0.0f};
     rules[3].maxVelocity = {100.0f, -75.0f, 0.0f};
     rules[3].init(1);
-    rules[3].payloads[0].set(Firework::MEDIUM, 3);
+    rules[3].payloads[0].set(Firework::MEDIUM, 5);
     rules[3].spawnBudget = 0;
 
     rules[4].type = EXTRALARGE;
@@ -187,20 +187,20 @@ void Firework::rocketBurstLoop(const float &dt) {
 void Firework::spawnFirework(const int key) {
     FireworkNode firework;
 
-    constexpr float maxSpawn = 10;
-    constexpr float minSpawn = 3;
+    constexpr int maxSpawn = 10;
+    constexpr int minSpawn = 3;
 
-    std::uniform_real_distribution<float> particleDistribution(minSpawn, maxSpawn);
-    float randParticles = particleDistribution(mtSeed);
+    std:: uniform_int_distribution<> particleDistribution(minSpawn, maxSpawn);
+    int randParticles = particleDistribution(mtSeed);
 
     // Spawn Extra large key F
     if (key == 70) {
         currentFireworkType = EXTRALARGE;
         fireRocket(currentFireworkType, mousePositionX, mousePositionY);
 
-
-        // fire(currentFireworkType, mousePositionX, mousePositionY);
-
+        for (size_t i = 0; i < randParticles; i++) {
+            fire(currentFireworkType, mousePositionX, mousePositionY);
+        }
     }
 }
 
@@ -510,27 +510,24 @@ std::weak_ptr<Firework::FireworkNode> Firework::findBestNode(std::shared_ptr<Fir
 
     float bestDistance = std::numeric_limits<float>::infinity();
 
-    std::weak_ptr<FireworkNode> bestNode = root;
-    std::weak_ptr<FireworkNode> current = root;
-    std::weak_ptr<FireworkNode> targetPtr = target;
+    std::shared_ptr<FireworkNode> bestNode = root;
+    std::shared_ptr<FireworkNode> current = root;
+    std::shared_ptr<FireworkNode> targetPtr = target;
 
     findNearestNeighborHelper(current, targetPtr, bestNode, bestDistance, 0);
 
     return bestNode;
 }
 
-Firework::FireworkNode *Firework::getRoot() {
+Firework::FireworkNode *Firework::getRoot() const {
     return root.get();
 }
 
-void Firework::findNearestNeighborHelper(std::weak_ptr<FireworkNode> &current, std::weak_ptr<FireworkNode> &target,
-                                         std::weak_ptr<FireworkNode> &bestNode, float &bestDistance, int depth) {
-    auto sharedPtrCurrent = current.lock();
-    auto sharedPtrTarget = target.lock();
-    auto sharedPtrBestNode = bestNode.lock();
+void Firework::findNearestNeighborHelper(std::shared_ptr<FireworkNode> &current, std::shared_ptr<FireworkNode> &target,
+                                         std::shared_ptr<FireworkNode> &bestNode, float &bestDistance, int depth) {
 
-    if (sharedPtrTarget == nullptr) return;;
-    if (sharedPtrCurrent == nullptr) return;
+    if (target == nullptr) return;;
+    if (current == nullptr) return;
 
     int axis = depth % 2;
     float currentDistance = distanceSquared(current, target);
@@ -541,18 +538,18 @@ void Firework::findNearestNeighborHelper(std::weak_ptr<FireworkNode> &current, s
     }
 
     float targetValueAxis = (axis % 2 == 0)
-                                ? sharedPtrTarget->particle.getPosition().x
-                                : sharedPtrTarget->particle.getPosition().y;
+                                ? target->particle.getPosition().x
+                                : target->particle.getPosition().y;
     float currentValueAxis = (axis % 2 == 0)
-                                 ? sharedPtrCurrent->particle.getPosition().x
-                                 : sharedPtrCurrent->particle.getPosition().y;
+                                 ? current->particle.getPosition().x
+                                 : current->particle.getPosition().y;
 
-    std::weak_ptr<FireworkNode> nearChild = (targetValueAxis < currentValueAxis)
-                                                ? sharedPtrCurrent->left
-                                                : sharedPtrCurrent->right;
-    std::weak_ptr<FireworkNode> farChild = (targetValueAxis < currentValueAxis)
-                                               ? sharedPtrCurrent->right
-                                               : sharedPtrCurrent->left;
+    std::shared_ptr<FireworkNode> nearChild = (targetValueAxis < currentValueAxis)
+                                                ? current->left
+                                                : current->right;
+    std::shared_ptr<FireworkNode> farChild = (targetValueAxis < currentValueAxis)
+                                               ? current->right
+                                               : current->left;
 
     findNearestNeighborHelper(nearChild, target, bestNode, bestDistance, depth + 1);
 
@@ -564,16 +561,14 @@ void Firework::findNearestNeighborHelper(std::weak_ptr<FireworkNode> &current, s
     }
 }
 
-float Firework::distanceSquared(std::weak_ptr<FireworkNode> &node1, std::weak_ptr<FireworkNode> &node2) {
-    auto nodePtr1 = node1.lock();
-    auto nodePtr2 = node2.lock();
+float Firework::distanceSquared(std::shared_ptr<FireworkNode> &node1, std::shared_ptr<FireworkNode> &node2) {
 
-    if (nodePtr1 == nullptr || nodePtr2 == nullptr) {
+    if (node1 == nullptr || node2 == nullptr) {
         return 0.0f;
     }
 
-    float distanceX = nodePtr1->particle.getPosition().x - nodePtr2->particle.getPosition().x;
-    float distanceY = nodePtr1->particle.getPosition().y - nodePtr2->particle.getPosition().y;
+    float distanceX = node1->particle.getPosition().x - node2->particle.getPosition().x;
+    float distanceY = node1->particle.getPosition().y - node2->particle.getPosition().y;
 
     float distanceXSquared = distanceX * distanceX;
     float distanceYSquared = distanceY * distanceY;
