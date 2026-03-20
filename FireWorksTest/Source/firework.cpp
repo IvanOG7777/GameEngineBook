@@ -198,9 +198,9 @@ void Firework::spawnFirework(const int key) {
         currentFireworkType = EXTRALARGE;
         fireRocket(currentFireworkType, mousePositionX, mousePositionY);
 
-        for (size_t i = 0; i < randParticles; i++) {
-            fire(currentFireworkType, mousePositionX, mousePositionY);
-        }
+        // for (size_t i = 0; i < randParticles; i++) {
+        //     fire(currentFireworkType, mousePositionX, mousePositionY);
+        // }
     }
 }
 

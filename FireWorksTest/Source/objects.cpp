@@ -197,7 +197,7 @@ bool circleCollision(std::shared_ptr<Firework::FireworkNode>& node1, std::shared
 
 	float distance = distanceXSquared + distanceYSquared;
 
-	if (distance <= radiusSum) return true;
+	if (distance <= radiusSumSquared) return true;
 
 	return false;
 }
